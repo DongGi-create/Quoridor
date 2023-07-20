@@ -2,4 +2,10 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="brown">#FFCA9F60</color>
+    <color name="boundary">#FF9A492E</color>
+    <color name="gameBoard">#FF9A492E</color>
+    <color name="gameArea">#FF272622</color>
+    <color name="wall">#FFE4B25B</color>
+    <color name="recentWall">#FFF200</color>
 </resources>
