@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "352239842321",
+    "project_id": "quoridor-ef975",
+    "storage_bucket": "quoridor-ef975.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:352239842321:android:963213cea8eb891ffdadb0",
+        "android_client_info": {
+          "package_name": "com.example.quoridor"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "352239842321-8cfq0n653ed88kck2fnihakrnjfd2al3.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAnxTItqD9lGnjrDtWylR-6sxEDUwUqjxk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "352239842321-8cfq0n653ed88kck2fnihakrnjfd2al3.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
