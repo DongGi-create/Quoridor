@@ -17,5 +17,10 @@ class MainActivity : AppCompatActivity() {
             val intent = Intent(this, Game1v1::class.java)
             startActivity(intent)
         }
+
+        binding.btnAuthtest.setOnClickListener {
+            val intent = Intent(this, test::class.java)
+            startActivity(intent)
+        }
     }
 }
