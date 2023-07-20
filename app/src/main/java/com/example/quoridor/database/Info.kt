@@ -1,4 +1,9 @@
 package com.example.quoridor.database
 
-class Info(val tier: String, val vs2_gamecnt: Int, val vs2_rating: Double,val vs4_gamecnt: Int,val vs4_rating: Double) {
-}
+data class Info(
+    var tier: String? = null,
+    var vs2_gamecnt: Int? = null,
+    var vs2_rating: Double? = null,
+    var vs4_gamecnt: Int? = null,
+    var vs4_rating: Double? = null,
+)

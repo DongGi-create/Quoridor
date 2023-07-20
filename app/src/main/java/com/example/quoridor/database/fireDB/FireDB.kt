@@ -14,7 +14,7 @@ class FireDB {
     /*fun insert(db: FirebaseFirestore, Info: Info, afterTasks: List<AfterTask?>) {
         // 함수 내부 로직
     }*/
-    fun insert(db: FirebaseFirestore, info: Info, afterTasks: List<AfterTask>) {
+    fun insert(db: FirebaseFirestore, info: Info, vararg afterTasks: AfterTask) {
         // 함수 내부 로직
         val user = FirebaseAuth.getInstance().currentUser
         if (user == null) {

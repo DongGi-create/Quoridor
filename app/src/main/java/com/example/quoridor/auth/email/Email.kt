@@ -54,19 +54,20 @@ class Email {
             }
     }
 
-    fun updateProfile(user: FirebaseUser, name: String?, afterTask: AfterTask){
+    fun updateProfile(user: FirebaseUser?, name: String, afterTask: AfterTask){
         val profileUpdates = UserProfileChangeRequest.Builder()
             .setDisplayName(name)
             .build()
-        user.updateProfile(profileUpdates)
-            .addOnCompleteListener{task->
-                if(task.isSuccessful){
-                    afterTask.ifSuccess(task)
+        if(user != null) {
+            user.updateProfile(profileUpdates)
+                .addOnCompleteListener { task ->
+                    if (task.isSuccessful) {
+                        afterTask.ifSuccess(task)
+                    } else {
+                        afterTask.ifFail(task)
+                    }
                 }
-                else{
-                    afterTask.ifFail(task)
-                }
-            }
+        }
     }
 
     fun getName(user: FirebaseUser, afterTask: AfterTask?): String?{
