@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/game_board_layout"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:rowCount="9"

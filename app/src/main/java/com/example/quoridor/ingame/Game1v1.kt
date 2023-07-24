@@ -2,6 +2,7 @@ package com.example.quoridor.ingame
 
 import android.os.Bundle
 import android.os.PersistableBundle
+import android.util.Log
 import android.view.View
 import android.widget.LinearLayout
 import androidx.activity.ComponentActivity
@@ -36,9 +37,12 @@ class Game1v1 : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
 
-        for (v in binding.root.children){
+        for (i in 0 until binding.gameBoardLayout.childCount){
+            val v = binding.gameBoardLayout.getChildAt(i)
             if (v is LinearLayout){
                 val tag = v.tag as? String
+                Log.d("WeGlonD", tag.toString())
+                Log.d("WeGlonD", "piece found")
                 if(tag != null && tag.length > 2) {
                     val row = tag.get(1).digitToInt()
                     val col = tag.get(2).digitToInt()
@@ -50,7 +54,9 @@ class Game1v1 : ComponentActivity() {
             }
             else {
                 val tag = v.tag as? String
+                Log.d("WeGlonD", tag.toString())
                 if(tag != null && tag.length > 2){
+                    Log.d("WeGlonD", "wall found")
                     val row = tag.get(1).digitToInt()
                     val col = tag.get(2).digitToInt()
                     when(tag.get(0)) {
@@ -64,8 +70,7 @@ class Game1v1 : ComponentActivity() {
                 }
             }
         }
-
-
+        Log.d("WeGlonD", vertWalls[5][5].toString())
     }
 
     fun pieceClick(v:LinearLayout){
