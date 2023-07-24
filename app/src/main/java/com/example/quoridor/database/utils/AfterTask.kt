@@ -1,4 +1,4 @@
-package com.example.quoridor.utils
+package com.example.quoridor.database.utils
 
 interface AfterTask {
     fun ifSuccess(result: Any?)

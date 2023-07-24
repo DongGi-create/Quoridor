@@ -1,7 +1,7 @@
 package com.example.quoridor.auth.email
 
 import android.util.Log
-import com.example.quoridor.utils.AfterTask
+import com.example.quoridor.database.utils.AfterTask
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.FirebaseAuth

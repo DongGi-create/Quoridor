@@ -2,7 +2,7 @@ package com.example.quoridor.database.fireDB
 
 import android.util.Log
 import com.example.quoridor.database.Info
-import com.example.quoridor.utils.AfterTask
+import com.example.quoridor.database.utils.AfterTask
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.DocumentReference

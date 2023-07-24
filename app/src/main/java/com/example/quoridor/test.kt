@@ -12,7 +12,7 @@ import com.example.quoridor.database.Info
 import com.example.quoridor.database.fireDB.FireDB
 import com.example.quoridor.databinding.ActivityTestBinding
 import com.example.quoridor.ingame.Game1v1
-import com.example.quoridor.utils.AfterTask
+import com.example.quoridor.database.utils.AfterTask
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 
@@ -37,10 +37,10 @@ class test : ComponentActivity() {
             else{
                 Email().signUp(auth, email, password, object : AfterTask {
                     override fun ifSuccess(result: Any?){
-                        Email().updateProfile(auth.currentUser, name, object: AfterTask{
+                        Email().updateProfile(auth.currentUser, name, object: AfterTask {
                             override fun ifSuccess(result: Any?){
                                 info.tier ="hello"
-                                FireDB().insert(db,info,object:AfterTask{
+                                FireDB().insert(db,info,object: AfterTask {
                                     override fun ifSuccess(result: Any?) {
                                         finish()
                                     }
