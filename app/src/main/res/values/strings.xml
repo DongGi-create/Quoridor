@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Quoridor</string>
+
+    <string name="Dirtfy_test_tag">Dirtfy Test</string>
 </resources>

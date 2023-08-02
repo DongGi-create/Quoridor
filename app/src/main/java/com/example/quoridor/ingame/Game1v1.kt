@@ -3,18 +3,11 @@ package com.example.quoridor.ingame
 import android.content.ClipData
 import android.content.ClipDescription
 import android.os.Bundle
-import android.util.Log
-import android.view.DragEvent
 import android.view.View
-import android.view.ViewGroup
-import android.widget.ImageView
 import android.widget.LinearLayout
 import androidx.activity.ComponentActivity
-import com.example.quoridor.R
 import com.example.quoridor.databinding.ActivityGame1v1Binding
-import com.example.quoridor.domain.utils.PlayerColorType
-import com.example.quoridor.ingame.utils.Calc
-import com.example.quoridor.ingame.utils.TimeCounter
+import com.example.quoridor.ingame.frontDomain.FrontPlayer
 import com.example.quoridor.ingame.utils.WallType
 import java.util.LinkedList
 import java.util.Queue
@@ -52,25 +45,25 @@ class Game1v1 : ComponentActivity() {
     private var turn: Int = 0
     private val timeLimit: Long = 10 * 60 * 1000
 
-    private val player0 by lazy{
-        val image = ImageView(applicationContext)
-        image.setImageResource(R.drawable.hobanwoo_red)
-        image.adjustViewBounds = true
-        val lp = ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT)
-        image.layoutParams = lp
-        FrontPlayer(image,8, 4, "p0", PlayerColorType.RED)
-    }
-    private var timer0: TimeCounter? = null
-
-    private val player1 by lazy {
-        val image = ImageView(applicationContext)
-        image.setImageResource(R.drawable.hobanwoo_blue)
-        image.adjustViewBounds = true
-        val lp = ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT)
-        image.layoutParams = lp
-        FrontPlayer(image, 0, 4, "p1", PlayerColorType.BLUE)
-    }
-    private var timer1: TimeCounter? = null
+//    private val player0 by lazy{
+//        val image = ImageView(applicationContext)
+//        image.setImageResource(R.drawable.hobanwoo_red)
+//        image.adjustViewBounds = true
+//        val lp = ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT)
+//        image.layoutParams = lp
+//        FrontPlayer(image, timer0!!, 8, 4, "p0", PlayerColorType.RED)
+//    }
+//    private var timer0: TimeCounter? = null
+//
+//    private val player1 by lazy {
+//        val image = ImageView(applicationContext)
+//        image.setImageResource(R.drawable.hobanwoo_blue)
+//        image.adjustViewBounds = true
+//        val lp = ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT)
+//        image.layoutParams = lp
+//        FrontPlayer(image,  timer1!!, 0, 4, "p1", PlayerColorType.BLUE)
+//    }
+//    private var timer1: TimeCounter? = null
 
     private val DIRTFY_TAG = "Dritfy"
 
@@ -78,226 +71,234 @@ class Game1v1 : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
 
-        for (i in 0 until binding.gameBoardLayout.childCount){
-            val v = binding.gameBoardLayout.getChildAt(i)
-            if (v is LinearLayout){
-                val tag = v.tag as? String
-                Log.d("WeGlonD", tag.toString())
-                Log.d("WeGlonD", "piece found")
-                if(tag != null && tag.length > 2) {
-                    val row = tag[1].digitToInt()
-                    val col = tag[2].digitToInt()
-                    pieces[row][col] = v
-                }
-                v.setOnClickListener{
-                    pieceClick(v)
-                }
-            }
-            else {
-                val tag = v.tag as? String
-                Log.d("WeGlonD", tag.toString())
-                if(tag != null && tag.length > 2){
-                    Log.d("WeGlonD", "wall found")
-                    val row = tag[1].digitToInt()
-                    val col = tag[2].digitToInt()
-                    var type = -1
-                    when(tag[0]) {
-                        'v' -> {
-                            type = WallType.Vertical.ordinal
-                        }
-                        'h' -> {
-                            type = WallType.Horizontal.ordinal
-                        }
-                    }
-
-                    if (type == -1) continue
-                    walls[type][row][col] = v
-                }
-            }
-        }
-        Log.d("WeGlonD", vertWalls[5][5].toString())
-
-        pieces[8][4].addView(player0.image)
-        timer0 = TimeCounter(this, binding.p0Timer, timeLimit)
-        pieces[0][4].addView(player1.image)
-        timer1 = TimeCounter(this, binding.p1Timer, timeLimit)
-
-        timer0?.start()
+//        for (i in 0 until binding.gameBoardLayout.childCount){
+//            val v = binding.gameBoardLayout.getChildAt(i)
+//            if (v is LinearLayout){
+//                val tag = v.tag as? String
+//                Log.d("WeGlonD", tag.toString())
+//                Log.d("WeGlonD", "piece found")
+//                if(tag != null && tag.length > 2) {
+//                    val row = tag[1].digitToInt()
+//                    val col = tag[2].digitToInt()
+//                    pieces[row][col] = v
+//                }
+//                v.setOnClickListener{
+//                    pieceClick(v)
+//                }
+//            }
+//            else {
+//                val tag = v.tag as? String
+//                Log.d("WeGlonD", tag.toString())
+//                if(tag != null && tag.length > 2){
+//                    Log.d("WeGlonD", "wall found")
+//                    val row = tag[1].digitToInt()
+//                    val col = tag[2].digitToInt()
+//                    var type = -1
+//                    when(tag[0]) {
+//                        'v' -> {
+//                            type = WallType.Vertical.ordinal
+//                        }
+//                        'h' -> {
+//                            type = WallType.Horizontal.ordinal
+//                        }
+//                    }
+//
+//                    if (type == -1) continue
+//                    walls[type][row][col] = v
+//                }
+//            }
+//        }
+//        Log.d("WeGlonD", vertWalls[5][5].toString())
+//
+//        pieces[8][4].addView(player0.imageView)
+//        timer0 = TimeCounter(this, binding.p0Timer, timeLimit, object : TimeCounterOverListener {
+//            override fun timeOver() {
+//
+//            }
+//        })
+//        pieces[0][4].addView(player1.imageView)
+//        timer1 = TimeCounter(this, binding.p1Timer, timeLimit, object: TimeCounterOverListener {
+//            override fun timeOver() {
+//
+//            }
+//        })
+//
+//        timer0?.start()
     }
 
-    override fun onResume() {
-        super.onResume()
+//    override fun onResume() {
+//        super.onResume()
+//
+//        for (i in 0 until binding.gameBoardLayout.childCount){
+//            val v = binding.gameBoardLayout.getChildAt(i)
+//            if (v !is LinearLayout) {
+//                val tag = v.tag as? String
+//                if(tag != null && tag.length > 2){
+//                    val row = tag[1].digitToInt()
+//                    val col = tag[2].digitToInt()
+//                    var type = -1
+//                    when(tag[0]) {
+//                        'v' -> {
+//                            type = WallType.Vertical.ordinal
+//
+//                        }
+//                        'h' -> {
+//                            type = WallType.Horizontal.ordinal
+//                        }
+//                    }
+//
+//                    if (type == -1) continue
+//
+//                    v.post{
+//                        val cx = v.x+v.width/2
+//                        val cy = v.y+v.height/2
+//                        wallCenters[type][row][col] = Pair(cx, cy)
+//                        Log.d(DIRTFY_TAG, "center of ${tag[0]}$row$col: ($cx, $cy)")
+//                    }
+//                }
+//            }
+//        }
+//
+//        walls[WallType.Vertical.ordinal][0][0].post {
+//            val short = vertWalls[0][0].width
+//            val long = vertWalls[0][0].height
+//
+//            var lp = binding.vertWall.layoutParams
+//            lp.width = short
+//            lp.height = long
+//            binding.vertWall.layoutParams = lp
+//            Log.d(DIRTFY_TAG, "vw w:${binding.vertWall.width}, h:${binding.vertWall.height}")
+//
+//            lp = binding.horiWall.layoutParams
+//            lp.width = long
+//            lp.height = short
+//            binding.horiWall.layoutParams = lp
+//        }
+//
+//
+//        binding.vertWallLayout.apply{
+//            tag = "chooseVertWall"
+//            setOnLongClickListener {
+//                wallChooseLongClick(it)
+//            }
+//        }
+//
+//        binding.horiWallLayout.apply {
+//            tag = "chooseHoriWall"
+//            setOnLongClickListener {
+//                wallChooseLongClick(it)
+//            }
+//        }
+//
+//        binding.gameBoardLayout.setOnDragListener { _, dragEvent ->
+//            when(dragEvent.action){
+//                DragEvent.ACTION_DRAG_STARTED -> {
+//                    dragEvent.clipDescription.hasMimeType(ClipDescription.MIMETYPE_TEXT_PLAIN)
+//                }
+//
+//                DragEvent.ACTION_DRAG_ENTERED -> true
+//
+//                DragEvent.ACTION_DRAG_LOCATION -> {
+//                    if (candidateWall != null) {
+//                        candidateWall!!.visibility = View.INVISIBLE
+//                        candidateWall = null
+//                    }
+//
+//                    val x = dragEvent.x
+//                    val y = dragEvent.y
+//
+//                    Log.d("Dirtfy", "DRAG_LOCATION: ($x, $y)")
+//
+//                    var wallType = 0
+//                    when((dragEvent.localState as View).tag){
+//                        "chooseVertWall" -> {
+//                            wallType = WallType.Vertical.ordinal
+//                        }
+//                        "chooseHoriWall" -> {
+//                            wallType = WallType.Horizontal.ordinal
+//                        }
+//                    }
+//
+//                    val wallCenters = wallCenters[wallType]
+//                    val walls = walls[wallType]
+//
+//                    var minDis = -1F
+//                    var nearestPair = Pair(0, 0)
+//                    for (r in 0 .. 7){
+//                        for (c in 0 .. 7){
+//                            val distance = Calc.distance(Pair(x, y), wallCenters[r][c])
+//                            if (minDis == -1F || distance < minDis){
+//                                minDis = distance
+//                                nearestPair = Pair(r, c)
+//                            }
+//                        }
+//                    }
+//
+//                    if (walls[nearestPair.first][nearestPair.second].visibility != View.VISIBLE){
+//                        candidateWall = walls[nearestPair.first][nearestPair.second]
+//                        candidateWall!!.visibility = View.VISIBLE
+//                    }
+//
+//                    true
+//                }
+//
+//                DragEvent.ACTION_DROP -> {
+//                    if (candidateWall != null){
+//                        candidateWall!!.visibility = View.VISIBLE
+//                        candidateWall = null
+//
+//                        if (turn == 0){
+//                            timer0?.pause()
+//                            timer1?.start()
+//                            turn = 1
+//                        }
+//                        else{
+//                            timer1?.pause()
+//                            timer0?.start()
+//                            turn = 0
+//                        }
+//                    }
+//
+//                    true
+//                }
+//
+//                DragEvent.ACTION_DRAG_EXITED -> {
+//                    if (candidateWall != null) {
+//                        candidateWall!!.visibility = View.INVISIBLE
+//                        candidateWall = null
+//                    }
+//
+//                    true
+//                }
+//
+//                DragEvent.ACTION_DRAG_ENDED -> {
+//                    Log.d(DIRTFY_TAG, "DRAG_ENDED ${dragEvent.result}")
+//
+//                    true
+//                }
+//
+//                else -> false
+//            }
+//        }
+//    }
 
-        for (i in 0 until binding.gameBoardLayout.childCount){
-            val v = binding.gameBoardLayout.getChildAt(i)
-            if (v !is LinearLayout) {
-                val tag = v.tag as? String
-                if(tag != null && tag.length > 2){
-                    val row = tag[1].digitToInt()
-                    val col = tag[2].digitToInt()
-                    var type = -1
-                    when(tag[0]) {
-                        'v' -> {
-                            type = WallType.Vertical.ordinal
-
-                        }
-                        'h' -> {
-                            type = WallType.Horizontal.ordinal
-                        }
-                    }
-
-                    if (type == -1) continue
-
-                    v.post{
-                        val cx = v.x+v.width/2
-                        val cy = v.y+v.height/2
-                        wallCenters[type][row][col] = Pair(cx, cy)
-                        Log.d(DIRTFY_TAG, "center of ${tag[0]}$row$col: ($cx, $cy)")
-                    }
-                }
-            }
-        }
-
-        walls[WallType.Vertical.ordinal][0][0].post {
-            val short = vertWalls[0][0].width
-            val long = vertWalls[0][0].height
-
-            var lp = binding.vertWall.layoutParams
-            lp.width = short
-            lp.height = long
-            binding.vertWall.layoutParams = lp
-            Log.d(DIRTFY_TAG, "vw w:${binding.vertWall.width}, h:${binding.vertWall.height}")
-
-            lp = binding.horiWall.layoutParams
-            lp.width = long
-            lp.height = short
-            binding.horiWall.layoutParams = lp
-        }
-
-
-        binding.vertWallLayout.apply{
-            tag = "chooseVertWall"
-            setOnLongClickListener {
-                wallChooseLongClick(it)
-            }
-        }
-
-        binding.horiWallLayout.apply {
-            tag = "chooseHoriWall"
-            setOnLongClickListener {
-                wallChooseLongClick(it)
-            }
-        }
-
-        binding.gameBoardLayout.setOnDragListener { _, dragEvent ->
-            when(dragEvent.action){
-                DragEvent.ACTION_DRAG_STARTED -> {
-                    dragEvent.clipDescription.hasMimeType(ClipDescription.MIMETYPE_TEXT_PLAIN)
-                }
-
-                DragEvent.ACTION_DRAG_ENTERED -> true
-
-                DragEvent.ACTION_DRAG_LOCATION -> {
-                    if (candidateWall != null) {
-                        candidateWall!!.visibility = View.INVISIBLE
-                        candidateWall = null
-                    }
-
-                    val x = dragEvent.x
-                    val y = dragEvent.y
-
-                    Log.d("Dirtfy", "DRAG_LOCATION: ($x, $y)")
-
-                    var wallType = 0
-                    when((dragEvent.localState as View).tag){
-                        "chooseVertWall" -> {
-                            wallType = WallType.Vertical.ordinal
-                        }
-                        "chooseHoriWall" -> {
-                            wallType = WallType.Horizontal.ordinal
-                        }
-                    }
-
-                    val wallCenters = wallCenters[wallType]
-                    val walls = walls[wallType]
-
-                    var minDis = -1F
-                    var nearestPair = Pair(0, 0)
-                    for (r in 0 .. 7){
-                        for (c in 0 .. 7){
-                            val distance = Calc.distance(Pair(x, y), wallCenters[r][c])
-                            if (minDis == -1F || distance < minDis){
-                                minDis = distance
-                                nearestPair = Pair(r, c)
-                            }
-                        }
-                    }
-
-                    if (walls[nearestPair.first][nearestPair.second].visibility != View.VISIBLE){
-                        candidateWall = walls[nearestPair.first][nearestPair.second]
-                        candidateWall!!.visibility = View.VISIBLE
-                    }
-
-                    true
-                }
-
-                DragEvent.ACTION_DROP -> {
-                    if (candidateWall != null){
-                        candidateWall!!.visibility = View.VISIBLE
-                        candidateWall = null
-
-                        if (turn == 0){
-                            timer0?.pause()
-                            timer1?.start()
-                            turn = 1
-                        }
-                        else{
-                            timer1?.pause()
-                            timer0?.start()
-                            turn = 0
-                        }
-                    }
-
-                    true
-                }
-
-                DragEvent.ACTION_DRAG_EXITED -> {
-                    if (candidateWall != null) {
-                        candidateWall!!.visibility = View.INVISIBLE
-                        candidateWall = null
-                    }
-
-                    true
-                }
-
-                DragEvent.ACTION_DRAG_ENDED -> {
-                    Log.d(DIRTFY_TAG, "DRAG_ENDED ${dragEvent.result}")
-
-                    true
-                }
-
-                else -> false
-            }
-        }
-    }
-
-    fun pieceClick(v:LinearLayout){
-        val row = v.tag.toString()[1].digitToInt()
-        val col = v.tag.toString()[2].digitToInt()
-
-        if (turn == 0){
-            timer0?.pause()
-            movePlayer(player0, row, col)
-            timer1?.start()
-            turn = 1
-        }
-        else {
-            timer1?.pause()
-            movePlayer(player1, row, col)
-            timer0?.start()
-            turn = 0
-        }
-    }
+//    fun pieceClick(v:LinearLayout){
+//        val row = v.tag.toString()[1].digitToInt()
+//        val col = v.tag.toString()[2].digitToInt()
+//
+//        if (turn == 0){
+//            timer0?.pause()
+//            movePlayer(player0, row, col)
+//            timer1?.start()
+//            turn = 1
+//        }
+//        else {
+//            timer1?.pause()
+//            movePlayer(player1, row, col)
+//            timer0?.start()
+//            turn = 0
+//        }
+//    }
 
     fun movePlayer(player: FrontPlayer, row: Int, col: Int){
         val pre_row = player.row
@@ -306,7 +307,7 @@ class Game1v1 : ComponentActivity() {
 
         player.row = row
         player.col = col
-        pieces[row][col].addView(player.image)
+        pieces[row][col].addView(player.imageView)
     }
 
     fun wallChooseLongClick(view: View): Boolean {

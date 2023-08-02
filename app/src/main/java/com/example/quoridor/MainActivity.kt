@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import com.example.quoridor.databinding.ActivityMainBinding
+import com.example.quoridor.ingame.CustomViewTestActivity
 import com.example.quoridor.ingame.Game1v1
 
 class MainActivity : AppCompatActivity() {
@@ -20,6 +21,11 @@ class MainActivity : AppCompatActivity() {
 
         binding.btnAuthtest.setOnClickListener {
             val intent = Intent(this, test::class.java)
+            startActivity(intent)
+        }
+
+        binding.viewTestBtn.setOnClickListener {
+            val intent = Intent(this, CustomViewTestActivity::class.java)
             startActivity(intent)
         }
     }

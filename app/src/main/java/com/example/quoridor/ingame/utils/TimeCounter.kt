@@ -6,18 +6,28 @@ import java.util.Timer
 import kotlin.concurrent.timer
 
 class TimeCounter(
-    val activity: Activity,
-    val time_tv: TextView,
-    val duration: Long
+    private val activity: Activity,
+    private val time_tv: TextView,
+    private val duration: Long,
+    private val timeOverListener: TimeCounterOverListener
     ) {
 
-    private var left = duration
+    var left = duration
     private lateinit var timerTask: Timer
     private var period = 1000L
 
     fun start(){
+        if (left <= 0L) return
+
         timerTask = timer(period = period){
             left -= period
+
+            if (left == 0L) {
+                activity.runOnUiThread {
+                    timeOverListener.timeOver()
+                }
+                this.cancel()
+            }
 
             val min = left/(60 * 1000)
             val sec = left%(60 * 1000) / 1000
@@ -37,6 +47,9 @@ class TimeCounter(
         timerTask.cancel()
 
         left = duration
-        time_tv.text = "10:00"
+        val min = left/(60 * 1000)
+        val sec = left%(60 * 1000) / 1000
+        val text = "$min:$sec"
+        time_tv.text = text
     }
 }

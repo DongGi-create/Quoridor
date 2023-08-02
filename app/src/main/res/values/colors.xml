@@ -8,4 +8,6 @@
     <color name="gameArea">#FF272622</color>
     <color name="wall">#FFE4B25B</color>
     <color name="recentWall">#FFF200</color>
+    <color name="candidateWall">#FFF200</color>
+    <color name="candidateMove">#00FF00</color>
 </resources>

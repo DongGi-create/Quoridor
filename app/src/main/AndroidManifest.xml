@@ -28,6 +28,10 @@
         <activity
             android:name=".test"
             android:exported="true" />
+
+        <activity
+            android:name=".ingame.CustomViewTestActivity"
+            android:exported="true"/>
     </application>
 
 </manifest>
