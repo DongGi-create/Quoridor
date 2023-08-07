@@ -13,7 +13,7 @@ class FrontBoard(
     is_1vs1: Boolean
 ): Board(players, verticalWalls, horizontalWalls, is_1vs1) {
 
-    private var turn = 0
+    var turn = 0
     val walls = Array(2){Array(8){Array(8){false}}}
 
     private fun move(row: Int, col: Int){

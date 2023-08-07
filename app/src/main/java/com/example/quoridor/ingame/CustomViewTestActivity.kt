@@ -18,6 +18,7 @@ import com.example.quoridor.ingame.customView.GameBoardViewDropListener
 import com.example.quoridor.ingame.customView.GameBoardViewPieceClickListener
 import com.example.quoridor.ingame.frontDomain.FrontBoard
 import com.example.quoridor.ingame.frontDomain.FrontPlayer
+import com.example.quoridor.ingame.utils.Coordinate
 import com.example.quoridor.ingame.utils.DropReturnType
 import com.example.quoridor.ingame.utils.Func
 import com.example.quoridor.ingame.utils.TimeCounter
@@ -25,6 +26,7 @@ import com.example.quoridor.ingame.utils.TimeCounterOverListener
 import com.example.quoridor.ingame.utils.WallType
 
 class CustomViewTestActivity : ComponentActivity() {
+    private var available: Array<Coordinate> = Array(0){Coordinate(0,0)}
 
     private val binding: ActivityCustomViewTestBinding by lazy {
         ActivityCustomViewTestBinding.inflate(layoutInflater)
@@ -35,6 +37,8 @@ class CustomViewTestActivity : ComponentActivity() {
     private val TAG by lazy {
         applicationContext.getString(R.string.Dirtfy_test_tag)
     }
+
+    private val resourceList = arrayOf(R.drawable.hobanwoo_red, R.drawable.hobanwoo_blue,R.drawable.hobanwoo_green,R.drawable.hobanwoo_black)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -64,7 +68,6 @@ class CustomViewTestActivity : ComponentActivity() {
                     WallType.Vertical -> NotationType.VERTICAL
                     WallType.Horizontal -> NotationType.HORIZONTAL
                 }
-
                 val notation = Notation(notationType, row, col)
 
                 return if (Func.wallCross(notation, board) || Func.wallClosed(notation, board)){
@@ -73,27 +76,55 @@ class CustomViewTestActivity : ComponentActivity() {
                     else DropReturnType.Cross
                 }
                 else {
-                    board.doNotation(notation)
+                    makePlayerShadow(notation)
                     DropReturnType.None
                 }
             }
         })
         binding.gameBoardView.setClickListener(object: GameBoardViewPieceClickListener {
             override fun click(clickedPiece: View, row: Int, col: Int) {
-                val p = board.nowPlayer()
-                binding.gameBoardView.pieces[p.row][p.col].removeView(p.imageView)
-                binding.gameBoardView.pieces[row][col].addView(p.imageView)
-
-                val notation = Notation(NotationType.PLAYER, row, col)
-                board.doNotation(notation)
+                var CanGo = false
+                for(a in available) {
+                    if (Coordinate(row, col) == a){
+                        CanGo = true
+                        break
+                    }
+                }
+                if(CanGo){
+                    val p = board.nowPlayer()
+                    binding.gameBoardView.pieces[p.row][p.col].removeView(p.imageView)
+                    makePlayerShadow(Notation(NotationType.PLAYER, row, col))
+                    binding.gameBoardView.pieces[row][col].addView(p.imageView)
+                }
+                else{
+                    Toast.makeText(applicationContext,R.string.Cannot_Go,Toast.LENGTH_LONG).show()
+                }
             }
         })
 
         setGame()
-
         board.start()
+        available = Func.getAvailableMove(board.turn,board)
+        for(a in available){ //가능한 곳 색칠
+            val playerShadow = createPlayerImageView(resourceList[0])
+            playerShadow.alpha = 0.5f
+            binding.gameBoardView.pieces[a.r][a.c].addView(playerShadow)
+        }
     }
 
+    private fun makePlayerShadow(notation : Notation){
+        for(a in available){ //view 지우기
+            binding.gameBoardView.pieces[a.r][a.c].removeAllViews()
+        }
+        //val notation = Notation(NotationType.PLAYER, row, col)
+        board.doNotation(notation)
+        available = Func.getAvailableMove(board.turn,board)
+        for(a in available){
+            val playerShadow = createPlayerImageView(resourceList[board.turn])
+            playerShadow.alpha = 0.5f
+            binding.gameBoardView.pieces[a.r][a.c].addView(playerShadow)
+        }
+    }
     private fun createPlayerImageView(imageId: Int): ImageView{
         val image = ImageView(applicationContext)
         image.setImageResource(imageId)

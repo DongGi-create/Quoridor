@@ -1,5 +1,6 @@
 package com.example.quoridor.ingame.utils
 
+import android.util.Log
 import com.example.quoridor.domain.Notation
 import com.example.quoridor.domain.utils.NotationType
 import com.example.quoridor.ingame.frontDomain.FrontBoard
@@ -67,7 +68,7 @@ class Func {
             }
         }
         fun BFS(start: Coordinate, walls: Array<Array<Array<Boolean>>>): Array<Coordinate> {
-            val queue = Array(81){ Coordinate(0, 0) }
+            val queue = Array(81){ Coordinate(-1, -1) }
             var front = 0
             var back = -1
 
@@ -95,6 +96,12 @@ class Func {
         fun wallClosed(notation: Notation, board: FrontBoard): Boolean {
             val flag = arrayOf(true, true, true, true)
             val len = board.players.size
+            val wallType = when(notation.type){
+                NotationType.HORIZONTAL -> WallType.Horizontal
+                else -> WallType.Vertical
+            }
+
+            board.walls[wallType.ordinal][notation.row][notation.col] = true
 
             for (d in DirectionType.values()) {
                 val i = d.ordinal
@@ -108,7 +115,10 @@ class Func {
                 val cor = Coordinate(row, col)
 
                 val reached = BFS(cor, board.walls)
-
+                Log.d("Dirtfy","${i} ")
+                for(r in reached){
+                    Log.d("Dirtfy","${r.r} ${r.c}")
+                }
                 for (r in reached) {
                     when(d) {
                         DirectionType.UP -> {
@@ -138,6 +148,8 @@ class Func {
                     }
                 }
             }
+
+            board.walls[wallType.ordinal][notation.row][notation.col] = false
 
             for (i in 0 .. 3){
                 if (i >= len) break
@@ -172,12 +184,13 @@ class Func {
 
                     // wall test
                     if (!canMove(next1, next2, d, board.walls)) continue
+                    // 범위 밖이어서 못가는 경우!! 벽을 놔두어서 못가는 경우로 함수 두개로 나누어서 생각
 
                     // second player test
                     var next2IsPlayer = false
 
                     for (p in board.players){
-                        if (p.row == next1.r && p.col == next1.c)
+                        if (p.row == next2.r && p.col == next2.c)
                             next2IsPlayer = true
                     }
 
