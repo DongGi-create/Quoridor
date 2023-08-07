@@ -2,4 +2,5 @@
     <string name="app_name">Quoridor</string>
 
     <string name="Dirtfy_test_tag">Dirtfy Test</string>
+    <string name="Cross_Wall">벽이 겹쳐용!</string>
 </resources>

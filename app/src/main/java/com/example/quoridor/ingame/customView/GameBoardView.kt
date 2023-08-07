@@ -15,7 +15,8 @@ import androidx.core.view.children
 import com.example.quoridor.R
 import com.example.quoridor.databinding.GameBoardViewBinding
 import com.example.quoridor.ingame.frontDomain.FrontBoard
-import com.example.quoridor.ingame.utils.Calc
+import com.example.quoridor.ingame.utils.DropReturnType
+import com.example.quoridor.ingame.utils.Func
 import com.example.quoridor.ingame.utils.WallType
 
 class GameBoardView: ConstraintLayout {
@@ -51,8 +52,8 @@ class GameBoardView: ConstraintLayout {
     private var horizontalWallChooseView: View = View(context)
 
     private var dragListener: GameBoardViewDropListener = object : GameBoardViewDropListener {
-        override fun drop(view: View, wallType: WallType, row: Int, col: Int) {
-
+        override fun drop(view: View, wallType: WallType, row: Int, col: Int): DropReturnType {
+            return DropReturnType.Match
         }
     }
     private var clickListener: GameBoardViewPieceClickListener = object: GameBoardViewPieceClickListener {
@@ -131,8 +132,8 @@ class GameBoardView: ConstraintLayout {
                         candidateWall = null
                     }
 
-                    val x = dragEvent.x-200
-                    val y = dragEvent.y-200
+                    val x = dragEvent.x
+                    val y = dragEvent.y
 
                     Log.d(TAG, "DRAG_LOCATION: ($x, $y)")
 
@@ -153,7 +154,7 @@ class GameBoardView: ConstraintLayout {
                     var nearestPair = Pair(0, 0)
                     for (r in 0 .. 7){
                         for (c in 0 .. 7){
-                            val distance = Calc.distance(Pair(x, y), wallCenters[r][c])
+                            val distance = Func.distance(Pair(x, y), wallCenters[r][c])
                             if (minDis == -1F || distance < minDis){
                                 minDis = distance
                                 nearestPair = Pair(r, c)
@@ -171,10 +172,10 @@ class GameBoardView: ConstraintLayout {
 
                 DragEvent.ACTION_DROP -> {
                     if (candidateWall != null){
-                        candidateWall!!.visibility = View.VISIBLE
-                        recentWall = candidateWall
+                        //Log.d(TAG,candidateWall.toString())
 
-                        val tag = recentWall!!.tag.toString()
+
+                        val tag = candidateWall!!.tag.toString()
                         val type = when(tag[0]){
                             'v' -> WallType.Vertical
                             else -> WallType.Horizontal
@@ -182,8 +183,18 @@ class GameBoardView: ConstraintLayout {
                         val row = tag[1].digitToInt()
                         val col = tag[2].digitToInt()
 
-                        dragListener.drop(recentWall!!, type, row, col)
-
+                        when(dragListener.drop(candidateWall!!, type, row, col)){
+                            DropReturnType.None->{
+                                candidateWall!!.visibility = View.VISIBLE
+                                recentWall = candidateWall
+                            }
+                            DropReturnType.Cross->{
+                                candidateWall!!.visibility = View.INVISIBLE
+                            }
+                            DropReturnType.Match->{
+                                candidateWall!!.visibility = View.VISIBLE
+                            }
+                        }
                         candidateWall = null
                     }
 

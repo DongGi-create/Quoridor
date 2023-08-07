@@ -18,6 +18,8 @@ import com.example.quoridor.ingame.customView.GameBoardViewDropListener
 import com.example.quoridor.ingame.customView.GameBoardViewPieceClickListener
 import com.example.quoridor.ingame.frontDomain.FrontBoard
 import com.example.quoridor.ingame.frontDomain.FrontPlayer
+import com.example.quoridor.ingame.utils.DropReturnType
+import com.example.quoridor.ingame.utils.Func
 import com.example.quoridor.ingame.utils.TimeCounter
 import com.example.quoridor.ingame.utils.TimeCounterOverListener
 import com.example.quoridor.ingame.utils.WallType
@@ -57,14 +59,23 @@ class CustomViewTestActivity : ComponentActivity() {
 
         binding.gameBoardView.setWallChooseView(binding.vertWallLayout, binding.horiWallLayout)
         binding.gameBoardView.setDragListener(object: GameBoardViewDropListener{
-            override fun drop(matchedView: View, wallType: WallType, row: Int, col: Int) {
+            override fun drop(matchedView: View, wallType: WallType, row: Int, col: Int): DropReturnType {
                 val notationType = when(wallType) {
                     WallType.Vertical -> NotationType.VERTICAL
                     WallType.Horizontal -> NotationType.HORIZONTAL
                 }
 
                 val notation = Notation(notationType, row, col)
-                board.doNotation(notation)
+
+                return if (Func.wallCross(notation, board) || Func.wallClosed(notation, board)){
+                    Toast.makeText(applicationContext, R.string.Cross_Wall, Toast.LENGTH_SHORT).show()
+                    if(board.walls[wallType.ordinal][row][col]) DropReturnType.Match
+                    else DropReturnType.Cross
+                }
+                else {
+                    board.doNotation(notation)
+                    DropReturnType.None
+                }
             }
         })
         binding.gameBoardView.setClickListener(object: GameBoardViewPieceClickListener {

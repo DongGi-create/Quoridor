@@ -4,6 +4,7 @@ import android.util.Pair
 import com.example.quoridor.domain.Board
 import com.example.quoridor.domain.Notation
 import com.example.quoridor.domain.utils.NotationType
+import com.example.quoridor.ingame.utils.WallType
 
 class FrontBoard(
     val players: Array<FrontPlayer>,
@@ -13,6 +14,7 @@ class FrontBoard(
 ): Board(players, verticalWalls, horizontalWalls, is_1vs1) {
 
     private var turn = 0
+    val walls = Array(2){Array(8){Array(8){false}}}
 
     private fun move(row: Int, col: Int){
         players[turn].row = row
@@ -21,10 +23,12 @@ class FrontBoard(
     private fun addVerticalWall(row: Int, col: Int){
         players[turn].left_wall -= 1
         verticalWalls.add(Pair(row, col))
+        walls[WallType.Vertical.ordinal][row][col] = true
     }
     private fun addHorizontalWall(row: Int, col: Int){
         players[turn].left_wall -= 1
         horizontalWalls.add(Pair(row, col))
+        walls[WallType.Horizontal.ordinal][row][col] = true
     }
 
     fun doNotation(notation: Notation){

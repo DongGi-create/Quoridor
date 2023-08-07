@@ -9,7 +9,7 @@ class WallShadowBuilder(v: View): View.DragShadowBuilder(v) {
         val height = view.height
 
         outShadowSize!!.set(width, height)
-        outShadowTouchPoint!!.set(width+50, height+50)
+        outShadowTouchPoint!!.set(width/2, height/2)
 
     }
 }
