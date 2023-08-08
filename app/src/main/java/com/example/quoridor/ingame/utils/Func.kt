@@ -160,50 +160,58 @@ class Func {
         }
 
         fun getAvailableMove(me: Int, board: FrontBoard): Array<Coordinate> {
-            var available = Array(0) { Coordinate(0, 0) }
+
+            val source = mutableListOf<Coordinate>()
+            val available = mutableListOf<Coordinate>()
 
             val row = board.players[me].row
             val col = board.players[me].col
             val now = Coordinate(row, col)
-            for (d in DirectionType.values()) {
-                val next1 = now + d.diff
 
-                // wall test
-                if (!canMove(now, next1, d, board.walls)) continue
+            source.add(now)
+
+            for (d in DirectionType.values()) {
+                val next = now + d.diff
+
+                if (!canMove(now, next, d, board.walls)) continue
 
                 // first player test
-                var next1IsPlayer = false
+                var isPlayer = false
 
                 for (p in board.players){
-                    if (p.row == next1.r && p.col == next1.c)
-                        next1IsPlayer = true
+                    if (p.row == next.r && p.col == next.c)
+                        isPlayer = true
                 }
 
-                if (next1IsPlayer) {
-                    val next2 = next1 + d.diff
+                if (isPlayer)//IsPlayer있고 뒤에 벽이 있다면
+                    source.add(next)
+            }
 
-                    // wall test
-                    if (!canMove(next1, next2, d, board.walls)) continue
-                    // 범위 밖이어서 못가는 경우!! 벽을 놔두어서 못가는 경우로 함수 두개로 나누어서 생각
+            for (s in source) {
+                //isPlayer 그 뒤에 벽이 없을때만 다르게
+                for (d in DirectionType.values()) {
+                    val next = s + d.diff
 
-                    // second player test
-                    var next2IsPlayer = false
+                    if (!canMove(s, next, d, board.walls)) continue
+
+                    // first player test
+                    var isPlayer = false
 
                     for (p in board.players){
-                        if (p.row == next2.r && p.col == next2.c)
-                            next2IsPlayer = true
+                        if (p.row == next.r && p.col == next.c)
+                            isPlayer = true
                     }
 
-                    if (next2IsPlayer) continue
-
-                    available += next2
-                }
-                else {
-                    available += next1
+                    if (!isPlayer)
+                        available.add(next)
                 }
             }
 
-            return available
+            val set = available.toMutableSet()
+
+            set.removeAll(source.toSet())
+
+            return set.toTypedArray()
         }
     }
 }

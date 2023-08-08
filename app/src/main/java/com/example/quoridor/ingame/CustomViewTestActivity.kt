@@ -92,9 +92,13 @@ class CustomViewTestActivity : ComponentActivity() {
                 }
                 if(CanGo){
                     val p = board.nowPlayer()
+                    var champion = checkEnd(row,col)
                     binding.gameBoardView.pieces[p.row][p.col].removeView(p.imageView)
                     makePlayerShadow(Notation(NotationType.PLAYER, row, col))
                     binding.gameBoardView.pieces[row][col].addView(p.imageView)
+                    if(champion != -1){
+                        Toast.makeText(applicationContext,"${champion} Win!",Toast.LENGTH_LONG).show()
+                    }
                 }
                 else{
                     Toast.makeText(applicationContext,R.string.Cannot_Go,Toast.LENGTH_LONG).show()
@@ -110,6 +114,24 @@ class CustomViewTestActivity : ComponentActivity() {
             playerShadow.alpha = 0.5f
             binding.gameBoardView.pieces[a.r][a.c].addView(playerShadow)
         }
+    }
+    private fun checkEnd(row:Int,col:Int): Int {
+        var victory = -1
+        when(board.turn){
+            0 ->{
+                if(row == 0) victory = 0
+            }
+            1 -> {
+                if(row == 8) victory = 1
+            }
+            2 -> {
+                if(col == 8) victory = 2
+            }
+            else -> {
+                if(col == 0) victory = 3
+            }
+        }
+        return victory
     }
 
     private fun makePlayerShadow(notation : Notation){
