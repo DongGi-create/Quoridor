@@ -1,4 +1,4 @@
-package com.example.quoridor.ingame
+package com.example.quoridor.deprecated
 
 import android.content.ClipData
 import android.content.ClipDescription
@@ -8,7 +8,7 @@ import android.widget.LinearLayout
 import androidx.activity.ComponentActivity
 import com.example.quoridor.databinding.ActivityGame1v1Binding
 import com.example.quoridor.ingame.frontDomain.FrontPlayer
-import com.example.quoridor.ingame.utils.WallType
+import com.example.quoridor.ingame.utils.types.WallType
 import java.util.LinkedList
 import java.util.Queue
 

@@ -1,4 +1,6 @@
-package com.example.quoridor.ingame.utils
+package com.example.quoridor.ingame.utils.types
+
+import com.example.quoridor.ingame.utils.Coordinate
 
 enum class DirectionType(val diff: Coordinate) {
     UP(Coordinate(-1, 0)),

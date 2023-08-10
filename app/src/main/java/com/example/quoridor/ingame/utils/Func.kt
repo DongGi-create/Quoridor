@@ -4,6 +4,8 @@ import android.util.Log
 import com.example.quoridor.domain.Notation
 import com.example.quoridor.domain.utils.NotationType
 import com.example.quoridor.ingame.frontDomain.FrontBoard
+import com.example.quoridor.ingame.utils.types.DirectionType
+import com.example.quoridor.ingame.utils.types.WallType
 import kotlin.math.pow
 import kotlin.math.sqrt
 

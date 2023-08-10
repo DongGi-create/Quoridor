@@ -1,7 +1,7 @@
-package com.example.quoridor.auth.email
+package com.example.quoridor.deprecated.auth.email
 
 import android.util.Log
-import com.example.quoridor.database.utils.AfterTask
+import com.example.quoridor.deprecated.database.utils.AfterTask
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.FirebaseAuth
@@ -18,10 +18,10 @@ class Email {
         mAuth.createUserWithEmailAndPassword(email!!, password!!)
             .addOnCompleteListener{ task: Task<AuthResult?> ->
                 if(task.isSuccessful){
-                    Log.d(Email.Companion.TAG, "signUp: success")
+                    Log.d(TAG, "signUp: success")
                     afterTask.ifSuccess(task)
                 } else{
-                    Log.w(Email.Companion.TAG, "signUp:failure", task.exception)
+                    Log.w(TAG, "signUp:failure", task.exception)
                     afterTask.ifFail(task)
                 }
             }
@@ -31,11 +31,11 @@ class Email {
         mAuth.signInWithEmailAndPassword(email!!, password!!)
             .addOnCompleteListener{task: Task<AuthResult?> ->
                 if(task.isSuccessful){
-                    Log.d(Email.Companion.TAG, "signIn:success")
+                    Log.d(TAG, "signIn:success")
                     val user = mAuth.currentUser
                     afterTask.ifSuccess(task)
                 }else{
-                    Log.w(Email.Companion.TAG, "signIn:failure", task.exception)
+                    Log.w(TAG, "signIn:failure", task.exception)
                     afterTask.ifFail(task)
                 }
             }
@@ -45,10 +45,10 @@ class Email {
         user.delete()
             .addOnCompleteListener { task: Task<Void?> ->
                 if (task.isSuccessful) {
-                    Log.d(Email.Companion.TAG, "user delete:success")
+                    Log.d(TAG, "user delete:success")
                     afterTask.ifSuccess(task)
                 } else {
-                    Log.d(Email.Companion.TAG, "user delete:failure", task.exception)
+                    Log.d(TAG, "user delete:failure", task.exception)
                     afterTask.ifFail(task)
                 }
             }

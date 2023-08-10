@@ -1,24 +1,20 @@
 package com.example.quoridor
 
 import android.content.Context
-import android.content.Intent
 import android.os.Bundle
-import android.widget.Button
-import android.widget.EditText
 import android.widget.Toast
 import androidx.activity.ComponentActivity
-import com.example.quoridor.auth.email.Email
-import com.example.quoridor.database.Info
-import com.example.quoridor.database.fireDB.FireDB
+import com.example.quoridor.deprecated.auth.email.Email
+import com.example.quoridor.deprecated.database.Info
+import com.example.quoridor.deprecated.database.fireDB.FireDB
 import com.example.quoridor.databinding.ActivityTestBinding
-import com.example.quoridor.ingame.Game1v1
-import com.example.quoridor.database.utils.AfterTask
+import com.example.quoridor.deprecated.database.utils.AfterTask
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 
 class test : ComponentActivity() {
     var context: Context? = null
-    var info:Info = Info()
+    var info: Info = Info()
     override fun onCreate(savedInstanceState: Bundle?){
         val binding = ActivityTestBinding.inflate(layoutInflater)
         val auth = FirebaseAuth.getInstance()

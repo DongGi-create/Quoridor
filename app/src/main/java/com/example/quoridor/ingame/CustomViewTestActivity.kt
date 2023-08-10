@@ -19,11 +19,11 @@ import com.example.quoridor.ingame.customView.GameBoardViewPieceClickListener
 import com.example.quoridor.ingame.frontDomain.FrontBoard
 import com.example.quoridor.ingame.frontDomain.FrontPlayer
 import com.example.quoridor.ingame.utils.Coordinate
-import com.example.quoridor.ingame.utils.DropReturnType
+import com.example.quoridor.ingame.utils.types.DropReturnType
 import com.example.quoridor.ingame.utils.Func
 import com.example.quoridor.ingame.utils.TimeCounter
 import com.example.quoridor.ingame.utils.TimeCounterOverListener
-import com.example.quoridor.ingame.utils.WallType
+import com.example.quoridor.ingame.utils.types.WallType
 
 class CustomViewTestActivity : ComponentActivity() {
     private var available: Array<Coordinate> = Array(0){Coordinate(0,0)}

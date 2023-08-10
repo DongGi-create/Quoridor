@@ -6,32 +6,42 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <Button
-        android:id="@+id/btn_gamestart"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Game Start!"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+<!--    <Button-->
+<!--        android:id="@+id/btn_gamestart"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:text="Game Start!"-->
+<!--        app:layout_constraintBottom_toBottomOf="parent"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toTopOf="parent" />-->
 
-    <Button
-        android:id="@+id/btn_authtest"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="test Start!"
-        app:layout_constraintBottom_toTopOf="@+id/btn_gamestart"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+<!--    <Button-->
+<!--        android:id="@+id/btn_authtest"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:text="test Start!"-->
+<!--        app:layout_constraintBottom_toTopOf="@+id/btn_gamestart"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toTopOf="parent" />-->
 
     <Button
         android:id="@+id/viewTest_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="viewTest"
-        app:layout_constraintTop_toBottomOf="@id/btn_gamestart"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/retrofitTest_btn"/>
+
+    <Button
+        android:id="@+id/retrofitTest_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="retrofitTest"
+        app:layout_constraintTop_toBottomOf="@id/viewTest_btn"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"/>

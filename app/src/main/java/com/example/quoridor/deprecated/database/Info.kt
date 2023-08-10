@@ -1,4 +1,4 @@
-package com.example.quoridor.database
+package com.example.quoridor.deprecated.database
 
 data class Info(
     var tier: String? = null,

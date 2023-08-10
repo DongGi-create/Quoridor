@@ -4,7 +4,7 @@ import android.util.Pair
 import com.example.quoridor.domain.Board
 import com.example.quoridor.domain.Notation
 import com.example.quoridor.domain.utils.NotationType
-import com.example.quoridor.ingame.utils.WallType
+import com.example.quoridor.ingame.utils.types.WallType
 
 class FrontBoard(
     val players: Array<FrontPlayer>,
