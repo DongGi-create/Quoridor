@@ -1,7 +1,6 @@
 package com.example.quoridor.retrofit
 
 import android.util.Log
-import com.example.quoridor.R
 import okhttp3.JavaNetCookieJar
 import okhttp3.OkHttpClient
 import retrofit2.Call
@@ -22,18 +21,18 @@ class Service {
             .baseUrl("http://43.201.189.249:8080/")
             .addConverterFactory(GsonConverterFactory.create())
             .build()
-        private val service = retrofit.create(LoginService::class.java)
+        private var service = retrofit.create(UserService::class.java)
 
         private val TAG = "Dirtfy Test"
 
     }
 
-    fun login(id: String, pw: String, httpResult: HttpResult<LoginDTO>) {
+    fun login(id: String, pw: String, httpResult: HttpResult<DTO.Login>) {
 
-        val body = LoginDTO(id, pw)
+        val body = DTO.Login(id, pw)
 
-        service.login(body).enqueue(object: Callback<LoginDTO> {
-            override fun onResponse(call: Call<LoginDTO>, response: Response<LoginDTO>) {
+        service.login(body).enqueue(object: Callback<DTO.Login> {
+            override fun onResponse(call: Call<DTO.Login>, response: Response<DTO.Login>) {
                 if (response.isSuccessful) {
                     val header = response.headers()
                     val result = response.body()
@@ -52,7 +51,7 @@ class Service {
                 }
             }
 
-            override fun onFailure(call: Call<LoginDTO>, t: Throwable) {
+            override fun onFailure(call: Call<DTO.Login>, t: Throwable) {
                 Log.d(TAG, "onFail " + t.message.toString())
                 httpResult.fail(t)
             }

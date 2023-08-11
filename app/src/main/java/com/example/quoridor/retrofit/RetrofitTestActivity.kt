@@ -1,20 +1,10 @@
 package com.example.quoridor.retrofit
 
 import android.os.Bundle
-import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.quoridor.R
 import com.example.quoridor.databinding.ActivityRetrofitTestBinding
-import okhttp3.JavaNetCookieJar
-import okhttp3.OkHttpClient
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
-import retrofit2.create
-import java.net.CookieManager
 
 class RetrofitTestActivity: AppCompatActivity() {
 
@@ -36,14 +26,15 @@ class RetrofitTestActivity: AppCompatActivity() {
             val id = binding.idEt.text.toString()
             val pw = binding.pwEt.text.toString()
 
-            service.login(id, pw, object : HttpResult<LoginDTO> {
-                override fun success(data: LoginDTO) {
+            service.login(id, pw, object : HttpResult<DTO.Login> {
+                override fun success(data: DTO.Login) {
                     popToast("success!")
                 }
 
                 override fun appFail() {
                     popToast("app fail")
                 }
+
 
                 override fun fail(throwable: Throwable) {
                     popToast("fail")
