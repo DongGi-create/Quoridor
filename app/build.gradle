@@ -56,6 +56,8 @@ dependencies {
     // Retrofit
     implementation 'com.squareup.retrofit2:retrofit:2.9.0'
     implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
+    // Okhttp3의 cookieJar
+    implementation "com.squareup.okhttp3:okhttp-urlconnection:4.9.1"
 
     // Test
     testImplementation 'junit:junit:4.13.2'
