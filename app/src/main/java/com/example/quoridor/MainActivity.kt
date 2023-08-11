@@ -32,5 +32,10 @@ class MainActivity : AppCompatActivity() {
             val intent = Intent(this, RetrofitTestActivity::class.java)
             startActivity(intent)
         }
+
+        binding.loginPageBtn.setOnClickListener{
+            val intent = Intent(this, LoginActivity::class.java)
+            startActivity(intent)
+        }
     }
 }
