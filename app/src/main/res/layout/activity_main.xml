@@ -56,4 +56,12 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/retrofitTest_btn" />
 
+    <Button
+        android:id="@+id/main_signup"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="signup.."
+        tools:layout_editor_absoluteX="174dp"
+        tools:layout_editor_absoluteY="375dp" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

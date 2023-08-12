@@ -27,7 +27,10 @@ class MainActivity : AppCompatActivity() {
             val intent = Intent(this, CustomViewTestActivity::class.java)
             startActivity(intent)
         }
-
+        binding.mainSignup.setOnClickListener {
+            val intent = Intent(this, CustomViewTestActivity::class.java)
+            startActivity(intent)
+        }
         binding.retrofitTestBtn.setOnClickListener {
             val intent = Intent(this, RetrofitTestActivity::class.java)
             startActivity(intent)

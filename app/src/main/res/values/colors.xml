@@ -19,5 +19,6 @@
     <color name="candidateMove">#00FF00</color>
     <color name="primary">#8857F6</color>
     <color name="secondary">#E3CEF6</color>
+    <color name="third">#EBE5F1</color>
     <color name="sky">#FAE5D5</color>
 </resources>

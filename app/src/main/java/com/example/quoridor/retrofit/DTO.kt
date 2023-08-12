@@ -35,4 +35,18 @@ object DTO {
         @SerializedName("uid")
         val uid: String
     )
+
+    data class MatchingRequest(
+        @SerializedName("uid")
+        val uid: Long,
+        @SerializedName("gameType")
+        val gameType: Int
+    )
+
+    data class MatchingResponse(
+        @SerializedName("gameId")
+        val gameId: String,
+        @SerializedName("turn")
+        val turn: Int
+    )
 }
