@@ -29,7 +29,7 @@ class LoginActivity : AppCompatActivity() {
 
         var handler = Handler()
         var runnable = Runnable{
-            binding.cardView.animation = fade_in
+            binding.cvLoginBottom.animation = fade_in
             binding.cvLoginIcon.animation = fade_in
             binding.tvLoginTitle.animation = fade_in
             binding.tvLoginRegister.animation=fade_in
