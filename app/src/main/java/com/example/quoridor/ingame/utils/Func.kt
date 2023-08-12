@@ -5,12 +5,18 @@ import com.example.quoridor.domain.Notation
 import com.example.quoridor.domain.utils.NotationType
 import com.example.quoridor.ingame.frontDomain.FrontBoard
 import com.example.quoridor.ingame.utils.types.DirectionType
+import com.example.quoridor.ingame.utils.types.GameResultType
 import com.example.quoridor.ingame.utils.types.WallType
 import kotlin.math.pow
 import kotlin.math.sqrt
 
 class Func {
     companion object {
+
+        private val ratio = 10.0
+        private val diff = 400.0
+        private val K = 20.0
+
         fun distance(p1: Pair<Float, Float>, p2: Pair<Float, Float>): Float{
             return sqrt((p1.first-p2.first).pow(2) + (p1.second-p2.second).pow(2))
         }
@@ -20,6 +26,14 @@ class Func {
         }
         fun <T> Array<Array<T>>.set(cor: Coordinate, value: T) {
             this[cor.r][cor.c] = value
+        }
+
+        private fun calcW(myRating: Int, opponentRating: Int): Double {
+            return 1/(ratio.pow((myRating - opponentRating) / diff) + 1)
+        }
+
+        fun calcRating(myRating: Int, opponentRating: Int, gameResult: GameResultType): Int {
+            return (myRating + K * (gameResult.ordinal/2.0 - calcW(myRating, opponentRating))).toInt()
         }
 
         fun wallCross(notation: Notation, board: FrontBoard): Boolean {

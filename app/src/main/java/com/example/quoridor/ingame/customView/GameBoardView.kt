@@ -4,11 +4,14 @@ import android.content.ClipData
 import android.content.ClipDescription
 import android.content.Context
 import android.content.res.TypedArray
+import android.graphics.Outline
 import android.util.AttributeSet
 import android.util.Log
+import android.util.TypedValue
 import android.view.DragEvent
 import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewOutlineProvider
 import android.widget.LinearLayout
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.children
@@ -72,11 +75,30 @@ class GameBoardView: ConstraintLayout {
         setAttrs(attrs)
     }
 
+    private fun buildRoundOutLineProvider(round: Float): ViewOutlineProvider {
+        return object: ViewOutlineProvider() {
+            override fun getOutline(p0: View?, p1: Outline?) {
+                Log.d(TAG, "view: ${p0.toString()}, outLine: ${p1.toString()}")
+                p1?.setRoundRect(0, 0, p0!!.width, p0!!.height, round)
+            }
+        }
+    }
+
     private fun initView() {
         addView(binding.root)
 
+        binding.gameBoardLayout.apply {
+            outlineProvider = buildRoundOutLineProvider(20F)
+            clipToOutline = true
+        }
+
         for (v in binding.gameBoardLayout.children){
             if (v is LinearLayout){
+                v.apply {
+                    outlineProvider = buildRoundOutLineProvider(10F)
+                    clipToOutline = true
+                }
+
                 val tag = v.tag as? String
                 if(tag != null && tag.length > 2) {
                     val row = tag[1].digitToInt()
@@ -90,6 +112,11 @@ class GameBoardView: ConstraintLayout {
                 }
             }
             else {
+                v.apply {
+                    outlineProvider = buildRoundOutLineProvider(5F)
+                    clipToOutline = true
+                }
+
                 val tag = v.tag as? String
                 if(tag != null && tag.length > 2){
                     val row = tag[1].digitToInt()
