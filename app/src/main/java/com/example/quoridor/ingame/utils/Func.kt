@@ -28,6 +28,22 @@ class Func {
             this[cor.r][cor.c] = value
         }
 
+        fun millToMinSec(time: Long): String {
+            val minInt = time / (60 * 1000)
+            val min = when(minInt) {
+                in 0..9 -> "0${minInt}"
+                else -> "$minInt"
+            }
+
+            val secInt = time % (60 * 1000) / 1000
+            val sec = when(secInt) {
+                in 0..9 -> "0${secInt}"
+                else -> "$secInt"
+            }
+
+            return "$min:$sec"
+        }
+
         private fun calcW(myRating: Int, opponentRating: Int): Double {
             return 1/(ratio.pow((myRating - opponentRating) / diff) + 1)
         }

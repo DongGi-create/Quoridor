@@ -29,12 +29,8 @@ class TimeCounter(
                 this.cancel()
             }
 
-            val min = left/(60 * 1000)
-            val sec = left%(60 * 1000) / 1000
-            val text = "$min:$sec"
-
             activity.runOnUiThread{
-                time_tv.text = text
+                time_tv.text = Func.millToMinSec(left)
             }
         }
     }
@@ -47,9 +43,7 @@ class TimeCounter(
         timerTask.cancel()
 
         left = duration
-        val min = left/(60 * 1000)
-        val sec = left%(60 * 1000) / 1000
-        val text = "$min:$sec"
+        val text = Func.millToMinSec(left)
         time_tv.text = text
     }
 }

@@ -1,8 +1,10 @@
 package com.example.quoridor.ingame.frontDomain
 
+import android.view.View
 import android.widget.ImageView
 import com.example.quoridor.domain.Player
 import com.example.quoridor.domain.utils.PlayerColorType
+import com.example.quoridor.ingame.customView.playerView.OpPlayerInfoView
 import com.example.quoridor.ingame.utils.TimeCounter
 
 class FrontPlayer(
@@ -16,7 +18,7 @@ class FrontPlayer(
     playerColorType: PlayerColorType
 ): Player(left_wall, left_ms, row, col, uid, playerColorType) {
 
-    constructor(imageView: ImageView, timer: TimeCounter, p: Player):
+    constructor(imageView: ImageView, timer: TimeCounter,p: Player):
             this(imageView, timer, p.left_wall, p.left_ms, p.row, p.col, p.uid, p.playerColorType)
 
     fun turnStart(){
@@ -25,5 +27,9 @@ class FrontPlayer(
     fun turnEnd(){
         timer.pause()
         left_ms = timer.left
+    }
+
+    fun setInfoView(){
+
     }
 }

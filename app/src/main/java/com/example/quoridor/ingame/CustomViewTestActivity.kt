@@ -14,8 +14,8 @@ import com.example.quoridor.domain.Notation
 import com.example.quoridor.domain.Player
 import com.example.quoridor.domain.utils.NotationType
 import com.example.quoridor.domain.utils.PlayerColorType
-import com.example.quoridor.ingame.customView.GameBoardViewDropListener
-import com.example.quoridor.ingame.customView.GameBoardViewPieceClickListener
+import com.example.quoridor.ingame.customView.gameBoardView.GameBoardViewDropListener
+import com.example.quoridor.ingame.customView.gameBoardView.GameBoardViewPieceClickListener
 import com.example.quoridor.ingame.frontDomain.FrontBoard
 import com.example.quoridor.ingame.frontDomain.FrontPlayer
 import com.example.quoridor.ingame.utils.Coordinate
@@ -62,7 +62,7 @@ class CustomViewTestActivity : ComponentActivity() {
         }
 
         binding.gameBoardView.setWallChooseView(binding.vertWallLayout, binding.horiWallLayout)
-        binding.gameBoardView.setDragListener(object: GameBoardViewDropListener{
+        binding.gameBoardView.setDragListener(object: GameBoardViewDropListener {
             override fun drop(matchedView: View, wallType: WallType, row: Int, col: Int): DropReturnType {
                 val notationType = when(wallType) {
                     WallType.Vertical -> NotationType.VERTICAL
@@ -162,23 +162,25 @@ class CustomViewTestActivity : ComponentActivity() {
 
         val player0 = FrontPlayer(
             createPlayerImageView(R.drawable.hobanwoo_red),
-            TimeCounter(this, binding.p0Timer, timeLimit, object : TimeCounterOverListener {
+            TimeCounter(this, binding.myInfo.leftTimeTextView, timeLimit, object : TimeCounterOverListener {
                 override fun timeOver() {
                     Toast.makeText(applicationContext, "p0 time over", Toast.LENGTH_SHORT).show()
                 }
             }),
             Player(leftWall, timeLimit, 8, 4, "p0", PlayerColorType.RED)
         )
+        binding.myInfo.setPlayer(player0)
 
         val player1 = FrontPlayer(
             createPlayerImageView(R.drawable.hobanwoo_blue),
-            TimeCounter(this, binding.p1Timer, timeLimit, object : TimeCounterOverListener {
+            TimeCounter(this, binding.player1Info.leftTimeTextView, timeLimit, object : TimeCounterOverListener {
                 override fun timeOver() {
                     Toast.makeText(applicationContext, "p1 time over", Toast.LENGTH_SHORT).show()
                 }
             }),
             Player(leftWall, timeLimit, 0, 4, "p1", PlayerColorType.BLUE)
         )
+        binding.player1Info.setPlayer(player1)
 
         val players = arrayOf(player0, player1)
         val verticalWalls = ArrayList<Pair<Int, Int>>()

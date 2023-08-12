@@ -1,4 +1,4 @@
-package com.example.quoridor.ingame.customView
+package com.example.quoridor.ingame.customView.gameBoardView
 
 import android.graphics.Point
 import android.view.View

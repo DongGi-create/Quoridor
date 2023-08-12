@@ -1,4 +1,4 @@
-package com.example.quoridor.ingame.customView
+package com.example.quoridor.ingame.customView.gameBoardView
 
 import android.content.ClipData
 import android.content.ClipDescription
@@ -7,7 +7,6 @@ import android.content.res.TypedArray
 import android.graphics.Outline
 import android.util.AttributeSet
 import android.util.Log
-import android.util.TypedValue
 import android.view.DragEvent
 import android.view.LayoutInflater
 import android.view.View
@@ -16,7 +15,7 @@ import android.widget.LinearLayout
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.children
 import com.example.quoridor.R
-import com.example.quoridor.databinding.GameBoardViewBinding
+import com.example.quoridor.databinding.CustomViewGameBoardBinding
 import com.example.quoridor.ingame.frontDomain.FrontBoard
 import com.example.quoridor.ingame.utils.types.DropReturnType
 import com.example.quoridor.ingame.utils.Func
@@ -24,9 +23,9 @@ import com.example.quoridor.ingame.utils.types.WallType
 
 class GameBoardView: ConstraintLayout {
 
-    private val binding: GameBoardViewBinding by lazy {
-        GameBoardViewBinding.bind(
-            LayoutInflater.from(context).inflate(R.layout.game_board_view, this, false)
+    private val binding: CustomViewGameBoardBinding by lazy {
+        CustomViewGameBoardBinding.bind(
+            LayoutInflater.from(context).inflate(R.layout.custom_view_game_board, this, false)
         )
     }
 
@@ -59,7 +58,8 @@ class GameBoardView: ConstraintLayout {
             return DropReturnType.Match
         }
     }
-    private var clickListener: GameBoardViewPieceClickListener = object: GameBoardViewPieceClickListener {
+    private var clickListener: GameBoardViewPieceClickListener = object:
+        GameBoardViewPieceClickListener {
         override fun click(clickedPiece: View, row: Int, col: Int) {
 
         }
