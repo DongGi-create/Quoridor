@@ -45,7 +45,7 @@
             android:exported="true"/>
 
         <activity
-            android:name=".SignUpActivity"
+            android:name=".retrofit.SignUpTestActivity"
             android:exported="true"/>
     </application>
 

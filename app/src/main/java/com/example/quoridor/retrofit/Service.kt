@@ -1,6 +1,7 @@
 package com.example.quoridor.retrofit
 
 import android.util.Log
+import com.google.gson.annotations.SerializedName
 import okhttp3.JavaNetCookieJar
 import okhttp3.OkHttpClient
 import retrofit2.Call
@@ -28,9 +29,7 @@ class Service {
     }
 
     fun login(id: String, pw: String, httpResult: HttpResult<DTO.SignUpResponse>) {
-
         val body = DTO.Login(id, pw)
-
         service.login(body).enqueue(object: Callback<DTO.SignUpResponse> {
             override fun onResponse(call: Call<DTO.SignUpResponse>, response: Response<DTO.SignUpResponse>) {
                 if (response.isSuccessful) {
@@ -58,6 +57,34 @@ class Service {
         })
     }
 
+    fun signUp(loginId:String, password: String, email:String, name:String, httpResult: HttpResult<DTO.SignUpResponse>){
+        val body = DTO.SignUpRequest(loginId, password, email, name)
+        service.signUp(body).enqueue(object: Callback<DTO.SignUpResponse>{
+            override fun onResponse(call: Call<DTO.SignUpResponse>, response: Response<DTO.SignUpResponse>) {
+                if(response.isSuccessful){
+                    val header = response.headers()
+                    val result = response.body()
+
+                    if (result != null) {
+                        Log.d(TAG, "response successful\n$header\n${result?.toString()}")
+                        httpResult.success(result)
+                    }
+                    else {
+                        Log.d(TAG, "response fail")
+                        httpResult.appFail()
+                    }
+                } else {
+                    Log.d(TAG, "response fail")
+                    httpResult.appFail()
+                }
+            }
+
+            override fun onFailure(call: Call<DTO.SignUpResponse>, t: Throwable) {
+                Log.d(TAG, "onFail " + t.message.toString())
+                httpResult.fail(t)
+            }
+        })
+    }
     fun match(uid:Long, gameType:Int, httpResult: HttpResult<DTO.MatchingResponse>) {
         val body = DTO.MatchingRequest(uid, gameType)
         service.matchRequest(body).enqueue(object: Callback<DTO.MatchingResponse> {
@@ -85,6 +112,4 @@ class Service {
             }
         })
     }
-
-
 }

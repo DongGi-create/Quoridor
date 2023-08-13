@@ -6,6 +6,7 @@ import android.os.Bundle
 import com.example.quoridor.databinding.ActivityMainBinding
 import com.example.quoridor.ingame.CustomViewTestActivity
 import com.example.quoridor.retrofit.RetrofitTestActivity
+import com.example.quoridor.retrofit.SignUpTestActivity
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -28,7 +29,7 @@ class MainActivity : AppCompatActivity() {
             startActivity(intent)
         }
         binding.mainSignup.setOnClickListener {
-            val intent = Intent(this, CustomViewTestActivity::class.java)
+            val intent = Intent(this, SignUpTestActivity::class.java)
             startActivity(intent)
         }
         binding.retrofitTestBtn.setOnClickListener {
