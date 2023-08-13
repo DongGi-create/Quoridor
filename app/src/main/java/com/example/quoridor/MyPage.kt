@@ -1,8 +1,9 @@
 package com.example.quoridor
 
 import android.os.Bundle
+import android.os.Handler
+import android.view.animation.AnimationUtils
 import androidx.appcompat.app.AppCompatActivity
-import com.example.quoridor.databinding.ActivityLoginBinding
 import com.example.quoridor.databinding.ActivityMypageBinding
 
 class MyPage:AppCompatActivity() {
