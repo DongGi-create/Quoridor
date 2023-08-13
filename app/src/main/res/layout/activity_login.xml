@@ -87,6 +87,7 @@
                 android:layout_marginTop="50dp"/>
 
             <EditText
+                android:id="@+id/et_Login_id"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:background="@drawable/et_background"
@@ -100,6 +101,7 @@
                 android:layout_marginTop="20dp" />
 
             <EditText
+                android:id="@+id/et_Login_password"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:background="@drawable/et_background"
@@ -122,6 +124,7 @@
 
 
             <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btn_Login_login"
                 android:layout_width="160dp"
                 android:layout_height="wrap_content"
                 android:background="@drawable/login_bt_background"

@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.os.PersistableBundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.example.quoridor.LoginActivity
 import com.example.quoridor.R
 import com.example.quoridor.databinding.ActivityRetrofitTestBinding
 import com.example.quoridor.databinding.ActivitySignupTestBinding
@@ -39,6 +40,8 @@ class SignUpTestActivity:AppCompatActivity() {
             service.signUp(id,pw,email,name, object: HttpResult<DTO.SignUpResponse>{
                 override fun success(data: DTO.SignUpResponse) {
                     popToast("SignUp success!")
+                    val intent = Intent(this@SignUpTestActivity,LoginActivity::class.java)
+                    startActivity(intent)
                 }
 
                 override fun appFail() {

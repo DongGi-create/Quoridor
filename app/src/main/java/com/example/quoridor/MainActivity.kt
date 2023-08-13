@@ -28,8 +28,8 @@ class MainActivity : AppCompatActivity() {
             val intent = Intent(this, CustomViewTestActivity::class.java)
             startActivity(intent)
         }
-        binding.mainSignup.setOnClickListener {
-            val intent = Intent(this, SignUpTestActivity::class.java)
+        binding.btnMypage.setOnClickListener {
+            val intent = Intent(this, MyPage::class.java)
             startActivity(intent)
         }
         binding.retrofitTestBtn.setOnClickListener {

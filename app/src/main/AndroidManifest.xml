@@ -47,6 +47,10 @@
         <activity
             android:name=".retrofit.SignUpTestActivity"
             android:exported="true"/>
+
+        <activity
+            android:name=".MyPage"
+            android:exported="true"/>
     </application>
 
 </manifest>
