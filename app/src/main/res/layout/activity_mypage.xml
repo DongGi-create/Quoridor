@@ -119,74 +119,92 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
-                <ImageView
-                    android:id="@+id/iv_myPage_vs2_tier"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    app:layout_constraintHorizontal_weight="2"
-                    android:src="@drawable/gold"
-                    android:layout_marginStart="10dp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toStartOf="@+id/linear_myPage_vs2tier_info"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent">
-                </ImageView>
-
-                <LinearLayout
-                    android:id="@+id/linear_myPage_vs2tier_info"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    app:layout_constraintHorizontal_weight="3"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toEndOf="@+id/iv_myPage_vs2_tier"
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/cv_myPage_type_vs2"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    app:layout_constraintVertical_weight="1"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    android:orientation="vertical">
-                    <androidx.cardview.widget.CardView
-                        android:layout_width="match_parent"
-                        android:layout_height="0dp"
-                        android:layout_weight="1"
-                        android:layout_marginEnd="20dp"
-                        android:layout_marginStart="20dp"
-                        android:layout_marginTop="10dp">
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:background="@drawable/linear_background">
-                            <TextView
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                android:text="1 vs 1"
-                                android:textColor="@color/white"
-                                android:textSize="30sp"
-                                android:gravity="center"/>
-                        </LinearLayout>
-                    </androidx.cardview.widget.CardView>
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintBottom_toTopOf="@+id/linear_myPage_tier_vs2_info"
+                    app:layout_constraintTop_toTopOf="parent">
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="0dp"
-                        android:layout_weight="3"
-                        android:orientation="horizontal">
-
+                        android:layout_height="match_parent"
+                        android:background="@drawable/linear_background">
                         <TextView
-                            android:layout_width="0dp"
+                            android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:layout_weight="6"
-                            android:hint="100승 100패"
-                            android:gravity="center_vertical"/>
-                        <com.airbnb.lottie.LottieAnimationView
-                            android:id="@+id/ll"
-                            android:layout_width="0dp"
-                            android:layout_weight="7"
-                            android:layout_height="match_parent"
-                            app:lottie_fileName="arrow_right_anim.json"
-                            android:padding="5dp"
-                            app:lottie_autoPlay="true"
-                            app:lottie_loop="true"/>
+                            android:gravity="center"
+                            android:text="vs 2"
+                            android:textColor="@color/white"
+                            android:textSize="30sp"/>
+                    </LinearLayout>
+                </androidx.cardview.widget.CardView>
 
+                <LinearLayout
+                    android:id="@+id/linear_myPage_tier_vs2_info"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    app:layout_constraintVertical_weight="4"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/cv_myPage_type_vs2"
+                    android:orientation="horizontal">
+                    <ImageView
+                        android:id="@+id/iv_myPage_vs2_tier"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="2"
+                        android:layout_marginStart="10dp"
+                        android:src="@drawable/gold"/>
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="3"
+                        android:orientation="vertical">
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="0dp"
+                            android:layout_weight="7"
+                            android:layout_marginTop="45dp"
+                            android:layout_marginStart="10dp"
+                            android:layout_marginEnd="10dp">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:gravity="bottom"
+                                android:paddingBottom="5dp"
+                                android:text="gold 2"
+                                android:textSize="20sp"
+                                android:layout_marginStart="10dp"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:text="26p"
+                                android:textSize="30sp"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintTop_toTopOf="parent"
+                                android:layout_marginEnd="10dp"/>
+
+                        </androidx.constraintlayout.widget.ConstraintLayout>
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="0dp"
+                            android:layout_weight="2"
+                            android:background="@color/sky"
+                            android:layout_marginBottom="45dp"
+                            android:layout_marginStart="10dp"
+                            android:layout_marginEnd="10dp"/>
                     </LinearLayout>
                 </LinearLayout>
-
             </androidx.constraintlayout.widget.ConstraintLayout>
 
         </androidx.cardview.widget.CardView>
@@ -199,7 +217,96 @@
             android:layout_weight="2"
             app:cardCornerRadius="15dp"
             app:cardElevation="20dp">
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/cv_myPage_type_vs4"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    app:layout_constraintVertical_weight="1"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintBottom_toTopOf="@+id/linear_myPage_tier_vs4_info"
+                    app:layout_constraintTop_toTopOf="parent">
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@drawable/linear_background">
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:gravity="center"
+                            android:text="vs 4"
+                            android:textColor="@color/white"
+                            android:textSize="30sp"/>
+                    </LinearLayout>
+                </androidx.cardview.widget.CardView>
 
+                <LinearLayout
+                    android:id="@+id/linear_myPage_tier_vs4_info"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    app:layout_constraintVertical_weight="4"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/cv_myPage_type_vs4"
+                    android:orientation="horizontal">
+                    <ImageView
+                        android:id="@+id/iv_myPage_vs4_tier"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="2"
+                        android:layout_marginStart="10dp"
+                        android:src="@drawable/gold"/>
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="3"
+                        android:orientation="vertical">
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="0dp"
+                            android:layout_weight="7"
+                            android:layout_marginTop="45dp"
+                            android:layout_marginStart="10dp"
+                            android:layout_marginEnd="10dp">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:gravity="bottom"
+                                android:paddingBottom="5dp"
+                                android:text="gold 2"
+                                android:textSize="20sp"
+                                android:layout_marginStart="10dp"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:text="26p"
+                                android:textSize="30sp"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintTop_toTopOf="parent"
+                                android:layout_marginEnd="10dp"/>
+
+                        </androidx.constraintlayout.widget.ConstraintLayout>
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="0dp"
+                            android:layout_weight="2"
+                            android:background="@color/sky"
+                            android:layout_marginBottom="45dp"
+                            android:layout_marginStart="10dp"
+                            android:layout_marginEnd="10dp"/>
+                    </LinearLayout>
+                </LinearLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.cardview.widget.CardView>
 
     </LinearLayout>
