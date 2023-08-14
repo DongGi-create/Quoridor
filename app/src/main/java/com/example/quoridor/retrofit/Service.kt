@@ -48,11 +48,13 @@ class Service {
                     Log.d(TAG, "response fail")
                     httpResult.appFail()
                 }
+                httpResult.finally()
             }
 
             override fun onFailure(call: Call<DTO.SignUpResponse>, t: Throwable) {
                 Log.d(TAG, "onFail " + t.message.toString())
                 httpResult.fail(t)
+                httpResult.finally()
             }
         })
     }
@@ -77,14 +79,17 @@ class Service {
                     Log.d(TAG, "response fail")
                     httpResult.appFail()
                 }
+                httpResult.finally()
             }
 
             override fun onFailure(call: Call<DTO.SignUpResponse>, t: Throwable) {
                 Log.d(TAG, "onFail " + t.message.toString())
                 httpResult.fail(t)
+                httpResult.finally()
             }
         })
     }
+
     fun match(uid:Long, gameType:Int, httpResult: HttpResult<DTO.MatchingResponse>) {
         val body = DTO.MatchingRequest(uid, gameType)
         service.matchRequest(body).enqueue(object: Callback<DTO.MatchingResponse> {
@@ -105,10 +110,13 @@ class Service {
                     Log.d(TAG, "response fail")
                     httpResult.appFail()
                 }
+                httpResult.finally()
             }
+
             override fun onFailure(call: Call<DTO.MatchingResponse>, t: Throwable) {
                 Log.d(TAG, "onFail " + t.message.toString())
                 httpResult.fail(t)
+                httpResult.finally()
             }
         })
     }

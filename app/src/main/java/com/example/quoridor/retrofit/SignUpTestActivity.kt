@@ -51,6 +51,10 @@ class SignUpTestActivity:AppCompatActivity() {
                 override fun fail(throwable: Throwable) {
                     popToast("fail")
                 }
+
+                override fun finally() {
+
+                }
             })
         }
     }

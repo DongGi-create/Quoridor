@@ -61,6 +61,10 @@ class LoginActivity : AppCompatActivity() {
                 override fun fail(throwable: Throwable) {
                     popToast("fail")
                 }
+
+                override fun finally() {
+
+                }
             })
         }
 //통신(로그인 통신하는동안 아무 액션도 안먹히게 해야 할듯)
