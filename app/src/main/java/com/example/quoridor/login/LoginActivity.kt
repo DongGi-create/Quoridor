@@ -1,4 +1,4 @@
-package com.example.quoridor
+package com.example.quoridor.login
 
 import android.content.Intent
 import android.os.Bundle
@@ -6,8 +6,10 @@ import android.os.Handler
 import android.view.animation.AnimationUtils
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.ViewModelProvider
+import com.example.quoridor.MainActivity
+import com.example.quoridor.R
 import com.example.quoridor.databinding.ActivityLoginBinding
-import com.example.quoridor.ingame.CustomViewTestActivity
 import com.example.quoridor.retrofit.DTO
 import com.example.quoridor.retrofit.HttpResult
 import com.example.quoridor.retrofit.Service
@@ -23,12 +25,13 @@ class LoginActivity : AppCompatActivity() {
         getString(R.string.Minseok_test_tag)
     }
 
+    private lateinit var sharedViewModel: SharedViewModel
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
 
-        var fade_in = AnimationUtils.loadAnimation(this,R.anim.fade_in)
-        var bottom_down = AnimationUtils.loadAnimation(this,R.anim.bottom_down)
+        var fade_in = AnimationUtils.loadAnimation(this, R.anim.fade_in)
+        var bottom_down = AnimationUtils.loadAnimation(this, R.anim.bottom_down)
 
         binding.linearLoginTop.animation = bottom_down
 
@@ -42,6 +45,7 @@ class LoginActivity : AppCompatActivity() {
         }
         handler.postDelayed(runnable,1000)
 
+        sharedViewModel = ViewModelProvider(this).get(SharedViewModel::class.java)
         binding.btnLoginLogin.setOnClickListener{
             val id = binding.etLoginId.text.toString()
             val pw = binding.etLoginPassword.text.toString()
@@ -49,7 +53,10 @@ class LoginActivity : AppCompatActivity() {
             service.login(id,pw, object: HttpResult<DTO.SignUpResponse>{
                 override fun success(data: DTO.SignUpResponse) {
                     popToast("success!")
-                    val intent = Intent(this@LoginActivity,CustomViewTestActivity::class.java)
+                    val user = UserManager.getInstance()
+                    user.setUser(data)
+                    sharedViewModel.setLoginSuccess(true)
+                    val intent = Intent(this@LoginActivity,MainActivity::class.java)
                     startActivity(intent)
                 }
 

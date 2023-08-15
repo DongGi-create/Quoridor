@@ -10,6 +10,8 @@ public class User {
     private History vs2_history;
     private History vs4_history;
 
+    private static User instance;
+
     public String getTier() {
         return tier;
     }

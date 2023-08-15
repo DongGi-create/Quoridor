@@ -1,6 +1,7 @@
 package com.example.quoridor.retrofit
 
 import android.util.Log
+
 import okhttp3.JavaNetCookieJar
 import okhttp3.OkHttpClient
 import retrofit2.Call
