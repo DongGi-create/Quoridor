@@ -3,7 +3,6 @@ package com.example.quoridor.retrofit
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.quoridor.R
 import com.example.quoridor.databinding.ActivityRetrofitTestBinding
@@ -11,7 +10,6 @@ import com.example.quoridor.ingame.CustomViewTestActivity
 import com.example.quoridor.retrofit.util.Func
 import com.example.quoridor.retrofit.util.Func.Companion.popToast
 import com.example.quoridor.retrofit.util.ToastHttpResult
-import com.google.api.Http
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.CoroutineStart
 import kotlinx.coroutines.Deferred

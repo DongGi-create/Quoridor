@@ -3,12 +3,8 @@ package com.example.quoridor.deprecated.database.fireDB
 import android.util.Log
 import com.example.quoridor.deprecated.database.Info
 import com.example.quoridor.deprecated.database.utils.AfterTask
-import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.QuerySnapshot
-import com.google.firebase.ktx.Firebase
 
 class FireDB {
     /*fun insert(db: FirebaseFirestore, Info: Info, afterTasks: List<AfterTask?>) {

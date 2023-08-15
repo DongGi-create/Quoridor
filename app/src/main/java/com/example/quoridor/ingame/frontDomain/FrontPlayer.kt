@@ -1,10 +1,8 @@
 package com.example.quoridor.ingame.frontDomain
 
-import android.view.View
 import android.widget.ImageView
 import com.example.quoridor.domain.Player
 import com.example.quoridor.domain.utils.PlayerColorType
-import com.example.quoridor.ingame.customView.playerView.OpPlayerInfoView
 import com.example.quoridor.ingame.utils.TimeCounter
 
 class FrontPlayer(

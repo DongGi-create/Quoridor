@@ -29,7 +29,7 @@
             android:exported="true" />
 
         <activity
-            android:name=".test"
+            android:name=".deprecated.test"
             android:exported="true" />
 
         <activity
@@ -38,6 +38,10 @@
 
         <activity
             android:name=".retrofit.RetrofitTestActivity"
+            android:exported="true"/>
+
+        <activity
+            android:name=".RankingActivity"
             android:exported="true"/>
 
         <activity
@@ -50,6 +54,10 @@
 
         <activity
             android:name=".MyPage"
+            android:exported="true"/>
+
+        <activity
+            android:name=".TestActivity"
             android:exported="true"/>
     </application>
 

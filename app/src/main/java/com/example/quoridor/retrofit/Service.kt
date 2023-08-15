@@ -1,16 +1,6 @@
 package com.example.quoridor.retrofit
 
 import android.util.Log
-import kotlinx.coroutines.CancellationException
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.CoroutineStart
-import kotlinx.coroutines.Deferred
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.async
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.supervisorScope
 import okhttp3.JavaNetCookieJar
 import okhttp3.OkHttpClient
 import retrofit2.Call
@@ -69,7 +59,9 @@ class Service {
         return service.matchRequest(data)
     }
 
-    private fun <ResponseType> makeCallBack(httpResult: HttpResult<ResponseType>): Callback<ResponseType> {
+    private fun <ResponseType> makeCallBack(
+        httpResult: HttpResult<ResponseType>
+    ): Callback<ResponseType> {
         return object : Callback<ResponseType> {
             override fun onResponse(
                 call: Call<ResponseType>,

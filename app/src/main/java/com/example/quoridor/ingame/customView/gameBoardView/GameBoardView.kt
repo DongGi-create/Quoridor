@@ -17,8 +17,8 @@ import androidx.core.view.children
 import com.example.quoridor.R
 import com.example.quoridor.databinding.CustomViewGameBoardBinding
 import com.example.quoridor.ingame.frontDomain.FrontBoard
-import com.example.quoridor.ingame.utils.types.DropReturnType
 import com.example.quoridor.ingame.utils.Func
+import com.example.quoridor.ingame.utils.types.DropReturnType
 import com.example.quoridor.ingame.utils.types.WallType
 
 class GameBoardView: ConstraintLayout {

@@ -6,7 +6,6 @@ import android.view.LayoutInflater
 import androidx.constraintlayout.widget.ConstraintLayout
 import com.example.quoridor.R
 import com.example.quoridor.databinding.CustomViewMyPlayInfoBinding
-import com.example.quoridor.databinding.CustomViewOpPlayerInfoBinding
 import com.example.quoridor.ingame.frontDomain.FrontPlayer
 import com.example.quoridor.ingame.utils.Func
 

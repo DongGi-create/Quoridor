@@ -21,4 +21,9 @@
     <color name="secondary">#d3d3d3</color>
     <color name="third">#EBE5F1</color>
     <color name="sky">#FAE5D5</color>
+
+    <color name="D_primary">#383838</color>
+    <color name="D_second">#454545</color>
+    <color name="D_third">#9E9E9E</color>
+    <color name="D_text">#E1E1E1</color>
 </resources>

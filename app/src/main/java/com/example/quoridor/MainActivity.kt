@@ -1,12 +1,10 @@
 package com.example.quoridor
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
 import com.example.quoridor.databinding.ActivityMainBinding
 import com.example.quoridor.ingame.CustomViewTestActivity
-import com.example.quoridor.retrofit.RetrofitTestActivity
-import com.example.quoridor.retrofit.SignUpTestActivity
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -25,6 +23,16 @@ class MainActivity : AppCompatActivity() {
             /*val intent = Intent(this, MyPage::class.java)
             startActivity(intent)*/
             val intent = Intent(this, LoginActivity::class.java)
+            startActivity(intent)
+        }
+
+        binding.ivMainRanking.setOnClickListener{
+            val intent = Intent(this, RankingActivity::class.java)
+            startActivity(intent)
+        }
+
+        binding.testBtn.setOnClickListener {
+            val intent = Intent(this, TestActivity::class.java)
             startActivity(intent)
         }
     }
