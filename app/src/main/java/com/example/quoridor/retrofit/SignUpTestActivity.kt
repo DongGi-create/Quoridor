@@ -2,19 +2,11 @@ package com.example.quoridor.retrofit
 
 import android.content.Intent
 import android.os.Bundle
-import android.os.PersistableBundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.quoridor.LoginActivity
 import com.example.quoridor.R
-import com.example.quoridor.databinding.ActivityRetrofitTestBinding
 import com.example.quoridor.databinding.ActivitySignupTestBinding
-import com.example.quoridor.ingame.CustomViewTestActivity
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.async
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 
 class SignUpTestActivity:AppCompatActivity() {
     private val binding: ActivitySignupTestBinding by lazy {

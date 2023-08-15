@@ -7,7 +7,6 @@ import android.view.animation.AnimationUtils
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.quoridor.databinding.ActivityLoginBinding
-import com.example.quoridor.databinding.ActivityRetrofitTestBinding
 import com.example.quoridor.ingame.CustomViewTestActivity
 import com.example.quoridor.retrofit.DTO
 import com.example.quoridor.retrofit.HttpResult

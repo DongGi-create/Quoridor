@@ -8,20 +8,16 @@ import androidx.appcompat.app.AppCompatActivity
 import com.example.quoridor.R
 import com.example.quoridor.databinding.ActivityRetrofitTestBinding
 import com.example.quoridor.ingame.CustomViewTestActivity
-import kotlinx.coroutines.CancellationException
+import com.example.quoridor.retrofit.util.Func
+import com.example.quoridor.retrofit.util.Func.Companion.popToast
+import com.example.quoridor.retrofit.util.ToastHttpResult
+import com.google.api.Http
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.CoroutineStart
 import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.Job
-import kotlinx.coroutines.SupervisorJob
-import kotlinx.coroutines.async
-import kotlinx.coroutines.cancel
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.job
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.supervisorScope
 
 class RetrofitTestActivity: AppCompatActivity() {
 
@@ -44,24 +40,7 @@ class RetrofitTestActivity: AppCompatActivity() {
             val id = binding.idEt.text.toString()
             val pw = binding.pwEt.text.toString()
 
-            service.login(id, pw, object : HttpResult<DTO.SignUpResponse> {
-                override fun success(data: DTO.SignUpResponse) {
-                    popToast("success!")
-                }
-
-                override fun appFail() {
-                    popToast("app fail")
-                }
-
-
-                override fun fail(throwable: Throwable) {
-                    popToast("fail")
-                }
-
-                override fun finally() {
-
-                }
-            })
+            service.login(id, pw, ToastHttpResult(applicationContext, "login", TAG))
         }
 
 //        binding.button.setOnClickListener{
@@ -99,8 +78,15 @@ class RetrofitTestActivity: AppCompatActivity() {
 
         binding.button.setOnClickListener {
             if (!this@RetrofitTestActivity::keepTryingJob.isInitialized || !keepTryingJob.isActive) {
-                keepTryingJob = buildKeepTryingJob()
+                val matchData = DTO.MatchingRequest(2, 1)
+
+                keepTryingJob = Func.buildKeepTryingJob(
+                    matchData,
+                    service::makeMatchCall,
+                    ToastHttpResult(applicationContext, "matching", TAG))
+
                 buildGameStartJob(keepTryingJob).start()
+
                 keepTryingJob.start()
             }
         }
@@ -113,87 +99,6 @@ class RetrofitTestActivity: AppCompatActivity() {
         }
     }
 
-    private suspend fun buildAwaitingJob(): Job {
-        return CoroutineScope(Dispatchers.Default)
-                .launch(start = CoroutineStart.LAZY) {
-                    Log.d(TAG, "awaitingJob start")
-
-                    var timeout = 15
-                    while (timeout-- > 0){
-                        Log.d(TAG, "awaitingJob running $timeout")
-                        delay(1000)
-                    }
-
-                    Log.d(TAG, "awaitingJob end")
-                }
-    }
-    private suspend fun buildMatchRequestingJob(): Deferred<DTO.MatchingResponse?> {
-        val awaitingJob = buildAwaitingJob()
-        return CoroutineScope(Dispatchers.IO)
-            .async(start = CoroutineStart.LAZY) {
-
-                Log.d(TAG, "matchRequestingJob start")
-                var matchingResponse: DTO.MatchingResponse? = null
-
-                awaitingJob.start()
-
-                service.match(2, 1, object : HttpResult<DTO.MatchingResponse> {
-                    override fun success(data: DTO.MatchingResponse) {
-                        popToast("success! data: $data")
-                        matchingResponse = data
-
-                        Log.d(TAG, "matchRequestingJob get response success")
-                    }
-
-                    override fun appFail() {
-                        popToast("app fail")
-
-                        Log.d(TAG, "matchRequestingJob get response app fail")
-                    }
-
-                    override fun fail(throwable: Throwable) {
-                        popToast("fail")
-
-                        Log.d(TAG, "matchRequestingJob get response fail")
-                    }
-
-                    override fun finally() {
-                        awaitingJob.cancel()
-                    }
-                })
-
-                try {
-                    supervisorScope {
-                        awaitingJob.join()
-                    }
-                    Log.d(TAG, "matchRequestingJob end")
-                    matchingResponse
-                } catch (e : CancellationException) {
-                    Log.d(TAG, "matchRequestingJob end")
-                    matchingResponse
-                }
-            }
-    }
-    private fun buildKeepTryingJob(): Deferred<DTO.MatchingResponse?> {
-        return CoroutineScope(Dispatchers.Default)
-            .async(start = CoroutineStart.LAZY) {
-                Log.d(TAG, "keepTryingJob start")
-                var response: DTO.MatchingResponse? = null
-
-                var count = 30
-                while (count-- > 0){
-                    Log.d(TAG, "keepTryingJob running $count")
-                    val matchRequestingJob = buildMatchRequestingJob()
-                    matchRequestingJob.start()
-                    response = matchRequestingJob.await()
-                    if (response != null) break
-                    delay(1000)
-                }
-
-                Log.d(TAG, "keepTryingJob end")
-                response
-            }
-    }
     private fun buildGameStartJob(keepTryingJob: Deferred<DTO.MatchingResponse?>): Job {
         return CoroutineScope(Dispatchers.Main)
             .launch(start = CoroutineStart.LAZY) {
@@ -203,17 +108,13 @@ class RetrofitTestActivity: AppCompatActivity() {
                 Log.d(TAG, "gameStartJob end")
 
                 if (gameId == null) {
-                    popToast("매칭 실패")
+                    popToast(applicationContext, "매칭 실패")
                 }
                 else {
-                    popToast("매칭성공! GameID: $gameId")//await는 비동기로만 받을 수 있다
+                    popToast(applicationContext, "매칭성공! GameID: $gameId")//await는 비동기로만 받을 수 있다
                     val intent = Intent(this@RetrofitTestActivity, CustomViewTestActivity::class.java)
-                    //startActivity(intent)
+                    startActivity(intent)
                 }
             }
-    }
-
-    private fun popToast(content: String) {
-        Toast.makeText(applicationContext, content, Toast.LENGTH_SHORT).show()
     }
 }
