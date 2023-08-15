@@ -14,6 +14,23 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
 
+        binding.ivMainGame.setOnClickListener {
+            val intent = Intent(this, CustomViewTestActivity::class.java)
+            startActivity(intent)
+        }
+        /*binding.ivMainRanking.setOnClickListener{
+
+        }*/
+        binding.ivMainLoginMypage.setOnClickListener{
+            /*val intent = Intent(this, MyPage::class.java)
+            startActivity(intent)*/
+            val intent = Intent(this, LoginActivity::class.java)
+            startActivity(intent)
+        }
+    }
+}
+
+
 //        binding.btnGamestart.setOnClickListener {
 //            val intent = Intent(this, Game1v1::class.java)
 //            startActivity(intent)
@@ -24,22 +41,7 @@ class MainActivity : AppCompatActivity() {
 //            startActivity(intent)
 //        }
 
-        binding.viewTestBtn.setOnClickListener {
-            val intent = Intent(this, CustomViewTestActivity::class.java)
-            startActivity(intent)
-        }
-        binding.btnMypage.setOnClickListener {
-            val intent = Intent(this, MyPage::class.java)
-            startActivity(intent)
-        }
-        binding.retrofitTestBtn.setOnClickListener {
-            val intent = Intent(this, RetrofitTestActivity::class.java)
-            startActivity(intent)
-        }
-
-        binding.loginPageBtn.setOnClickListener{
-            val intent = Intent(this, LoginActivity::class.java)
-            startActivity(intent)
-        }
-    }
-}
+/*binding.retrofitTestBtn.setOnClickListener {
+    val intent = Intent(this, RetrofitTestActivity::class.java)
+    startActivity(intent)
+}*/
