@@ -1,5 +1,6 @@
 package com.example.quoridor
 
+import android.content.Intent
 import android.os.Bundle
 
 import androidx.appcompat.app.AppCompatActivity
@@ -19,5 +20,11 @@ class MyPage:AppCompatActivity() {
         setContentView(binding.root)
         val user = UserManager.getInstance() // UserManager 클래스에 맞게 수정
         binding.tvMyPageName.setText(user.getName())
+        binding.btnMyPageLogout.setOnClickListener{
+            user.setId("")
+            val intent = Intent(this@MyPage,MainActivity::class.java)
+            startActivity(intent)
+            //세션 끊기 넣기
+        }
     }
 }
