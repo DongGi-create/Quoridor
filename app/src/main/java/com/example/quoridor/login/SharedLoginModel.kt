@@ -6,7 +6,7 @@ import androidx.lifecycle.ViewModel
 
 
 
-class SharedViewModel : ViewModel(){
+class SharedLoginModel : ViewModel(){
     private val _loginSuccess = MutableLiveData<Boolean>()
     val loginSuccess: LiveData<Boolean> = _loginSuccess
 

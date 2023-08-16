@@ -2,14 +2,12 @@ package com.example.quoridor
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import com.example.quoridor.databinding.ActivityMainBinding
 import com.example.quoridor.ingame.CustomViewTestActivity
 import com.example.quoridor.login.LoginActivity
-import com.example.quoridor.login.SharedViewModel
+import com.example.quoridor.login.SharedLoginModel
 import com.example.quoridor.login.UserManager
 
 class MainActivity : AppCompatActivity() {
@@ -18,37 +16,42 @@ class MainActivity : AppCompatActivity() {
         getString(R.string.Minseok_test_tag)
     }
 
-    private lateinit var sharedViewModel: SharedViewModel
+    private lateinit var sharedLoginModel: SharedLoginModel
+    private lateinit var loginmypageIntent: Intent
     override fun onCreate(savedInstanceState: Bundle?) {
         val binding = ActivityMainBinding.inflate(layoutInflater)
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
+        loginmypageIntent = Intent(this,LoginActivity::class.java)
 
-        sharedViewModel = ViewModelProvider(this).get(SharedViewModel::class.java)
-       ///////////////////////////////////////////////////////////
-        sharedViewModel.loginSuccess.observe(this) { success ->
-            Log.d(TAG, "!!!!!")
-            Toast.makeText(this@MainActivity, "login changed", Toast.LENGTH_SHORT).show()
+        sharedLoginModel = ViewModelProvider(this).get(SharedLoginModel::class.java)
 
+        sharedLoginModel.loginSuccess.observe(this) { success ->
+            if(success){
+                loginmypageIntent = Intent(this,MyPage::class.java)
+                binding.ivMainLoginMypage.setImageResource(R.drawable.ic_mypage)
+                binding.tvMainLoginMypage.setText("myPage")
+            }else{
+                loginmypageIntent = Intent(this,LoginActivity::class.java)
+                binding.ivMainLoginMypage.setImageResource(R.drawable.ic_login)
+                binding.tvMainLoginMypage.setText("Login")
+            }
         }
         // 여기서 UserManager 정보 가져오기
         val user = UserManager.getInstance() // UserManager 클래스에 맞게 수정
-
-        // 로그인 여부에 따라서 loginSuccess 값 설정
         if (user.umid!="") {
-            sharedViewModel.setLoginSuccess(true)
+            sharedLoginModel.setLoginSuccess(true)
         }
-        ///////////////////////////////////////////////////////////
+        else {
+            sharedLoginModel.setLoginSuccess(false)
+        }
 
         binding.ivMainGame.setOnClickListener {
             val intent = Intent(this, CustomViewTestActivity::class.java)
             startActivity(intent)
         }
         binding.ivMainLoginMypage.setOnClickListener{
-            /*val intent = Intent(this, MyPage::class.java)
-            startActivity(intent)*/
-            val intent = Intent(this, LoginActivity::class.java)
-            startActivity(intent)
+            startActivity(loginmypageIntent)
         }
 
         binding.ivMainRanking.setOnClickListener{

@@ -146,17 +146,18 @@
                             android:layout_height="match_parent"
                             android:padding="10dp"
                             android:scaleType="centerCrop"
-                            android:src="@drawable/ic_mypage" />
+                            android:src="@drawable/ic_login" />
 
                     </androidx.cardview.widget.CardView>
                 </LinearLayout>
 
                 <TextView
+                    android:id="@+id/tv_main_login_mypage"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:layout_weight="1"
                     android:gravity="center"
-                    android:text="myPage"
+                    android:text="Login"
                     android:textColor="@color/white"
                     android:textSize="20sp" />
 

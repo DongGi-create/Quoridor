@@ -4,7 +4,7 @@ import com.example.quoridor.retrofit.DTO
 import com.google.gson.annotations.SerializedName
 
 object UserManager {
-    var umid: String? = ""
+    var umid: String? = ""//로그인 안할때는 빈문자열
         private set
     var umpw: String? = null
         private set

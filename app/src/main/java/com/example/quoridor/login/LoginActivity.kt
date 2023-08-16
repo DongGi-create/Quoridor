@@ -25,7 +25,7 @@ class LoginActivity : AppCompatActivity() {
         getString(R.string.Minseok_test_tag)
     }
 
-    private lateinit var sharedViewModel: SharedViewModel
+    private lateinit var sharedLoginModel: SharedLoginModel
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
@@ -45,7 +45,7 @@ class LoginActivity : AppCompatActivity() {
         }
         handler.postDelayed(runnable,1000)
 
-        sharedViewModel = ViewModelProvider(this).get(SharedViewModel::class.java)
+        sharedLoginModel = ViewModelProvider(this).get(SharedLoginModel::class.java)
         binding.btnLoginLogin.setOnClickListener{
             val id = binding.etLoginId.text.toString()
             val pw = binding.etLoginPassword.text.toString()
@@ -55,7 +55,7 @@ class LoginActivity : AppCompatActivity() {
                     popToast("success!")
                     val user = UserManager.getInstance()
                     user.setUser(data)
-                    sharedViewModel.setLoginSuccess(true)
+                    sharedLoginModel.setLoginSuccess(true)
                     val intent = Intent(this@LoginActivity,MainActivity::class.java)
                     startActivity(intent)
                 }
@@ -73,7 +73,7 @@ class LoginActivity : AppCompatActivity() {
                 }
             })
         }
-//통신(로그인 통신하는동안 아무 액션도 안먹히게 해야 할듯)
+        //통신(로그인 통신하는동안 아무 액션도 안먹히게 해야 할듯)
         binding.tvLoginRegister.setOnClickListener{
             val intent = Intent(this,SignUpTestActivity::class.java)
             startActivity(intent)
