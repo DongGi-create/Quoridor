@@ -12,7 +12,7 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:gravity="center"
-        android:background="@drawable/item_ranking_recycler_view_bg"
+        android:background="@drawable/dirtfy_item_bg"
         android:layout_margin="20dp"
         app:layout_constraintTop_toTopOf="parent">
 

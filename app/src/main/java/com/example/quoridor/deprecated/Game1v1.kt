@@ -7,8 +7,8 @@ import android.view.View
 import android.widget.LinearLayout
 import androidx.activity.ComponentActivity
 import com.example.quoridor.databinding.ActivityGame1v1Binding
-import com.example.quoridor.ingame.frontDomain.FrontPlayer
-import com.example.quoridor.ingame.utils.types.WallType
+import com.example.quoridor.game.frontDomain.FrontPlayer
+import com.example.quoridor.game.util.types.WallType
 import java.util.LinkedList
 import java.util.Queue
 

@@ -33,10 +33,6 @@
             android:exported="true" />
 
         <activity
-            android:name=".ingame.CustomViewTestActivity"
-            android:exported="true"/>
-
-        <activity
             android:name=".retrofit.RetrofitTestActivity"
             android:exported="true"/>
 
@@ -54,6 +50,10 @@
 
         <activity
             android:name=".MyPage"
+            android:exported="true"/>
+
+        <activity
+            android:name=".GameForLocalActivity"
             android:exported="true"/>
 
         <activity

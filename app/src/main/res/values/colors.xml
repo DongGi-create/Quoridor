@@ -10,20 +10,27 @@
 <!--    <color name="recentWall">#FFF200</color>-->
 <!--    <color name="candidateWall">#FFF200</color>-->
 <!--    <color name="candidateMove">#00FF00</color>-->
-    <color name="boundary">#AFAFAF</color>
-    <color name="gameBoard">#AFAFAF</color>
-    <color name="gameArea">#616161</color>
-    <color name="wall">#EFEFEF</color>
+    <color name="boundary">@color/D_primary</color>
+    <color name="gameBoard">@color/D_primary</color>
+    <color name="gameArea">@color/D_prime</color>
+    <color name="wall">@color/D_third</color>
     <color name="recentWall">#FFF200</color>
-    <color name="candidateWall">#FFF200</color>
+    <color name="candidateWall">@color/D_third</color>
     <color name="candidateMove">#00FF00</color>
     <color name="primary">#686868</color>
     <color name="secondary">#d3d3d3</color>
     <color name="third">#EBE5F1</color>
     <color name="sky">#FAE5D5</color>
 
+    <color name="D_prime">#252525</color>
     <color name="D_primary">#383838</color>
     <color name="D_second">#454545</color>
     <color name="D_third">#9E9E9E</color>
     <color name="D_text">#E1E1E1</color>
+
+    <color name="D_red">#FF5454</color>
+    <color name="D_green">#54FFD7</color>
+    <color name="D_blue">#54A7FF</color>
+    <color name="D_purple">#D154FF</color>
+    <color name="D_yellow">#F9FF54</color>
 </resources>

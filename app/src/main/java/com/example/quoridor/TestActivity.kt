@@ -19,6 +19,10 @@ class TestActivity:  AppCompatActivity() {
         binding.retrofitBtn.setOnClickListener {
             goto(RetrofitTestActivity::class.java)
         }
+
+        binding.gameTest.setOnClickListener {
+            goto(GameForLocalActivity::class.java)
+        }
     }
 
     private fun <T> goto(activityClass: Class<T>) {

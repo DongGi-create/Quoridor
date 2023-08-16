@@ -19,4 +19,10 @@
         android:layout_height="wrap_content"
         android:text="Retrofit"/>
 
+    <Button
+        android:id="@+id/game_test"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Game"/>
+
 </LinearLayout>

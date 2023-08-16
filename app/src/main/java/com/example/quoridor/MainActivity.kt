@@ -5,7 +5,6 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import com.example.quoridor.databinding.ActivityMainBinding
-import com.example.quoridor.ingame.CustomViewTestActivity
 import com.example.quoridor.login.LoginActivity
 import com.example.quoridor.login.SharedLoginModel
 import com.example.quoridor.login.UserManager
@@ -47,7 +46,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         binding.ivMainGame.setOnClickListener {
-            val intent = Intent(this, CustomViewTestActivity::class.java)
+            val intent = Intent(this, GameForLocalActivity::class.java)
             startActivity(intent)
         }
         binding.ivMainLoginMypage.setOnClickListener{

@@ -11,10 +11,9 @@
         android:id="@+id/item_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="horizontal"
         android:minWidth="375dp"
         android:minHeight="80dp"
-        android:background="@drawable/item_ranking_recycler_view_bg">
+        android:background="@drawable/dirtfy_item_bg">
 
         <ImageView
             android:id="@+id/rating_image_view"

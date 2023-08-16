@@ -4,12 +4,12 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
+import com.example.quoridor.GameForLocalActivity
 import com.example.quoridor.R
 import com.example.quoridor.databinding.ActivityRetrofitTestBinding
-import com.example.quoridor.ingame.CustomViewTestActivity
-import com.example.quoridor.retrofit.util.Func
-import com.example.quoridor.retrofit.util.Func.Companion.popToast
+import com.example.quoridor.retrofit.util.RetrofitFunc
 import com.example.quoridor.retrofit.util.ToastHttpResult
+import com.example.quoridor.util.Func.popToast
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.CoroutineStart
 import kotlinx.coroutines.Deferred
@@ -78,7 +78,7 @@ class RetrofitTestActivity: AppCompatActivity() {
             if (!this@RetrofitTestActivity::keepTryingJob.isInitialized || !keepTryingJob.isActive) {
                 val matchData = DTO.MatchingRequest(2, 1)
 
-                keepTryingJob = Func.buildKeepTryingJob(
+                keepTryingJob = RetrofitFunc.buildKeepTryingJob(
                     matchData,
                     service::makeMatchCall,
                     ToastHttpResult(applicationContext, "matching", TAG))
@@ -110,7 +110,7 @@ class RetrofitTestActivity: AppCompatActivity() {
                 }
                 else {
                     popToast(applicationContext, "매칭성공! GameID: $gameId")//await는 비동기로만 받을 수 있다
-                    val intent = Intent(this@RetrofitTestActivity, CustomViewTestActivity::class.java)
+                    val intent = Intent(this@RetrofitTestActivity, GameForLocalActivity::class.java)
                     startActivity(intent)
                 }
             }
