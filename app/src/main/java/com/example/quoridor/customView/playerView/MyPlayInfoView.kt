@@ -2,14 +2,11 @@ package com.example.quoridor.customView.playerView
 
 import android.content.Context
 import android.util.AttributeSet
-import android.util.Log
 import android.view.LayoutInflater
-import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.lifecycle.MutableLiveData
 import com.example.quoridor.R
 import com.example.quoridor.customView.ObservableView
 import com.example.quoridor.databinding.CustomViewMyPlayInfoBinding
-import com.example.quoridor.game.frontDomain.FrontPlayer
 import com.example.quoridor.util.Func
 
 class MyPlayInfoView: ObservableView {

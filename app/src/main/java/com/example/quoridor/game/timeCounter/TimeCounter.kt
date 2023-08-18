@@ -1,4 +1,4 @@
-package com.example.quoridor.game.util.timeCounter
+package com.example.quoridor.game.timeCounter
 
 import android.app.Activity
 import android.widget.TextView

@@ -1,8 +1,6 @@
 package com.example.quoridor.retrofit.util
 
-import android.content.Context
 import android.util.Log
-import android.widget.Toast
 import com.example.quoridor.retrofit.HttpResult
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.CoroutineScope

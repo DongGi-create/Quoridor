@@ -11,6 +11,7 @@ import android.view.DragEvent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewOutlineProvider
+import android.widget.ImageView
 import android.widget.LinearLayout
 import androidx.core.view.children
 import androidx.lifecycle.MutableLiveData
@@ -18,6 +19,7 @@ import com.example.quoridor.R
 import com.example.quoridor.customView.ObservableView
 import com.example.quoridor.databinding.CustomViewGameBoardBinding
 import com.example.quoridor.util.Coordinate
+import com.example.quoridor.util.Func
 import com.example.quoridor.util.Func.get
 import com.example.quoridor.util.Func.move
 
@@ -54,29 +56,36 @@ class GameBoardView: ObservableView {
     private var verticalWallChooseView: View = View(context)
     private var horizontalWallChooseView: View = View(context)
 
-    private var dropListener: GameBoardViewDropListener = object : GameBoardViewDropListener {
-        override fun cross(matchedView: View, wall: Wall) {
+    private var dropListener: GameBoardViewDropListener =
+        object : GameBoardViewDropListener {
 
+            override fun cross(matchedView: View, wall: Wall): Boolean {
+                return true
+            }
+
+            override fun closed(matchedView: View, wall: Wall): Boolean {
+                return true
+            }
+
+            override fun match(matchedView: View, wall: Wall): Boolean {
+                return true
+            }
+
+            override fun success(matchedView: View, wall: Wall) {
+            }
         }
+    private var clickListener: GameBoardViewPieceClickListener =
+        object : GameBoardViewPieceClickListener {
+            override fun click(clickedPiece: View, row: Int, col: Int) {
 
-        override fun closed(matchedView: View, wall: Wall) {
-
+            }
         }
-
-        override fun match(matchedView: View, wall: Wall) {
-
+    private var imageGetter: GameBoardViewPlayerImageGetter =
+        object : GameBoardViewPlayerImageGetter {
+            override fun getImageView(playerNum: Int): ImageView {
+                return View(context) as ImageView
+            }
         }
-
-        override fun success(matchedView: View, wall: Wall) {
-
-        }
-    }
-    private var clickListener: GameBoardViewPieceClickListener = object:
-        GameBoardViewPieceClickListener {
-        override fun click(clickedPiece: View, row: Int, col: Int) {
-
-        }
-    }
 
     private val TAG: String = context.getString(R.string.Dirtfy_test_tag)
 
@@ -220,20 +229,14 @@ class GameBoardView: ObservableView {
                         val col = tag[2].digitToInt()
 
                         val wall = Wall(type, Coordinate(row, col))
-                        if (Func.wallCross(wall, data.value!!)) {
+                        if (dropListener.cross(candidateWall!!, wall)) {
                             candidateWall!!.visibility = View.INVISIBLE
-
-                            dropListener.cross(candidateWall!!, wall)
                         }
-                        else if (Func.wallClosed(wall, data.value!!)) {
+                        else if (dropListener.closed(candidateWall!!, wall)) {
                             candidateWall!!.visibility = View.INVISIBLE
-
-                            dropListener.closed(candidateWall!!, wall)
                         }
-                        else if (Func.wallMatch(wall, data.value!!)) {
+                        else if (dropListener.match(candidateWall!!, wall)) {
                             candidateWall!!.visibility = View.VISIBLE
-
-                            dropListener.match(candidateWall!!, wall)
                         }
                         else {
                             candidateWall!!.visibility = View.VISIBLE
@@ -280,7 +283,7 @@ class GameBoardView: ObservableView {
 
             for (i in 0 until it.playCoordinates.size) {
                 val cor = it.playCoordinates[i]
-                it.playerImageViews[i].move(pieces.get(cor))
+                imageGetter.getImageView(i).move(pieces.get(cor))
             }
         }
     }
@@ -373,5 +376,9 @@ class GameBoardView: ObservableView {
 
     fun setClickListener(listener: GameBoardViewPieceClickListener){
         clickListener = listener
+    }
+
+    fun setImageGetter(getter: GameBoardViewPlayerImageGetter) {
+        this.imageGetter = getter
     }
 }

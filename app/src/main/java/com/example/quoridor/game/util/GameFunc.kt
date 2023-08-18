@@ -1,20 +1,13 @@
 package com.example.quoridor.game.util
 
-import android.util.Log
 import com.example.quoridor.customView.gameBoardView.Board
-import com.example.quoridor.game.util.types.DirectionType
-import com.example.quoridor.game.util.types.GameResultType
-import com.example.quoridor.game.util.types.WallType
-import com.example.quoridor.game.Notation
-import com.example.quoridor.game.util.types.NotationType
-import com.example.quoridor.retrofit.util.RetrofitFunc
+import com.example.quoridor.customView.gameBoardView.Wall
+import com.example.quoridor.customView.gameBoardView.WallType
+import com.example.quoridor.game.types.DirectionType
+import com.example.quoridor.game.types.GameResultType
 import com.example.quoridor.util.Coordinate
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.CoroutineStart
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
+import com.example.quoridor.util.Func.get
+import com.example.quoridor.util.Func.set
 import kotlin.math.pow
 
 object GameFunc {
@@ -22,13 +15,6 @@ object GameFunc {
     private val ratio = 10.0
     private val diff = 400.0
     private val K = 20.0
-
-    fun <T> Array<Array<T>>.get(cor: Coordinate): T {
-        return this[cor.r][cor.c]
-    }
-    fun <T> Array<Array<T>>.set(cor: Coordinate, value: T) {
-        this[cor.r][cor.c] = value
-    }
 
     private fun calcW(myRating: Int, opponentRating: Int): Double {
         return 1/(ratio.pow((myRating - opponentRating) / diff) + 1)
@@ -38,30 +24,76 @@ object GameFunc {
         return (myRating + K * (gameResult.ordinal/2.0 - calcW(myRating, opponentRating))).toInt()
     }
 
-    fun wallCross(notation: Notation, board: Board): Boolean {
-        val (row, col) = notation.coordinate
-
-        val walls = arrayOf(board.verticalWalls, board.horizontalWalls)
+    fun wallCross(wall: Wall, board: Board): Boolean {
+        val (row, col) = wall.coordinate
 
         var ret = false
 
-        when(notation.type){
-            NotationType.VERTICAL -> {
-                if(row > 0) ret = ret || walls[WallType.Vertical.ordinal][row-1][col]
-                if(row < 7) ret = ret || walls[WallType.Vertical.ordinal][row+1][col]
-                ret = ret || walls[WallType.Vertical.ordinal][row][col]
-                ret = ret || walls[WallType.Horizontal.ordinal][row][col]
+        when(wall.type){
+            com.example.quoridor.customView.gameBoardView.WallType.VERTICAL -> {
+                if(row > 0) ret = ret || board.verticalWalls[row-1][col]
+                if(row < 7) ret = ret || board.verticalWalls[row+1][col]
+                ret = ret || board.horizontalWalls[row][col]
             }
-            NotationType.HORIZONTAL -> {
-                if (col > 0) ret = ret || walls[WallType.Horizontal.ordinal][row][col - 1]
-                if (col < 7) ret = ret || walls[WallType.Horizontal.ordinal][row][col + 1]
-                ret = ret || walls[WallType.Horizontal.ordinal][row][col]
-                ret = ret || walls[WallType.Vertical.ordinal][row][col]
+            com.example.quoridor.customView.gameBoardView.WallType.HORIZONTAL -> {
+                if (col > 0) ret = ret || board.horizontalWalls[row][col - 1]
+                if (col < 7) ret = ret || board.horizontalWalls[row][col + 1]
+                ret = ret || board.verticalWalls[row][col]
             }
-            else -> { ret = true }
         }
 
         return ret
+    }
+
+    fun wallClosed(wall: Wall, board: Board): Boolean {
+        val flag = arrayOf(true, true, true, true)
+        val len = board.playCoordinates.size
+
+        val tmpWall = when(wall.type) {
+            com.example.quoridor.customView.gameBoardView.WallType.VERTICAL -> board.verticalWalls
+            com.example.quoridor.customView.gameBoardView.WallType.HORIZONTAL -> board.horizontalWalls
+        }
+        val walls = arrayOf(board.verticalWalls, board.horizontalWalls)
+
+        tmpWall.set(wall.coordinate, true)
+
+        for (d in DirectionType.values()) {
+            val i = d.ordinal
+
+            if (i >= len)
+                break
+
+            val cor = board.playCoordinates[i]
+
+            val reached = BFS(cor, walls)
+            for (r in reached) {
+                if (reachedEnd(r, i)){
+                    flag[i] = false
+                    break
+                }
+            }
+        }
+
+        tmpWall.set(wall.coordinate, false)
+
+        for (i in 0 .. 3){
+            if (i >= len) break
+            if (!flag[i]) continue
+            return true
+        }
+        return false
+    }
+
+    fun wallMatch(wall: Wall, board: Board): Boolean {
+        val (row, col) = wall.coordinate
+        return when(wall.type){
+            com.example.quoridor.customView.gameBoardView.WallType.VERTICAL -> {
+                board.verticalWalls[row][col]
+            }
+            com.example.quoridor.customView.gameBoardView.WallType.HORIZONTAL -> {
+                board.horizontalWalls[row][col]
+            }
+        }
     }
 
     fun canMove(fromCor: Coordinate, toCor: Coordinate, dir: DirectionType, walls: Array<Array<Array<Boolean>>>): Boolean{
@@ -70,8 +102,8 @@ object GameFunc {
 
         if (tr > 8 || tr < 0 || tc > 8 || tc < 0) return false
 
-        val horiWalls = walls[WallType.Horizontal.ordinal]
-        val vertWalls = walls[WallType.Vertical.ordinal]
+        val horiWalls = walls[WallType.HORIZONTAL.ordinal]
+        val vertWalls = walls[WallType.VERTICAL.ordinal]
 
         return when(dir){
             DirectionType.DOWN -> { // 아래
@@ -131,49 +163,6 @@ object GameFunc {
 
             else -> { false }
         }
-    }
-
-    fun wallClosed(notation: Notation, board: Board): Boolean {
-        val flag = arrayOf(true, true, true, true)
-        val len = board.playCoordinates.size
-        val wallType = when(notation.type){
-            NotationType.HORIZONTAL -> WallType.Horizontal
-            else -> WallType.Vertical
-        }
-
-        val tmpWall = when(wallType) {
-            WallType.Vertical -> board.verticalWalls
-            WallType.Horizontal -> board.horizontalWalls
-        }
-        val walls = arrayOf(board.verticalWalls, board.horizontalWalls)
-
-        tmpWall.set(notation.coordinate, true)
-
-        for (d in DirectionType.values()) {
-            val i = d.ordinal
-
-            if (i >= len)
-                break
-
-            val cor = board.playCoordinates[i]
-
-            val reached = BFS(cor, walls)
-            for (r in reached) {
-                if (reachedEnd(r, i)){
-                    flag[i] = false
-                    break
-                }
-            }
-        }
-
-        tmpWall.set(notation.coordinate, false)
-
-        for (i in 0 .. 3){
-            if (i >= len) break
-            if (!flag[i]) continue
-            return true
-        }
-        return false
     }
 
     fun getAvailableMove(me: Int, board: Board): Array<Coordinate> {

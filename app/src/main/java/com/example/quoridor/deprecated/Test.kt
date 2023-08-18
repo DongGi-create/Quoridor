@@ -2,15 +2,8 @@ package com.example.quoridor.deprecated
 
 import android.content.Context
 import android.os.Bundle
-import android.widget.Toast
 import androidx.activity.ComponentActivity
-import com.example.quoridor.databinding.ActivityTestBinding
-import com.example.quoridor.deprecated.auth.email.Email
 import com.example.quoridor.deprecated.database.Info
-import com.example.quoridor.deprecated.database.fireDB.FireDB
-import com.example.quoridor.deprecated.database.utils.AfterTask
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.firestore.FirebaseFirestore
 
 class test : ComponentActivity() {
     var context: Context? = null

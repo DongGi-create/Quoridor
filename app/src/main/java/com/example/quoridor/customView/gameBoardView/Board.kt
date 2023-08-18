@@ -1,10 +1,8 @@
 package com.example.quoridor.customView.gameBoardView
 
-import android.widget.ImageView
 import com.example.quoridor.util.Coordinate
 
 data class Board(
-    val playerImageViews: Array<ImageView>,
     val playCoordinates: Array<Coordinate> = arrayOf(Coordinate(8, 4), Coordinate(0, 4)),
     val verticalWalls: Array<Array<Boolean>> = Array(8) { Array(8) { false } },
     val horizontalWalls: Array<Array<Boolean>> = Array(8) { Array(8) { false } }

@@ -1,4 +1,4 @@
-package com.example.quoridor.game.util.types
+package com.example.quoridor.game.types
 
 import com.example.quoridor.util.Coordinate
 

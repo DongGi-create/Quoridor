@@ -11,19 +11,19 @@ import com.example.quoridor.customView.WallSelectorView
 import com.example.quoridor.customView.gameBoardView.Board
 import com.example.quoridor.customView.gameBoardView.GameBoardViewDropListener
 import com.example.quoridor.customView.gameBoardView.GameBoardViewPieceClickListener
+import com.example.quoridor.customView.gameBoardView.GameBoardViewPlayerImageGetter
 import com.example.quoridor.customView.gameBoardView.Wall
 import com.example.quoridor.customView.gameBoardView.WallType
 import com.example.quoridor.customView.playerView.Player
 import com.example.quoridor.databinding.ActivityGameForLocalBinding
 import com.example.quoridor.game.Notation
+import com.example.quoridor.game.types.NotationType
 import com.example.quoridor.game.util.GameFunc
-import com.example.quoridor.game.util.types.DropReturnType
-import com.example.quoridor.game.util.types.NotationType
 import com.example.quoridor.util.Coordinate
 import com.example.quoridor.util.Func.get
 import com.example.quoridor.util.Func.popToast
-import com.example.quoridor.util.Func.setSize
 import com.example.quoridor.util.Func.set
+import com.example.quoridor.util.Func.setSize
 import java.util.Timer
 import kotlin.concurrent.timer
 
@@ -42,7 +42,10 @@ class GameForLocalActivity:  AppCompatActivity() {
 
     private val initWall = 10
     private val timeLimit: Long = 60 * 1000
-    private val imageResourceList = arrayOf( R.drawable.baseline_lens_24_red, R.drawable.baseline_lens_24_blue )
+    private val imageResourceList = arrayOf( R.drawable.baseline_lens_24_red, R.drawable.baseline_lens_24_blue)
+    private val imageViewList by lazy {
+        Array(2) { ImageView(applicationContext) }
+    }
     private var timer: Timer? = null
     private var turn = 0
 
@@ -66,16 +69,28 @@ class GameForLocalActivity:  AppCompatActivity() {
         }
 
         binding.gameBoardView.setDropListener(object : GameBoardViewDropListener {
-            override fun cross(matchedView: View, wall: Wall) {
-                popToast(this@GameForLocalActivity, "cross")
+            override fun cross(matchedView: View, wall: Wall): Boolean {
+                if (GameFunc.wallCross(wall, boardData.value!!)) {
+                    popToast(this@GameForLocalActivity, "cross")
+                    return true
+                }
+                return false
             }
 
-            override fun closed(matchedView: View, wall: Wall) {
-                popToast(this@GameForLocalActivity, "closed")
+            override fun closed(matchedView: View, wall: Wall): Boolean {
+                if (GameFunc.wallClosed(wall, boardData.value!!)) {
+                    popToast(this@GameForLocalActivity, "closed")
+                    return true
+                }
+                return false
             }
 
-            override fun match(matchedView: View, wall: Wall) {
-                popToast(this@GameForLocalActivity, "match")
+            override fun match(matchedView: View, wall: Wall): Boolean {
+                if (GameFunc.wallMatch(wall, boardData.value!!)) {
+                    popToast(this@GameForLocalActivity, "match")
+                    return true
+                }
+                return false
             }
 
             override fun success(matchedView: View, wall: Wall) {
@@ -97,6 +112,11 @@ class GameForLocalActivity:  AppCompatActivity() {
                 else{
                     Toast.makeText(applicationContext,R.string.Cannot_Go, Toast.LENGTH_LONG).show()
                 }
+            }
+        })
+        binding.gameBoardView.setImageGetter(object : GameBoardViewPlayerImageGetter {
+            override fun getImageView(playerNum: Int): ImageView {
+                return imageViewList[playerNum]
             }
         })
 
@@ -167,11 +187,11 @@ class GameForLocalActivity:  AppCompatActivity() {
         val player1 = Player("p1", timeLimit, initWall)
         binding.upperPlayerInfoView.data.value = player1
 
-        val board = Board(
-            arrayOf(createPlayerImageView(R.drawable.baseline_lens_24_red),
-                createPlayerImageView(R.drawable.baseline_lens_24_blue))
-        )
+        val board = Board()
         binding.gameBoardView.data.value = board
+
+        imageViewList[0] = createPlayerImageView(imageResourceList[0])
+        imageViewList[1] = createPlayerImageView(imageResourceList[1])
 
         setWallChooseView(binding.lowerPlayerWallSelector)
         addPlayerShadow(0)

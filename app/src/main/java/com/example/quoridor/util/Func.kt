@@ -1,17 +1,9 @@
 package com.example.quoridor.util
 
 import android.content.Context
-import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import com.example.quoridor.retrofit.util.RetrofitFunc
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.CoroutineStart
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 import kotlin.math.pow
 import kotlin.math.sqrt
 

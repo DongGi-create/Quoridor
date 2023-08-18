@@ -1,4 +1,4 @@
-package com.example.quoridor.game.util.timeCounter
+package com.example.quoridor.game.timeCounter
 
 interface TimeCounterOverListener {
     fun timeOver()

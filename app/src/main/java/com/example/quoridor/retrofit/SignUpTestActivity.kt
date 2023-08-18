@@ -4,9 +4,9 @@ import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.example.quoridor.login.LoginActivity
 import com.example.quoridor.R
 import com.example.quoridor.databinding.ActivitySignupTestBinding
+import com.example.quoridor.login.LoginActivity
 
 class SignUpTestActivity:AppCompatActivity() {
     private val binding: ActivitySignupTestBinding by lazy {
