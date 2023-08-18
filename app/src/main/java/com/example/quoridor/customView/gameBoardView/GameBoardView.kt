@@ -12,20 +12,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewOutlineProvider
 import android.widget.LinearLayout
-import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.children
 import androidx.lifecycle.MutableLiveData
 import com.example.quoridor.R
 import com.example.quoridor.customView.ObservableView
 import com.example.quoridor.databinding.CustomViewGameBoardBinding
-import com.example.quoridor.game.frontDomain.FrontBoard
-import com.example.quoridor.util.Func
-import com.example.quoridor.game.util.types.DropReturnType
-import com.example.quoridor.game.util.types.WallType
 import com.example.quoridor.util.Coordinate
 import com.example.quoridor.util.Func.get
 import com.example.quoridor.util.Func.move
-import com.example.quoridor.util.Func.removeFromParent
 
 class GameBoardView: ObservableView {
 
@@ -47,8 +41,8 @@ class GameBoardView: ObservableView {
         Array(2){Array(8){Array(8){ Pair(0F, 0F) } }}
     }
 
-    private var recentWall: View? = null
-    private var candidateWall: View? = null
+    var recentWall: View? = null
+    var candidateWall: View? = null
 
     private val verticalWallTag = "verticalWall"
     private val horizontalWallTag = "horizontalWall"
@@ -60,9 +54,21 @@ class GameBoardView: ObservableView {
     private var verticalWallChooseView: View = View(context)
     private var horizontalWallChooseView: View = View(context)
 
-    private var dragListener: GameBoardViewDropListener = object : GameBoardViewDropListener {
-        override fun drop(view: View, wallType: WallType, row: Int, col: Int): DropReturnType {
-            return DropReturnType.Match
+    private var dropListener: GameBoardViewDropListener = object : GameBoardViewDropListener {
+        override fun cross(matchedView: View, wall: Wall) {
+
+        }
+
+        override fun closed(matchedView: View, wall: Wall) {
+
+        }
+
+        override fun match(matchedView: View, wall: Wall) {
+
+        }
+
+        override fun success(matchedView: View, wall: Wall) {
+
         }
     }
     private var clickListener: GameBoardViewPieceClickListener = object:
@@ -130,10 +136,10 @@ class GameBoardView: ObservableView {
                     var type = -1
                     when(tag[0]) {
                         'v' -> {
-                            type = WallType.Vertical.ordinal
+                            type = WallType.VERTICAL.ordinal
                         }
                         'h' -> {
-                            type = WallType.Horizontal.ordinal
+                            type = WallType.HORIZONTAL.ordinal
                         }
                     }
 
@@ -172,10 +178,10 @@ class GameBoardView: ObservableView {
                     var wallType = 0
                     when((dragEvent.localState as View).tag){
                         verticalWallTag -> {
-                            wallType = WallType.Vertical.ordinal
+                            wallType = WallType.VERTICAL.ordinal
                         }
                         horizontalWallTag -> {
-                            wallType = WallType.Horizontal.ordinal
+                            wallType = WallType.HORIZONTAL.ordinal
                         }
                     }
 
@@ -204,29 +210,38 @@ class GameBoardView: ObservableView {
 
                 DragEvent.ACTION_DROP -> {
                     if (candidateWall != null){
-                        //Log.d(TAG,candidateWall.toString())
-
 
                         val tag = candidateWall!!.tag.toString()
                         val type = when(tag[0]){
-                            'v' -> WallType.Vertical
-                            else -> WallType.Horizontal
+                            'v' -> WallType.VERTICAL
+                            else -> WallType.HORIZONTAL
                         }
                         val row = tag[1].digitToInt()
                         val col = tag[2].digitToInt()
 
-                        when(dragListener.drop(candidateWall!!, type, row, col)){
-                            DropReturnType.None->{
-                                candidateWall!!.visibility = View.VISIBLE
-                                recentWall = candidateWall
-                            }
-                            DropReturnType.Cross->{
-                                candidateWall!!.visibility = View.INVISIBLE
-                            }
-                            DropReturnType.Match->{
-                                candidateWall!!.visibility = View.VISIBLE
-                            }
+                        val wall = Wall(type, Coordinate(row, col))
+                        if (Func.wallCross(wall, data.value!!)) {
+                            candidateWall!!.visibility = View.INVISIBLE
+
+                            dropListener.cross(candidateWall!!, wall)
                         }
+                        else if (Func.wallClosed(wall, data.value!!)) {
+                            candidateWall!!.visibility = View.INVISIBLE
+
+                            dropListener.closed(candidateWall!!, wall)
+                        }
+                        else if (Func.wallMatch(wall, data.value!!)) {
+                            candidateWall!!.visibility = View.VISIBLE
+
+                            dropListener.match(candidateWall!!, wall)
+                        }
+                        else {
+                            candidateWall!!.visibility = View.VISIBLE
+                            recentWall = candidateWall
+
+                            dropListener.success(candidateWall!!, wall)
+                        }
+
                         candidateWall = null
                     }
 
@@ -256,9 +271,9 @@ class GameBoardView: ObservableView {
             Log.d(TAG, "board observed")
             for (r in 0 .. 7) {
                 for (c in 0 .. 7) {
-                    walls[WallType.Vertical.ordinal][r][c].visibility =
+                    walls[WallType.VERTICAL.ordinal][r][c].visibility =
                         if (it.verticalWalls[r][c]) View.VISIBLE  else View.INVISIBLE
-                    walls[WallType.Horizontal.ordinal][r][c].visibility =
+                    walls[WallType.HORIZONTAL.ordinal][r][c].visibility =
                         if (it.horizontalWalls[r][c]) View.VISIBLE  else View.INVISIBLE
                 }
             }
@@ -352,39 +367,11 @@ class GameBoardView: ObservableView {
         this.horizontalWallChooseView = horizontalWallChooseView
     }
 
-    fun setDragListener(listener: GameBoardViewDropListener){
-        dragListener = listener
+    fun setDropListener(listener: GameBoardViewDropListener){
+        dropListener = listener
     }
 
     fun setClickListener(listener: GameBoardViewPieceClickListener){
         clickListener = listener
-    }
-
-    fun setBoard(board: FrontBoard){
-        for (r in pieces){
-            for (v in r){
-                v.removeAllViews()
-            }
-        }
-
-        for (t in walls){
-            for (r in t){
-                for (v in r){
-                    v.visibility = View.INVISIBLE
-                }
-            }
-        }
-
-        for (p in board.players){
-            pieces[p.row][p.col].addView(p.imageView)
-        }
-        for (v in board.verticalWalls){
-            walls[WallType.Vertical.ordinal][v.first][v.second].visibility = View.VISIBLE
-        }
-        for (h in board.horizontalWalls){
-            walls[WallType.Horizontal.ordinal][h.first][h.second].visibility = View.VISIBLE
-        }
-
-        recentWall = null
     }
 }

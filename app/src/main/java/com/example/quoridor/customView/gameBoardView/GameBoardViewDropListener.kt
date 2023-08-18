@@ -5,5 +5,8 @@ import com.example.quoridor.game.util.types.DropReturnType
 import com.example.quoridor.game.util.types.WallType
 
 interface GameBoardViewDropListener {
-    fun drop(matchedView: View, wallType: WallType, row: Int, col: Int): DropReturnType
+    fun cross(matchedView: View, wall: Wall)
+    fun closed(matchedView: View, wall: Wall)
+    fun match(matchedView: View, wall: Wall)
+    fun success(matchedView: View, wall: Wall)
 }

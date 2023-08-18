@@ -11,15 +11,15 @@ import com.example.quoridor.customView.WallSelectorView
 import com.example.quoridor.customView.gameBoardView.Board
 import com.example.quoridor.customView.gameBoardView.GameBoardViewDropListener
 import com.example.quoridor.customView.gameBoardView.GameBoardViewPieceClickListener
+import com.example.quoridor.customView.gameBoardView.Wall
+import com.example.quoridor.customView.gameBoardView.WallType
 import com.example.quoridor.customView.playerView.Player
 import com.example.quoridor.databinding.ActivityGameForLocalBinding
 import com.example.quoridor.game.Notation
 import com.example.quoridor.game.util.GameFunc
 import com.example.quoridor.game.util.types.DropReturnType
 import com.example.quoridor.game.util.types.NotationType
-import com.example.quoridor.game.util.types.WallType
 import com.example.quoridor.util.Coordinate
-import com.example.quoridor.util.Func
 import com.example.quoridor.util.Func.get
 import com.example.quoridor.util.Func.popToast
 import com.example.quoridor.util.Func.setSize
@@ -54,8 +54,8 @@ class GameForLocalActivity:  AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
 
-        binding.gameBoardView.walls[WallType.Vertical.ordinal][0][0].post {
-            val vertWalls = binding.gameBoardView.walls[WallType.Vertical.ordinal]
+        binding.gameBoardView.walls[WallType.VERTICAL.ordinal][0][0].post {
+            val vertWalls = binding.gameBoardView.walls[WallType.VERTICAL.ordinal]
             val short = vertWalls[0][0].width
             val long = vertWalls[0][0].height
 
@@ -65,29 +65,26 @@ class GameForLocalActivity:  AppCompatActivity() {
             binding.upperPlayerWallSelector.horizontalWallView.setSize(long, short)
         }
 
-        binding.gameBoardView.setDragListener(object: GameBoardViewDropListener {
-            override fun drop(matchedView: View, wallType: WallType, row: Int, col: Int): DropReturnType {
-                val notationType = when(wallType) {
-                    WallType.Vertical -> NotationType.VERTICAL
-                    WallType.Horizontal -> NotationType.HORIZONTAL
-                }
-                val notation = Notation(notationType, Coordinate(row, col))
+        binding.gameBoardView.setDropListener(object : GameBoardViewDropListener {
+            override fun cross(matchedView: View, wall: Wall) {
+                popToast(this@GameForLocalActivity, "cross")
+            }
 
-                if (boardData.value == null)
-                    return DropReturnType.Cross
+            override fun closed(matchedView: View, wall: Wall) {
+                popToast(this@GameForLocalActivity, "closed")
+            }
 
-                val boardValue = boardData.value!!
-                val walls = arrayOf(boardValue.verticalWalls, boardValue.horizontalWalls)
+            override fun match(matchedView: View, wall: Wall) {
+                popToast(this@GameForLocalActivity, "match")
+            }
 
-                return if (GameFunc.wallCross(notation, boardValue) || GameFunc.wallClosed(notation, boardValue)){
-                    Toast.makeText(applicationContext, R.string.Cross_Wall, Toast.LENGTH_SHORT).show()
-                    if(walls[wallType.ordinal][row][col]) DropReturnType.Match
-                    else DropReturnType.Cross
+            override fun success(matchedView: View, wall: Wall) {
+                val notationType = when(wall.type) {
+                    WallType.VERTICAL -> NotationType.VERTICAL
+                    WallType.HORIZONTAL -> NotationType.HORIZONTAL
                 }
-                else {
-                    turnPass(notation)
-                    DropReturnType.None
-                }
+                val notation = Notation(notationType, wall.coordinate)
+                turnPass(notation)
             }
         })
         binding.gameBoardView.setClickListener(object: GameBoardViewPieceClickListener {
@@ -149,14 +146,14 @@ class GameForLocalActivity:  AppCompatActivity() {
 
         val playerValue = playersData[playerNum].value!!
         return timer(period = 1000L) {
-            playerValue.leftTime -= 1000L
-
             if (playerValue.leftTime <= 0L) {
                 this@GameForLocalActivity.runOnUiThread {
                     timeOver()
                 }
                 this.cancel()
             }
+
+            playerValue.leftTime -= 1000L
 
             playersData[playerNum].postValue(playerValue)
 
