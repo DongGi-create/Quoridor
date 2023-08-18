@@ -1,13 +1,9 @@
 package com.example.quoridor
 
-import android.app.Dialog
-import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.view.ViewGroup
-import android.view.Window
-import android.widget.Button
 import android.widget.ImageView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -19,10 +15,8 @@ import com.example.quoridor.customView.gameBoardView.GameBoardViewPlayerImageGet
 import com.example.quoridor.customView.gameBoardView.Wall
 import com.example.quoridor.customView.gameBoardView.WallType
 import com.example.quoridor.customView.playerView.Player
-import com.example.quoridor.databinding.ActivityGameForLocalBinding
-import com.example.quoridor.databinding.DialogGameEndBinding
+import com.example.quoridor.databinding.ActivityGameForPvpBinding
 import com.example.quoridor.game.Notation
-import com.example.quoridor.game.types.GameResultType
 import com.example.quoridor.game.types.GameType
 import com.example.quoridor.game.types.NotationType
 import com.example.quoridor.game.util.GameFunc
@@ -34,14 +28,14 @@ import com.example.quoridor.util.Func.setSize
 import java.util.Timer
 import kotlin.concurrent.timer
 
-class GameForLocalActivity:  AppCompatActivity() {
+class GameForPvPActivity:  AppCompatActivity() {
     private var available: Array<Coordinate> = Array(0){ Coordinate(0,0) }
 
-    private val binding: ActivityGameForLocalBinding by lazy {
-        ActivityGameForLocalBinding.inflate(layoutInflater)
+    private val binding: ActivityGameForPvpBinding by lazy {
+        ActivityGameForPvpBinding.inflate(layoutInflater)
     }
     private val playersData by lazy {
-        arrayOf(binding.lowerPlayerInfoView.data, binding.upperPlayerInfoView.data)
+        arrayOf(binding.myInfoView.data, binding.opPlayerInfoView.data)
     }
     private val boardData by lazy {
         binding.gameBoardView.data
@@ -71,21 +65,21 @@ class GameForLocalActivity:  AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
 
+        val gameType = intent.getIntExtra("gameType", GameType.BLITZ.ordinal)
+
         binding.gameBoardView.walls[WallType.VERTICAL.ordinal][0][0].post {
             val vertWalls = binding.gameBoardView.walls[WallType.VERTICAL.ordinal]
             val short = vertWalls[0][0].width
             val long = vertWalls[0][0].height
 
-            binding.lowerPlayerWallSelector.verticalWallView.setSize(short, long)
-            binding.lowerPlayerWallSelector.horizontalWallView.setSize(long, short)
-            binding.upperPlayerWallSelector.verticalWallView.setSize(short, long)
-            binding.upperPlayerWallSelector.horizontalWallView.setSize(long, short)
+            binding.myWallSelector.verticalWallView.setSize(short, long)
+            binding.myWallSelector.horizontalWallView.setSize(long, short)
         }
 
         binding.gameBoardView.setDropListener(object : GameBoardViewDropListener {
             override fun cross(matchedView: View, wall: Wall): Boolean {
                 if (GameFunc.wallCross(wall, boardData.value!!)) {
-                    popToast(this@GameForLocalActivity, "cross")
+                    popToast(this@GameForPvPActivity, "cross")
                     return true
                 }
                 return false
@@ -93,7 +87,7 @@ class GameForLocalActivity:  AppCompatActivity() {
 
             override fun closed(matchedView: View, wall: Wall): Boolean {
                 if (GameFunc.wallClosed(wall, boardData.value!!)) {
-                    popToast(this@GameForLocalActivity, "closed")
+                    popToast(this@GameForPvPActivity, "closed")
                     return true
                 }
                 return false
@@ -101,7 +95,7 @@ class GameForLocalActivity:  AppCompatActivity() {
 
             override fun match(matchedView: View, wall: Wall): Boolean {
                 if (GameFunc.wallMatch(wall, boardData.value!!)) {
-                    popToast(this@GameForLocalActivity, "match")
+                    popToast(this@GameForPvPActivity, "match")
                     return true
                 }
                 return false
@@ -135,73 +129,6 @@ class GameForLocalActivity:  AppCompatActivity() {
         })
 
         initGame()
-    }
-
-    override fun onBackPressed() {
-        val dialog = Dialog(this)
-        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
-        dialog.window?.setBackgroundDrawable(ColorDrawable(getColor(R.color.D_transparent)))
-        dialog.setContentView(R.layout.dialog_game_quit)
-
-        val yesBtn = dialog.findViewById<Button>(R.id.yes_btn)
-        val noBtn = dialog.findViewById<Button>(R.id.no_btn)
-
-        yesBtn.setOnClickListener {
-            dialog.dismiss()
-            this@GameForLocalActivity.finish()
-        }
-        noBtn.setOnClickListener {
-            dialog.dismiss()
-        }
-
-        dialog.show()
-    }
-
-    private fun gameEnd(winner: Int) {
-        val looser = (winner+1)%2
-
-        timer?.cancel()
-
-        val dialog = Dialog(this)
-        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
-        dialog.window?.setBackgroundDrawable(ColorDrawable(getColor(R.color.D_transparent)))
-        dialog.setCancelable(false)
-        dialog.setContentView(R.layout.dialog_game_end)
-
-        val dialogBinding = DialogGameEndBinding.bind(dialog.findViewById(R.id.top_layout))
-
-        val winnerData = playersData[winner].value!!
-        val looserData = playersData[looser].value!!
-
-        dialogBinding.winnerNameTv.text = winnerData.name
-        dialogBinding.winnerProfileIv.setImageResource(imageResourceList[turn])
-
-        val player0 = playersData[0].value!!
-        dialogBinding.p0NameTv.text = player0.name
-        dialogBinding.p0BeforeRating.text = player0.rating.toString()
-
-        val player1 = playersData[1].value!!
-        dialogBinding.p1NameTv.text = player1.name
-        dialogBinding.p1BeforeRating.text = player1.rating.toString()
-
-        val winnerAfterRating = GameFunc.calcRating(winnerData.rating, looserData.rating, GameResultType.WIN)
-        val looserAfterRating = GameFunc.calcRating(looserData.rating, winnerData.rating, GameResultType.LOSE)
-
-        if (winner == 0) {
-            dialogBinding.p0AfterRating.text = winnerAfterRating.toString()
-            dialogBinding.p1AfterRating.text = looserAfterRating.toString()
-        }
-        else {
-            dialogBinding.p1AfterRating.text = winnerAfterRating.toString()
-            dialogBinding.p0AfterRating.text = looserAfterRating.toString()
-        }
-
-        dialogBinding.okBtn.setOnClickListener {
-            dialog.dismiss()
-            this@GameForLocalActivity.finish()
-        }
-
-        dialog.show()
     }
 
     override fun onPause() {
@@ -248,7 +175,7 @@ class GameForLocalActivity:  AppCompatActivity() {
         val playerValue = playersData[playerNum].value!!
         return timer(period = 1000L) {
             if (playerValue.leftTime <= 0L) {
-                this@GameForLocalActivity.runOnUiThread {
+                this@GameForPvPActivity.runOnUiThread {
                     timeOver()
                 }
                 this.cancel()
@@ -262,11 +189,13 @@ class GameForLocalActivity:  AppCompatActivity() {
         }
     }
 
-    private fun initGame() {
+    fun initGame() {
         val player0 = Player("p0", timeLimit, initWall, 1050)
-        binding.lowerPlayerInfoView.data.value = player0
+        binding.myInfoView.profileImageView.setImageResource(R.drawable.hobanwoo_blue)
+        binding.myInfoView.data.value = player0
         val player1 = Player("p1", timeLimit, initWall, 950)
-        binding.upperPlayerInfoView.data.value = player1
+        binding.opPlayerInfoView.profileImageView.setImageResource(R.drawable.hobanwoo_red)
+        binding.opPlayerInfoView.data.value = player1
 
         val board = Board()
         binding.gameBoardView.data.value = board
@@ -274,11 +203,11 @@ class GameForLocalActivity:  AppCompatActivity() {
         imageViewList[0] = createPlayerImageView(imageResourceList[0])
         imageViewList[1] = createPlayerImageView(imageResourceList[1])
 
-        setWallChooseView(binding.lowerPlayerWallSelector)
+        setWallChooseView(binding.myWallSelector)
         addPlayerShadow(0)
 
         timer = buildTimer(0) {
-            gameEnd(1)
+            popToast(this, "p0 time over")
         }
     }
 
@@ -305,21 +234,12 @@ class GameForLocalActivity:  AppCompatActivity() {
         playersData[turn].value = playerValue
         boardData.value = boardValue
 
-        if (GameFunc.reachedEnd(boardValue.playCoordinates[turn], turn)) {
-            gameEnd(turn)
-        }
-        else {
-            turn = (turn+1)%2
+        turn = (turn+1)%2
 
-            setWallChooseView(when(turn){
-                0 -> binding.lowerPlayerWallSelector
-                else -> binding.upperPlayerWallSelector
-            })
-            addPlayerShadow(turn)
+        addPlayerShadow(turn)
 
-            timer = buildTimer(turn) {
-                gameEnd((turn+1)%2)
-            }
+        timer = buildTimer(turn) {
+            popToast(this, "p$turn time over")
         }
     }
 }

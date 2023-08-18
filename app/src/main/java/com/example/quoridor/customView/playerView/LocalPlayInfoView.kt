@@ -6,14 +6,14 @@ import android.view.LayoutInflater
 import androidx.lifecycle.MutableLiveData
 import com.example.quoridor.R
 import com.example.quoridor.customView.ObservableView
-import com.example.quoridor.databinding.CustomViewOpPlayerInfoBinding
+import com.example.quoridor.databinding.CustomViewLocalPlayInfoBinding
 import com.example.quoridor.util.Func
 
-class OpPlayerInfoView: ObservableView {
+class LocalPlayInfoView: ObservableView {
 
-    private val binding: CustomViewOpPlayerInfoBinding by lazy {
-        CustomViewOpPlayerInfoBinding.bind(
-            LayoutInflater.from(context).inflate(R.layout.custom_view_op_player_info, this, false)
+    private val binding: CustomViewLocalPlayInfoBinding by lazy {
+        CustomViewLocalPlayInfoBinding.bind(
+            LayoutInflater.from(context).inflate(R.layout.custom_view_local_play_info, this, false)
         )
     }
     val data = MutableLiveData<Player>()
@@ -28,9 +28,8 @@ class OpPlayerInfoView: ObservableView {
     private fun initView() {
         addView(binding.root)
         data.observe {
-            binding.playerNameTv.text = it.name
-            binding.leftTimeTv.text = Func.millToMinSec(it.leftTime)
             binding.leftWallTv.text = it.leftWall.toString()
+            binding.leftTimeTv.text = Func.millToMinSec(it.leftTime)
         }
     }
 }

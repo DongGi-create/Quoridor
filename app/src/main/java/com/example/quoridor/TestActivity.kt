@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.example.quoridor.databinding.ActivityTestBinding
+import com.example.quoridor.game.types.GameType
 import com.example.quoridor.retrofit.RetrofitTestActivity
 
 class TestActivity:  AppCompatActivity() {
@@ -20,8 +21,16 @@ class TestActivity:  AppCompatActivity() {
             goto(RetrofitTestActivity::class.java)
         }
 
-        binding.gameTest.setOnClickListener {
-            goto(GameForLocalActivity::class.java)
+        binding.localGameTest.setOnClickListener {
+            val intent = Intent(this, GameForLocalActivity::class.java)
+            intent.putExtra("gameType", GameType.BLITZ.ordinal)
+            startActivity(intent)
+        }
+
+        binding.pvpGameTest.setOnClickListener {
+            val intent = Intent(this, GameForPvPActivity::class.java)
+            intent.putExtra("gameType", GameType.BLITZ.ordinal)
+            startActivity(intent)
         }
     }
 

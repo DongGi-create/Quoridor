@@ -12,7 +12,7 @@
         android:orientation="horizontal"
         app:layout_constraintTop_toTopOf="parent">
 
-        <com.example.quoridor.customView.playerView.OpPlayerInfoView
+        <com.example.quoridor.customView.playerView.PvpPlayerInfoView
             android:id="@+id/player1_info"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -20,7 +20,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toLeftOf="@id/player2_info"/>
-        <com.example.quoridor.customView.playerView.OpPlayerInfoView
+        <com.example.quoridor.customView.playerView.PvpPlayerInfoView
             android:id="@+id/player2_info"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -28,7 +28,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toRightOf="@id/player1_info"
             app:layout_constraintRight_toLeftOf="@id/player3_info"/>
-        <com.example.quoridor.customView.playerView.OpPlayerInfoView
+        <com.example.quoridor.customView.playerView.PvpPlayerInfoView
             android:id="@+id/player3_info"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -38,7 +38,7 @@
             app:layout_constraintRight_toRightOf="parent"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <com.example.quoridor.customView.playerView.MyPlayInfoView
+    <com.example.quoridor.customView.playerView.LocalPlayInfoView
         android:id="@+id/my_info"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

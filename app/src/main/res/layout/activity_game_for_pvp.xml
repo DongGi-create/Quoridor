@@ -7,26 +7,18 @@
     android:background="@drawable/dirtfy_layout_bg">
 
     <LinearLayout
-        android:id="@+id/upper_player_layout"
+        android:id="@+id/op_player_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:layout_marginTop="20dp"
-        android:rotation="180"
         app:layout_constraintTop_toTopOf="parent">
 
-        <com.example.quoridor.customView.playerView.LocalPlayInfoView
-            android:id="@+id/upper_player_info_view"
+        <com.example.quoridor.customView.playerView.PvpPlayerInfoView
+            android:id="@+id/op_player_info_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginVertical="5dp"/>
-
-        <com.example.quoridor.customView.WallSelectorView
-            android:id="@+id/upper_player_wall_selector"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginVertical="5dp"
-            android:layout_marginHorizontal="15dp"/>
 
     </LinearLayout>
 
@@ -37,8 +29,8 @@
         android:padding="15dp"
         android:layout_margin="15dp"
         android:background="@drawable/dirtfy_item_bg"
-        app:layout_constraintTop_toBottomOf="@id/upper_player_layout"
-        app:layout_constraintBottom_toTopOf="@id/lower_player_layout">
+        app:layout_constraintTop_toBottomOf="@id/op_player_layout"
+        app:layout_constraintBottom_toTopOf="@id/my_info_layout">
 
         <com.example.quoridor.customView.gameBoardView.GameBoardView
             android:id="@+id/game_board_view"
@@ -48,21 +40,21 @@
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/lower_player_layout"
+        android:id="@+id/my_info_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:layout_marginBottom="20dp"
         app:layout_constraintBottom_toBottomOf="parent">
 
-        <com.example.quoridor.customView.playerView.LocalPlayInfoView
-            android:id="@+id/lower_player_info_view"
+        <com.example.quoridor.customView.playerView.PvpPlayerInfoView
+            android:id="@+id/my_info_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginVertical="5dp"/>
 
         <com.example.quoridor.customView.WallSelectorView
-            android:id="@+id/lower_player_wall_selector"
+            android:id="@+id/my_wall_selector"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginVertical="5dp"
