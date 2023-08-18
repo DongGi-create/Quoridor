@@ -4,29 +4,22 @@ import android.content.Context
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.lifecycle.MutableLiveData
 import com.example.quoridor.R
+import com.example.quoridor.customView.ObservableView
 import com.example.quoridor.databinding.CustomViewOpPlayerInfoBinding
 import com.example.quoridor.game.frontDomain.FrontPlayer
 import com.example.quoridor.game.util.GameFunc
 import com.example.quoridor.util.Func
 
-class OpPlayerInfoView: ConstraintLayout {
+class OpPlayerInfoView: ObservableView {
 
     private val binding: CustomViewOpPlayerInfoBinding by lazy {
         CustomViewOpPlayerInfoBinding.bind(
             LayoutInflater.from(context).inflate(R.layout.custom_view_op_player_info, this, false)
         )
     }
-
-    val leftTimeTextView by lazy {
-        binding.leftTimeTv
-    }
-    val leftWallTextView by lazy {
-        binding.leftWallTv
-    }
-    val playerNameTextView by lazy {
-        binding.playerNameTv
-    }
+    val data = MutableLiveData<Player>()
 
     constructor(context: Context): super(context) {
         initView()
@@ -37,12 +30,10 @@ class OpPlayerInfoView: ConstraintLayout {
 
     private fun initView() {
         addView(binding.root)
-    }
-
-    fun setPlayer(player: FrontPlayer) {
-        leftTimeTextView.text = Func.millToMinSec(player.left_ms)
-        val leftWallText = "${context.getString(R.string.left_wall_prefix)}${player.left_wall}"
-        leftWallTextView.text = leftWallText
-        playerNameTextView.text = player.uid
+        data.observe {
+            binding.playerNameTv.text = it.name
+            binding.leftTimeTv.text = Func.millToMinSec(it.leftTime)
+            binding.leftWallTv.text = it.leftWall.toString()
+        }
     }
 }

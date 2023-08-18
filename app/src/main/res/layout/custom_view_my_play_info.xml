@@ -20,13 +20,21 @@
         app:layout_constraintBottom_toBottomOf="parent">
 
         <TextView
+            android:id="@+id/left_wall_prefix_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:text="@string/left_wall_prefix"
+            android:textColor="@color/D_text"/>
+
+        <TextView
             android:id="@+id/left_wall_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="20sp"
             android:layout_marginRight="15dp"
-            android:text="@string/left_wall_prefix"
-            android:textColor="@color/D_text"/>
+            android:textColor="@color/D_text"
+            tools:text="10"/>
 
         <TextView
             android:id="@+id/left_time_tv"

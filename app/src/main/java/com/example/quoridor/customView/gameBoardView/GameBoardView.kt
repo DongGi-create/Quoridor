@@ -14,20 +14,27 @@ import android.view.ViewOutlineProvider
 import android.widget.LinearLayout
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.children
+import androidx.lifecycle.MutableLiveData
 import com.example.quoridor.R
+import com.example.quoridor.customView.ObservableView
 import com.example.quoridor.databinding.CustomViewGameBoardBinding
 import com.example.quoridor.game.frontDomain.FrontBoard
 import com.example.quoridor.util.Func
 import com.example.quoridor.game.util.types.DropReturnType
 import com.example.quoridor.game.util.types.WallType
+import com.example.quoridor.util.Coordinate
+import com.example.quoridor.util.Func.get
+import com.example.quoridor.util.Func.move
+import com.example.quoridor.util.Func.removeFromParent
 
-class GameBoardView: ConstraintLayout {
+class GameBoardView: ObservableView {
 
     private val binding: CustomViewGameBoardBinding by lazy {
         CustomViewGameBoardBinding.bind(
             LayoutInflater.from(context).inflate(R.layout.custom_view_game_board, this, false)
         )
     }
+    val data = MutableLiveData<Board>()
 
     val pieces by lazy {
         Array(9){Array(9){ LinearLayout(context) } }
@@ -78,7 +85,6 @@ class GameBoardView: ConstraintLayout {
     private fun buildRoundOutLineProvider(round: Float): ViewOutlineProvider {
         return object: ViewOutlineProvider() {
             override fun getOutline(p0: View?, p1: Outline?) {
-                Log.d(TAG, "view: ${p0.toString()}, outLine: ${p1.toString()}")
                 p1?.setRoundRect(0, 0, p0!!.width, p0!!.height, round)
             }
         }
@@ -144,7 +150,6 @@ class GameBoardView: ConstraintLayout {
         }
 
         binding.gameBoardLayout.setOnDragListener { _, dragEvent ->
-            val draggedView = dragEvent.localState as View
 
             when(dragEvent.action){
                 DragEvent.ACTION_DRAG_STARTED -> {
@@ -244,6 +249,23 @@ class GameBoardView: ConstraintLayout {
                 }
 
                 else -> false
+            }
+        }
+
+        data.observe {
+            Log.d(TAG, "board observed")
+            for (r in 0 .. 7) {
+                for (c in 0 .. 7) {
+                    walls[WallType.Vertical.ordinal][r][c].visibility =
+                        if (it.verticalWalls[r][c]) View.VISIBLE  else View.INVISIBLE
+                    walls[WallType.Horizontal.ordinal][r][c].visibility =
+                        if (it.horizontalWalls[r][c]) View.VISIBLE  else View.INVISIBLE
+                }
+            }
+
+            for (i in 0 until it.playCoordinates.size) {
+                val cor = it.playCoordinates[i]
+                it.playerImageViews[i].move(pieces.get(cor))
             }
         }
     }

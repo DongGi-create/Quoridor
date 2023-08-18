@@ -1,8 +1,17 @@
 package com.example.quoridor.util
 
 import android.content.Context
+import android.util.Log
 import android.view.View
+import android.view.ViewGroup
 import android.widget.Toast
+import com.example.quoridor.retrofit.util.RetrofitFunc
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.CoroutineStart
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import kotlin.math.pow
 import kotlin.math.sqrt
 
@@ -13,6 +22,15 @@ object Func {
     }
     fun <T> Array<Array<T>>.set(cor: Coordinate, value: T) {
         this[cor.r][cor.c] = value
+    }
+
+    fun View.move(newParent: ViewGroup) {
+        (this.parent as? ViewGroup)?.removeView(this)
+        newParent.addView(this)
+    }
+
+    fun View.removeFromParent() {
+        (this.parent as? ViewGroup)?.removeView(this)
     }
 
     fun View.setSize(width: Int, height: Int) {
@@ -51,4 +69,5 @@ object Func {
     fun popToast(context: Context, content: String) {
         Toast.makeText(context, content, Toast.LENGTH_SHORT).show()
     }
+
 }

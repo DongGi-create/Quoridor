@@ -1,12 +1,20 @@
 package com.example.quoridor.game.util
 
+import android.util.Log
+import com.example.quoridor.customView.gameBoardView.Board
 import com.example.quoridor.game.util.types.DirectionType
 import com.example.quoridor.game.util.types.GameResultType
 import com.example.quoridor.game.util.types.WallType
-import com.example.quoridor.game.Board
 import com.example.quoridor.game.Notation
 import com.example.quoridor.game.util.types.NotationType
+import com.example.quoridor.retrofit.util.RetrofitFunc
 import com.example.quoridor.util.Coordinate
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.CoroutineStart
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import kotlin.math.pow
 
 object GameFunc {
@@ -33,20 +41,22 @@ object GameFunc {
     fun wallCross(notation: Notation, board: Board): Boolean {
         val (row, col) = notation.coordinate
 
+        val walls = arrayOf(board.verticalWalls, board.horizontalWalls)
+
         var ret = false
 
         when(notation.type){
             NotationType.VERTICAL -> {
-                if(row > 0) ret = ret || board.walls[WallType.Vertical.ordinal][row-1][col]
-                if(row < 7) ret = ret || board.walls[WallType.Vertical.ordinal][row+1][col]
-                ret = ret || board.walls[WallType.Vertical.ordinal][row][col]
-                ret = ret || board.walls[WallType.Horizontal.ordinal][row][col]
+                if(row > 0) ret = ret || walls[WallType.Vertical.ordinal][row-1][col]
+                if(row < 7) ret = ret || walls[WallType.Vertical.ordinal][row+1][col]
+                ret = ret || walls[WallType.Vertical.ordinal][row][col]
+                ret = ret || walls[WallType.Horizontal.ordinal][row][col]
             }
             NotationType.HORIZONTAL -> {
-                if (col > 0) ret = ret || board.walls[WallType.Horizontal.ordinal][row][col - 1]
-                if (col < 7) ret = ret || board.walls[WallType.Horizontal.ordinal][row][col + 1]
-                ret = ret || board.walls[WallType.Horizontal.ordinal][row][col]
-                ret = ret || board.walls[WallType.Vertical.ordinal][row][col]
+                if (col > 0) ret = ret || walls[WallType.Horizontal.ordinal][row][col - 1]
+                if (col < 7) ret = ret || walls[WallType.Horizontal.ordinal][row][col + 1]
+                ret = ret || walls[WallType.Horizontal.ordinal][row][col]
+                ret = ret || walls[WallType.Vertical.ordinal][row][col]
             }
             else -> { ret = true }
         }
@@ -125,13 +135,19 @@ object GameFunc {
 
     fun wallClosed(notation: Notation, board: Board): Boolean {
         val flag = arrayOf(true, true, true, true)
-        val len = board.playerCorList.size
+        val len = board.playCoordinates.size
         val wallType = when(notation.type){
             NotationType.HORIZONTAL -> WallType.Horizontal
             else -> WallType.Vertical
         }
 
-        board.walls[wallType.ordinal].set(notation.coordinate, true)
+        val tmpWall = when(wallType) {
+            WallType.Vertical -> board.verticalWalls
+            WallType.Horizontal -> board.horizontalWalls
+        }
+        val walls = arrayOf(board.verticalWalls, board.horizontalWalls)
+
+        tmpWall.set(notation.coordinate, true)
 
         for (d in DirectionType.values()) {
             val i = d.ordinal
@@ -139,9 +155,9 @@ object GameFunc {
             if (i >= len)
                 break
 
-            val cor = board.playerCorList[i]
+            val cor = board.playCoordinates[i]
 
-            val reached = BFS(cor, board.walls)
+            val reached = BFS(cor, walls)
             for (r in reached) {
                 if (reachedEnd(r, i)){
                     flag[i] = false
@@ -150,7 +166,7 @@ object GameFunc {
             }
         }
 
-        board.walls[wallType.ordinal].set(notation.coordinate, false)
+        tmpWall.set(notation.coordinate, false)
 
         for (i in 0 .. 3){
             if (i >= len) break
@@ -165,19 +181,20 @@ object GameFunc {
         val source = mutableListOf<Coordinate>()
         val available = mutableListOf<Coordinate>()
 
-        val now = board.playerCorList[me]
+        val now = board.playCoordinates[me]
+        val walls = arrayOf(board.verticalWalls, board.horizontalWalls)
 
         source.add(now)
 
         for (d in DirectionType.values()) {
             val next = now + d.diff
 
-            if (!canMove(now, next, d, board.walls)) continue
+            if (!canMove(now, next, d, walls)) continue
 
             // first player test
             var isPlayer = false
 
-            for (p in board.playerCorList){
+            for (p in board.playCoordinates){
                 if (p == next)
                     isPlayer = true
             }
@@ -191,12 +208,12 @@ object GameFunc {
             for (d in DirectionType.values()) {
                 val next = s + d.diff
 
-                if (!canMove(s, next, d, board.walls)) continue
+                if (!canMove(s, next, d, walls)) continue
 
                 // first player test
                 var isPlayer = false
 
-                for (p in board.playerCorList){
+                for (p in board.playCoordinates){
                     if (p == next)
                         isPlayer = true
                 }
