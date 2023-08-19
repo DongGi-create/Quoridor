@@ -251,6 +251,8 @@ class GameForLocalActivity:  AppCompatActivity() {
                 this@GameForLocalActivity.runOnUiThread {
                     timeOver()
                 }
+                playerValue.leftTime = 0L
+                playersData[playerNum].postValue(playerValue)
                 this.cancel()
             }
 

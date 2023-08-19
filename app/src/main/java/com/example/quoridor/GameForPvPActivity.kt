@@ -191,10 +191,10 @@ class GameForPvPActivity:  AppCompatActivity() {
 
     fun initGame() {
         val player0 = Player("p0", timeLimit, initWall, 1050)
-        binding.myInfoView.profileImageView.setImageResource(R.drawable.hobanwoo_blue)
+        binding.myInfoView.profileImageView.setImageResource(R.drawable.hobanwoo_red)
         binding.myInfoView.data.value = player0
         val player1 = Player("p1", timeLimit, initWall, 950)
-        binding.opPlayerInfoView.profileImageView.setImageResource(R.drawable.hobanwoo_red)
+        binding.opPlayerInfoView.profileImageView.setImageResource(R.drawable.hobanwoo_blue)
         binding.opPlayerInfoView.data.value = player1
 
         val board = Board()

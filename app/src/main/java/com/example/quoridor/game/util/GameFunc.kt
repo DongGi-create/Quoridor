@@ -17,7 +17,7 @@ object GameFunc {
     private val K = 20.0
 
     private fun calcW(myRating: Int, opponentRating: Int): Double {
-        return 1/(ratio.pow((myRating - opponentRating) / diff) + 1)
+        return 1/(ratio.pow((opponentRating - myRating) / diff) + 1)
     }
 
     fun calcRating(myRating: Int, opponentRating: Int, gameResult: GameResultType): Int {
@@ -30,12 +30,12 @@ object GameFunc {
         var ret = false
 
         when(wall.type){
-            com.example.quoridor.customView.gameBoardView.WallType.VERTICAL -> {
+            WallType.VERTICAL -> {
                 if(row > 0) ret = ret || board.verticalWalls[row-1][col]
                 if(row < 7) ret = ret || board.verticalWalls[row+1][col]
                 ret = ret || board.horizontalWalls[row][col]
             }
-            com.example.quoridor.customView.gameBoardView.WallType.HORIZONTAL -> {
+            WallType.HORIZONTAL -> {
                 if (col > 0) ret = ret || board.horizontalWalls[row][col - 1]
                 if (col < 7) ret = ret || board.horizontalWalls[row][col + 1]
                 ret = ret || board.verticalWalls[row][col]
@@ -50,8 +50,8 @@ object GameFunc {
         val len = board.playCoordinates.size
 
         val tmpWall = when(wall.type) {
-            com.example.quoridor.customView.gameBoardView.WallType.VERTICAL -> board.verticalWalls
-            com.example.quoridor.customView.gameBoardView.WallType.HORIZONTAL -> board.horizontalWalls
+            WallType.VERTICAL -> board.verticalWalls
+            WallType.HORIZONTAL -> board.horizontalWalls
         }
         val walls = arrayOf(board.verticalWalls, board.horizontalWalls)
 
@@ -87,10 +87,10 @@ object GameFunc {
     fun wallMatch(wall: Wall, board: Board): Boolean {
         val (row, col) = wall.coordinate
         return when(wall.type){
-            com.example.quoridor.customView.gameBoardView.WallType.VERTICAL -> {
+            WallType.VERTICAL -> {
                 board.verticalWalls[row][col]
             }
-            com.example.quoridor.customView.gameBoardView.WallType.HORIZONTAL -> {
+            WallType.HORIZONTAL -> {
                 board.horizontalWalls[row][col]
             }
         }

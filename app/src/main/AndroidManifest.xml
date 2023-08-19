@@ -60,6 +60,11 @@
         <activity
             android:name=".TestActivity"
             android:exported="true"/>
+
+
+        <activity
+            android:name=".socket.SocketTestActivity"
+            android:exported="true"/>
     </application>
 
 </manifest>
