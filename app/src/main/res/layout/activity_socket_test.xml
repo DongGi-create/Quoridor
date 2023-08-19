@@ -11,4 +11,22 @@
         android:layout_height="wrap_content"
         android:text="connect"/>
 
+    <Button
+        android:id="@+id/make_massage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="make"/>
+
+    <Button
+        android:id="@+id/send_massage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="send"/>
+
+    <Button
+        android:id="@+id/read_massage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="read"/>
+
 </LinearLayout>

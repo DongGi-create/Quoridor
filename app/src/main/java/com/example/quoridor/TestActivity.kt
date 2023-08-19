@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.example.quoridor.databinding.ActivityTestBinding
 import com.example.quoridor.game.types.GameType
 import com.example.quoridor.retrofit.RetrofitTestActivity
+import com.example.quoridor.socket.SocketTestActivity
 
 class TestActivity:  AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -31,6 +32,10 @@ class TestActivity:  AppCompatActivity() {
             val intent = Intent(this, GameForPvPActivity::class.java)
             intent.putExtra("gameType", GameType.BLITZ.ordinal)
             startActivity(intent)
+        }
+
+        binding.socketTest.setOnClickListener {
+            goto(SocketTestActivity::class.java)
         }
     }
 
