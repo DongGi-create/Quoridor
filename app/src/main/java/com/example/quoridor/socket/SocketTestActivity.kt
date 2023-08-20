@@ -11,6 +11,7 @@ import com.example.quoridor.databinding.ActivitySocketTestBinding
 import com.example.quoridor.socket.Parser.toByteArray
 import com.example.quoridor.socket.Parser.toData
 import com.example.quoridor.socket.Parser.toHexString
+import com.example.quoridor.socket.WebSocketTest.client
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.CoroutineStart
 import kotlinx.coroutines.Deferred
@@ -19,17 +20,21 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import java.io.InputStream
-import java.io.OutputStream
-import java.net.ServerSocket
-import java.net.Socket
+import okhttp3.OkHttpClient
+import okhttp3.Request
+import okhttp3.WebSocket
+import okhttp3.WebSocketListener
+import java.lang.Exception
 
 class SocketTestActivity: AppCompatActivity() {
 
     companion object {
-        lateinit var socket: Socket
-        lateinit var inputStream: InputStream
-        lateinit var outputStream: OutputStream
+        const val URL = WebSocketTest.BASE_URL+"test"
+
+        val request = Request.Builder().url(URL).build();
+        val listener = WebSocketListenerTest()
+
+        lateinit var ws: WebSocket
     }
 
     private var byteArray = byteArrayOf()
@@ -47,16 +52,17 @@ class SocketTestActivity: AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
 
-        buildNetworkJob(
-            buildAsyncJob {
-                socket = Socket("43.201.189.249", 8080)
-                inputStream = socket.getInputStream()
-                outputStream = socket.getOutputStream()
+        binding.connect.setOnClickListener {
+            buildNetworkJob(
+                buildAsyncJob {
+                    ws = client.newWebSocket(request, listener)
+                }
+            ) {
+                Log.d(TAG, "web socket created")
+                Toast.makeText(this@SocketTestActivity, "web socket created", Toast.LENGTH_SHORT)
+                    .show()
             }
-        ) {
-            Log.d(TAG, "socket created")
-            Toast.makeText(this@SocketTestActivity, "socket created", Toast.LENGTH_SHORT).show()
-        }.start()
+        }
 
         binding.makeMassage.setOnClickListener {
             val data = DTO.Data('n', 1000*60*3L, 'm', '0', '3')
@@ -78,11 +84,23 @@ class SocketTestActivity: AppCompatActivity() {
 
         binding.sendMassage.setOnClickListener {
             buildAsyncJob {
-                outputStream.write(byteArray)
+                ws.send("테스트 메시지!");
             }.start()
         }
 
-        binding.readMassage.setOnClickListener {
+        binding.close.setOnClickListener {
+            buildAsyncJob {
+                ws.close(1000, null)
+            }.start()
+        }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        try {
+            client.dispatcher.executorService.shutdown()
+        }
+        catch (_: Exception) {
 
         }
     }
@@ -103,7 +121,5 @@ class SocketTestActivity: AppCompatActivity() {
                 }
             }
     }
-
-
 
 }

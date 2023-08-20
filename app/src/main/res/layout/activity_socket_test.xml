@@ -24,9 +24,9 @@
         android:text="send"/>
 
     <Button
-        android:id="@+id/read_massage"
+        android:id="@+id/close"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="read"/>
+        android:text="close"/>
 
 </LinearLayout>
