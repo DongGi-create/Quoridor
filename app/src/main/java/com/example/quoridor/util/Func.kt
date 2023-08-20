@@ -1,9 +1,12 @@
 package com.example.quoridor.util
 
+import android.app.Activity
 import android.content.Context
+import android.content.Intent
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.fragment.app.FragmentActivity
 import kotlin.math.pow
 import kotlin.math.sqrt
 

@@ -9,6 +9,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import com.example.quoridor.MainActivity
 import com.example.quoridor.R
+import com.example.quoridor.SignUpActivity
 import com.example.quoridor.databinding.ActivityLoginBinding
 import com.example.quoridor.retrofit.DTO
 import com.example.quoridor.retrofit.HttpResult
@@ -75,12 +76,12 @@ class LoginActivity : AppCompatActivity() {
         }
         //통신(로그인 통신하는동안 아무 액션도 안먹히게 해야 할듯)
         binding.tvLoginRegister.setOnClickListener{
-            val intent = Intent(this,SignUpTestActivity::class.java)
+            val intent = Intent(this,SignUpActivity::class.java)
             startActivity(intent)
         }
 
         binding.lottieLoginArrow.setOnClickListener{
-            val intent = Intent(this,SignUpTestActivity::class.java)
+            val intent = Intent(this,SignUpActivity::class.java)
             startActivity(intent)
         }
     }

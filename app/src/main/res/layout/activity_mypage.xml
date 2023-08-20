@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/linear_background"
+    android:background="@color/D_second"
     xmlns:tools="http://schemas.android.com/tools">
 
     <LinearLayout
@@ -32,7 +32,8 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:background="@color/D_primary">
 
                 <LinearLayout
                     android:id="@+id/linear_myPage_profile"
@@ -44,6 +45,7 @@
                     android:layout_marginEnd="15dp"
                     android:layout_marginBottom="40dp"
                     android:background="@drawable/cv_background"
+                    android:backgroundTint="@color/D_second"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toStartOf="@+id/linear_myPage_info"
@@ -73,12 +75,9 @@
                         android:id="@+id/tv_myPage_name"
                         android:layout_width="match_parent"
                         android:layout_height="50dp"
-                        android:background="@drawable/et_background"
-                        android:hint="name"
+                        tools:text="name"
                         android:textSize="30sp"
-                        android:drawableStart="@drawable/ic_identity"
-                        android:drawablePadding="10dp"
-                        android:drawableTint="@color/black"
+                        android:textColor="@color/D_text"
                         android:paddingStart="10dp"
                         android:layout_marginStart="20dp"
                         android:layout_marginEnd="20dp"
@@ -87,7 +86,8 @@
                     <androidx.appcompat.widget.AppCompatButton
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:background="@drawable/login_bt_background"
+                        android:background="@drawable/dirtfy_button_pattern"
+                        android:backgroundTint="@color/D_second"
                         android:text="Edit"
                         android:textSize="20dp"
                         android:layout_marginStart="20dp"
@@ -121,24 +121,23 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintBottom_toTopOf="@+id/linear_myPage_tier_vs2_info"
                     app:layout_constraintTop_toTopOf="parent">
-                    <LinearLayout
+
+                    <TextView
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:background="@drawable/linear_background">
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:gravity="center"
-                            android:text="vs 2"
-                            android:textColor="@color/white"
-                            android:textSize="30sp"/>
-                    </LinearLayout>
+                        android:background="@color/D_primary"
+                        android:gravity="center"
+                        android:text="vs 2"
+                        android:textColor="@color/D_text"
+                        android:textSize="30sp"/>
+
                 </androidx.cardview.widget.CardView>
 
                 <LinearLayout
                     android:id="@+id/linear_myPage_tier_vs2_info"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
+                    android:background="@color/D_primary"
                     app:layout_constraintVertical_weight="4"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -171,6 +170,7 @@
                                 android:gravity="bottom"
                                 android:paddingBottom="5dp"
                                 android:text="gold 2"
+                                android:textColor="@color/D_text"
                                 android:textSize="20sp"
                                 android:layout_marginStart="10dp"
                                 app:layout_constraintBottom_toBottomOf="parent"
@@ -182,6 +182,7 @@
                                 android:layout_height="match_parent"
                                 android:text="26p"
                                 android:textSize="30sp"
+                                android:textColor="@color/D_text"
                                 app:layout_constraintBottom_toBottomOf="parent"
                                 app:layout_constraintEnd_toEndOf="parent"
                                 app:layout_constraintTop_toTopOf="parent"
@@ -222,24 +223,22 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintBottom_toTopOf="@+id/linear_myPage_tier_vs4_info"
                     app:layout_constraintTop_toTopOf="parent">
-                    <LinearLayout
+
+                    <TextView
+                        android:background="@color/D_primary"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:background="@drawable/linear_background">
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:gravity="center"
-                            android:text="vs 4"
-                            android:textColor="@color/white"
-                            android:textSize="30sp"/>
-                    </LinearLayout>
+                        android:gravity="center"
+                        android:text="Winning Rate"
+                        android:textColor="@color/D_text"
+                        android:textSize="30sp"/>
                 </androidx.cardview.widget.CardView>
 
                 <LinearLayout
                     android:id="@+id/linear_myPage_tier_vs4_info"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
+                    android:background="@color/D_primary"
                     app:layout_constraintVertical_weight="4"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -273,6 +272,7 @@
                                 android:paddingBottom="5dp"
                                 android:text="platinum 2"
                                 android:textSize="20sp"
+                                android:textColor="@color/D_text"
                                 android:layout_marginStart="10dp"
                                 app:layout_constraintBottom_toBottomOf="parent"
                                 app:layout_constraintStart_toStartOf="parent"
@@ -283,6 +283,7 @@
                                 android:layout_height="match_parent"
                                 android:text="26p"
                                 android:textSize="30sp"
+                                android:textColor="@color/D_text"
                                 app:layout_constraintBottom_toBottomOf="parent"
                                 app:layout_constraintEnd_toEndOf="parent"
                                 app:layout_constraintTop_toTopOf="parent"
@@ -308,10 +309,11 @@
         android:id="@+id/btn_myPage_logout"
         android:layout_width="match_parent"
         android:layout_height="45dp"
-        android:background="@drawable/login_bt_background"
+        android:background="@drawable/dirtfy_button_pattern"
+        android:backgroundTint="@color/D_text"
         android:text="Logout"
         android:textSize="30sp"
-        android:textColor="@color/white"
+        android:textColor="@color/D_primary"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"

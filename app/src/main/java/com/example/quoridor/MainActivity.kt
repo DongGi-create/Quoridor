@@ -1,13 +1,19 @@
 package com.example.quoridor
 
+import android.app.Dialog
 import android.content.Intent
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
+import android.view.Window
+import android.widget.Button
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import com.example.quoridor.databinding.ActivityMainBinding
 import com.example.quoridor.login.LoginActivity
 import com.example.quoridor.login.SharedLoginModel
 import com.example.quoridor.login.UserManager
+
 
 class MainActivity : AppCompatActivity() {
 
@@ -18,24 +24,24 @@ class MainActivity : AppCompatActivity() {
     private lateinit var sharedLoginModel: SharedLoginModel
     private lateinit var loginmypageIntent: Intent
     override fun onCreate(savedInstanceState: Bundle?) {
+
         val binding = ActivityMainBinding.inflate(layoutInflater)
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
-        loginmypageIntent = Intent(this,LoginActivity::class.java)
+        loginmypageIntent = Intent(this, LoginActivity::class.java)
 
         sharedLoginModel = ViewModelProvider(this).get(SharedLoginModel::class.java)
 
         sharedLoginModel.loginSuccess.observe(this) { success ->
             if(success){
                 loginmypageIntent = Intent(this,MyPage::class.java)
-                binding.ivMainLoginMypage.setImageResource(R.drawable.ic_mypage)
-                binding.tvMainLoginMypage.setText("myPage")
+                binding.mainIvLoginMyPage.setImageResource(R.drawable.ic_mypage)
             }else{
                 loginmypageIntent = Intent(this,LoginActivity::class.java)
-                binding.ivMainLoginMypage.setImageResource(R.drawable.ic_login)
-                binding.tvMainLoginMypage.setText("Login")
+                binding.mainIvLoginMyPage.setImageResource(R.drawable.ic_login)
             }
         }
+
         // 여기서 UserManager 정보 가져오기
         val user = UserManager.getInstance() // UserManager 클래스에 맞게 수정
         if (user.umid!="") {
@@ -45,38 +51,53 @@ class MainActivity : AppCompatActivity() {
             sharedLoginModel.setLoginSuccess(false)
         }
 
-        binding.ivMainGame.setOnClickListener {
-            val intent = Intent(this, GameForLocalActivity::class.java)
-            startActivity(intent)
-        }
-        binding.ivMainLoginMypage.setOnClickListener{
+        
+        binding.mainIvLoginMyPage.setOnClickListener{
             startActivity(loginmypageIntent)
         }
 
-        binding.ivMainRanking.setOnClickListener{
-            val intent = Intent(this, RankingActivity::class.java)
-            startActivity(intent)
+        binding.mainIvRanking.setOnClickListener{
+            goto(RankingActivity::class.java)
         }
 
-        binding.testBtn.setOnClickListener {
-            val intent = Intent(this, TestActivity::class.java)
-            startActivity(intent)
+        binding.mainIcLocal.setOnClickListener {
+            goto(GameForLocalActivity::class.java)
+        }
+        binding.mainIcPvp.setOnClickListener{
+            goto(GameForPvPActivity::class.java)
+        }
+
+        binding.mainIcAi.setOnClickListener{
+            dialog()
+        }
+        binding.mainIcPuzzle.setOnClickListener{
+            dialog()
+        }
+
+        binding.mainBtnTest.setOnClickListener {
+            goto(TestActivity::class.java)
         }
     }
+    private fun <T> goto(activityClass: Class<T>) {
+        val intent = Intent(this, activityClass)
+        startActivity(intent)
+    }
+    private fun dialog(){
+        val dialog = Dialog(this)
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialog.window?.setBackgroundDrawable(ColorDrawable(getColor(R.color.D_transparent)))
+        dialog.setContentView(R.layout.dialog_game_quit)
+
+        val yesBtn = dialog.findViewById<Button>(R.id.yes_btn)
+        val noBtn = dialog.findViewById<Button>(R.id.no_btn)
+
+        yesBtn.setOnClickListener {
+            dialog.dismiss()
+        }
+        noBtn.setOnClickListener {
+            dialog.dismiss()
+        }
+
+        dialog.show()
+    }
 }
-
-
-//        binding.btnGamestart.setOnClickListener {
-//            val intent = Intent(this, Game1v1::class.java)
-//            startActivity(intent)
-//        }
-//
-//        binding.btnAuthtest.setOnClickListener {
-//            val intent = Intent(this, test::class.java)
-//            startActivity(intent)
-//        }
-
-/*binding.retrofitTestBtn.setOnClickListener {
-    val intent = Intent(this, RetrofitTestActivity::class.java)
-    startActivity(intent)
-}*/

@@ -9,4 +9,10 @@
         <attr name="candidateWallColor" format="color"/>
         <attr name="candidateMoveColor" format="color"/>
     </declare-styleable>
+
+    <declare-styleable name="MenuIconView">
+        <attr name="resourceId" format="reference"/>
+        <attr name="icon_text" format="string|reference"/>
+    </declare-styleable>
+
 </resources>

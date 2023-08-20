@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/D_second">
+
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="20dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:elevation="20dp">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/D_second">
+            <TextView
+                android:id="@+id/signup_tv_title"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                app:layout_constraintVertical_weight="2"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                android:text="Quorido"
+                android:textSize="50sp"
+                android:gravity="center"
+                android:textColor="@color/white"
+                app:layout_constraintBottom_toTopOf="@+id/signup_iv_bg"/>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/signup_iv_bg"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                app:layout_constraintVertical_weight="3"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/signup_tv_title"
+                app:layout_constraintBottom_toTopOf="@id/signup_linear_info"
+                android:layout_marginBottom="20dp">
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintDimensionRatio="1:1"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:layout_margin="20dp"
+                    app:cardCornerRadius="100dp">
+                    <ImageView
+                        android:id="@+id/signup_iv_profile"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:src="@drawable/ic_identity"
+                        android:scaleType="centerCrop"
+                        android:padding="15dp"/>
+                </androidx.cardview.widget.CardView>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <LinearLayout
+                android:id="@+id/signup_linear_info"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:background="@drawable/linear_background"
+                app:layout_constraintVertical_weight="4"
+                android:padding="10dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/signup_iv_bg"
+                app:layout_constraintBottom_toTopOf="@id/signup_btn_signup"
+                android:orientation="vertical">
+                <EditText
+                    android:id="@+id/signup_et_id"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:layout_margin="10dp"
+                    android:hint="ID"
+                    android:textColor="@color/D_text"
+                    android:textColorHint="@color/D_text"
+                    android:backgroundTint="@color/D_third"
+                    android:drawableStart="@drawable/ic_identity"
+                    android:drawablePadding="10dp"/>
+                <EditText
+                    android:id="@+id/signup_et_email"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:layout_margin="10dp"
+                    android:hint="Email"
+                    android:textColor="@color/D_text"
+                    android:textColorHint="@color/D_text"
+                    android:backgroundTint="@color/D_third"
+                    android:drawableStart="@drawable/ic_email"
+                    android:drawablePadding="10dp"/>
+                <EditText
+                    android:id="@+id/signup_et_pw"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:layout_margin="10dp"
+                    android:hint="Password"
+                    android:textColor="@color/D_text"
+                    android:textColorHint="@color/D_text"
+                    android:backgroundTint="@color/D_third"
+                    android:drawableStart="@drawable/ic_password"
+                    android:drawablePadding="10dp"/>
+                <EditText
+                    android:id="@+id/signup_et_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:layout_margin="10dp"
+                    android:hint="Name"
+                    android:textColorHint="@color/D_text"
+                    android:textColor="@color/D_text"
+                    android:backgroundTint="@color/D_third"
+                    android:drawableStart="@drawable/ic_name"
+                    android:drawablePadding="10dp"/>
+
+
+            </LinearLayout>
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/signup_btn_signup"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:background="@drawable/dirtfy_button_pattern"
+                android:backgroundTint="@color/D_text"
+                app:layout_constraintVertical_weight="1"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/signup_linear_info"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:text="Sign Up"
+                android:textColor="@color/D_primary"
+                android:textSize="30sp"
+                android:layout_margin="20dp"/>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.cardview.widget.CardView>
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
