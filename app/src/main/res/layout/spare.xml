@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <LinearLayout
+        android:id="@+id/linear_login_top"
+        android:layout_width="match_parent"
+        android:layout_height="240dp"
+        android:background="@drawable/top_linear_background"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="MissingConstraints"
+        android:orientation="horizontal"/>
+
+    <TextView
+        android:id="@+id/login_tv_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:visibility="invisible"
+        android:text="Qurido"
+        android:textColor="@color/white"
+        android:textSize="50dp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cv_login_icon"
+        android:layout_width="100dp"
+        android:layout_height="90dp"
+        app:cardCornerRadius="15dp"
+        app:cardElevation="21dp"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toTopOf="@+id/cv_login_bottom"
+        app:layout_constraintEnd_toEndOf="@+id/cv_login_bottom"
+        app:layout_constraintStart_toStartOf="@+id/cv_login_bottom"
+        app:layout_constraintTop_toTopOf="@+id/cv_login_bottom">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/cv_background">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="centerCrop"
+                android:src="@drawable/hobanwoo_black"
+                android:padding="25dp">
+            </ImageView>
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cv_login_bottom"
+        android:layout_width="match_parent"
+        android:layout_height="400dp"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="70dp"
+        android:layout_marginEnd="30dp"
+        app:cardElevation="20dp"
+        android:visibility="invisible"
+
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/login_tv_title">
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Login"
+                android:layout_marginStart="20dp"
+                android:textStyle="bold"
+                android:textSize="40dp"
+                android:textColor="@color/black"
+                android:layout_marginTop="50dp"/>
+
+            <EditText
+                android:id="@+id/et_Login_id"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:background="@drawable/et_background"
+                android:hint="ID"
+                android:drawableStart="@drawable/ic_identity"
+                android:drawablePadding="10dp"
+                android:drawableTint="@color/black"
+                android:paddingStart="10dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
+                android:layout_marginTop="20dp" />
+
+            <EditText
+                android:id="@+id/et_Login_password"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:background="@drawable/et_background"
+                android:hint="Password"
+                android:drawableStart="@drawable/ic_password"
+                android:drawablePadding="10dp"
+                android:drawableTint="@color/black"
+                android:paddingStart="10dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
+                android:layout_marginTop="10dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:textColor="@color/primary"
+                android:text="Forget Password"
+                android:layout_marginTop="10dp"/>
+
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btn_Login_login"
+                android:layout_width="160dp"
+                android:layout_height="wrap_content"
+                android:background="@drawable/login_bt_background"
+                android:text="Login"
+                android:textSize="20dp"
+                android:textColor="@color/white"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="30dp"/>
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/linear_login_register"
+        android:layout_width="200dp"
+        android:layout_height="50dp"
+        android:background="@drawable/register_linear_background"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/cv_login_bottom"
+        app:layout_constraintStart_toStartOf="@+id/cv_login_bottom"
+        app:layout_constraintTop_toBottomOf="@+id/cv_login_bottom">
+
+        <TextView
+            android:id="@+id/tv_login_register"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Register"
+            android:textSize="22dp"
+            android:textColor="@color/black"
+            android:layout_marginEnd="10dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/lottie_login_arrow"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            app:lottie_fileName="arrow_right_anim.json"
+            android:padding="5dp"
+            app:lottie_autoPlay="true"
+            app:lottie_loop="true"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
