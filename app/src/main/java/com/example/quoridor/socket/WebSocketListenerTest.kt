@@ -1,6 +1,9 @@
 package com.example.quoridor.socket
 
+import android.content.Context
 import android.util.Log
+import com.example.quoridor.util.Func
+import com.google.gson.Gson
 import okhttp3.Response
 import okhttp3.WebSocket
 import okhttp3.WebSocketListener
@@ -9,6 +12,7 @@ import okio.ByteString
 class WebSocketListenerTest: WebSocketListener() {
 
     private val TAG = "Dirtfy Test"
+
 
     override fun onOpen(webSocket: WebSocket, response: Response) {
         super.onOpen(webSocket, response)
@@ -19,6 +23,8 @@ class WebSocketListenerTest: WebSocketListener() {
     override fun onMessage(webSocket: WebSocket, text: String) {
         super.onMessage(webSocket, text)
         Log.d(TAG, "text 데이터 확인 : $text")
+        val gson = Gson().fromJson(text, DTO.Data::class.java)
+        Log.d(TAG,gson.toString())
     }
 
     override fun onMessage(webSocket: WebSocket, bytes: ByteString) {

@@ -15,10 +15,9 @@ object DTO {
     ): Serializable
 
     data class Data(
-        val isEnd: Char,
         val remainTime: Long,
-        val type: Char,
-        val row: Char,
-        val col: Char
+        val type: Int,
+        val row: Int,
+        val col: Int
     ): Serializable
 }

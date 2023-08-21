@@ -28,7 +28,7 @@ object RetrofitFunc {
                 var timeout = time
                 while (timeout-- > 0) {
                     Log.d(TAG, "awaitingJob running $timeout")
-                    delay(1000)
+                    delay(5000)
                 }
 
                 Log.d(TAG, "awaitingJob end")

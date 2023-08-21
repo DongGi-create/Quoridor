@@ -6,10 +6,12 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.quoridor.R
 import com.example.quoridor.databinding.ActivitySocketTestBinding
+import com.example.quoridor.retrofit.util.ToastHttpResult
 import com.example.quoridor.socket.Parser.toByteArray
 import com.example.quoridor.socket.Parser.toData
 import com.example.quoridor.socket.Parser.toHexString
 import com.example.quoridor.socket.WebSocketTest.client
+import com.google.gson.Gson
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.CoroutineStart
 import kotlinx.coroutines.Deferred
@@ -19,13 +21,17 @@ import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import okhttp3.Request
+import okhttp3.RequestBody
 import okhttp3.WebSocket
+import org.json.JSONException
+import org.json.JSONObject
+
 
 class SocketTestActivity: AppCompatActivity() {
 
     companion object {
-//        const val URL = WebSocketTest.BASE_URL+"game/move"+"?gameId="+gameId+"&turn="+turn;
-        const val URL = WebSocketTest.BASE_URL+"game/move"
+        val URL = WebSocketTest.BASE_URL+"game/move"+"?gameId="+ToastHttpResult.data1.gameId+"&turn="+ToastHttpResult.data1.turn.toString();
+//        const val URL = WebSocketTest.BASE_URL+"game/move"
 
         val request = Request.Builder().url(URL).build();
         val listener = WebSocketListenerTest()
@@ -35,6 +41,7 @@ class SocketTestActivity: AppCompatActivity() {
 
     private var byteArray = byteArrayOf()
 
+    private lateinit var jsonData :String
     private val binding by lazy {
         ActivitySocketTestBinding.inflate(layoutInflater)
     }
@@ -61,7 +68,8 @@ class SocketTestActivity: AppCompatActivity() {
         }
 
         binding.makeMassage.setOnClickListener {
-            val data = DTO.Data('n', 1000*60*3L, 'm', '0', '3')
+            val data = DTO.Data(1000*60*3L, 0, 0, 3)
+            jsonData = Gson().toJson(data)
 //            val data = 'c'
 //            Log.d(TAG, "${data.toByteArray().size}\n${data.toByteArray().toHexString()}")
 //            for (b in data.toByteArray()) {
@@ -71,16 +79,16 @@ class SocketTestActivity: AppCompatActivity() {
 //            Log.d(TAG, 'b'.code.toByte().toString())
 //            Log.d(TAG, 'c'.code.toByte().toString())
 //            Log.d(TAG, fromByteArray<Char>(data.toByteArray()).toString())
-
-            byteArray = data.toByteArray()
-
+            /*byteArray = data.toByteArray()
             Log.d(TAG, byteArray.toHexString())
-            Log.d(TAG, byteArray.toData()?.toString()?:"error")
+            Log.d(TAG, byteArray.toData()?.toString()?:"error")*/
         }
 
         binding.sendMassage.setOnClickListener {
+            val data = DTO.Data(1000*60*3L, 0, 0, 3)
+            jsonData = Gson().toJson(data)
             buildAsyncJob {
-                ws.send("테스트 메시지!");
+                ws.send(jsonData);
             }.start()
         }
 
