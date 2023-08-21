@@ -245,13 +245,20 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/cv_myPage_type_vs4"
                     android:orientation="horizontal">
-                    <ImageView
-                        android:id="@+id/iv_myPage_vs4_tier"
+                    <org.eazegraph.lib.charts.PieChart
+                        android:id="@+id/pc_myPage_winning_rate"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="2"
                         android:layout_marginStart="10dp"
-                        android:src="@drawable/platinum"/>
+                        android:padding="10dp"
+                        android:layout_marginTop="10dp"
+                        app:egBarWidth="20dp"
+                        app:egEnableScroll="true"
+                        app:egFixedBarWidth="true"
+                        app:egLegendHeight="25dp"
+                        app:egShowDecimal="true" />
+
                     <LinearLayout
                         android:layout_width="0dp"
                         android:layout_height="match_parent"

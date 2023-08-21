@@ -37,6 +37,10 @@ class TestActivity:  AppCompatActivity() {
         binding.socketTest.setOnClickListener {
             goto(SocketTestActivity::class.java)
         }
+
+        binding.pieChart.setOnClickListener{
+            goto(PieChartTest::class.java)
+        }
     }
 
     private fun <T> goto(activityClass: Class<T>) {

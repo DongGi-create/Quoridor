@@ -47,7 +47,6 @@ class SocketTestActivity: AppCompatActivity() {
         getString(R.string.Dirtfy_test_tag)
     }
 
-    @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)

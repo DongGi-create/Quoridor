@@ -67,6 +67,9 @@
         <activity
             android:name=".socket.SocketTestActivity"
             android:exported="true"/>
+
+        <activity android:name=".PieChartTest"
+            android:exported="true"/>
     </application>
 
 </manifest>
