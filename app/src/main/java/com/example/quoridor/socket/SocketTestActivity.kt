@@ -50,12 +50,13 @@ class SocketTestActivity: AppCompatActivity() {
             buildNetworkJob(
                 buildAsyncJob {
                     ws = client.newWebSocket(request, listener)
+                    Log.d(TAG, "web socket creating")
                 }
             ) {
                 Log.d(TAG, "web socket created")
                 Toast.makeText(this@SocketTestActivity, "web socket created", Toast.LENGTH_SHORT)
                     .show()
-            }
+            }.start()
         }
 
         binding.makeMassage.setOnClickListener {
@@ -109,6 +110,7 @@ class SocketTestActivity: AppCompatActivity() {
         return CoroutineScope(Dispatchers.IO)
             .launch(start = CoroutineStart.LAZY) {
                 networkJob.start()
+                Log.d(TAG, "networkJob start")
                 networkJob.await()
                 withContext(Dispatchers.Main) {
                     afterJob()

@@ -37,8 +37,6 @@ object DTO {
     )
 
     data class MatchingRequest(
-        @SerializedName("uid")
-        val uid: Long,
         @SerializedName("gameType")
         val gameType: Int
     )

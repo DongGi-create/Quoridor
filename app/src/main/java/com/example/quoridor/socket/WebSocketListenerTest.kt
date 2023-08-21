@@ -6,7 +6,6 @@ import okhttp3.WebSocket
 import okhttp3.WebSocketListener
 import okio.ByteString
 
-
 class WebSocketListenerTest: WebSocketListener() {
 
     private val TAG = "Dirtfy Test"

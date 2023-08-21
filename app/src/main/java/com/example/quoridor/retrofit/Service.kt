@@ -49,11 +49,10 @@ class Service {
     }
 
     fun match(
-        uid: Long,
         gameType: Int,
         httpResult: HttpResult<DTO.MatchingResponse>
     ) {
-        val body = DTO.MatchingRequest(uid, gameType)
+        val body = DTO.MatchingRequest(gameType)
         service.matchRequest(body).enqueue(makeCallBack(httpResult))
     }
     fun makeMatchCall(data: DTO.MatchingRequest): Call<DTO.MatchingResponse> {

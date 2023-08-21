@@ -15,6 +15,9 @@ import kotlin.math.pow
 
 object GameFunc {
 
+    private val initWallTag = "initWall"
+    private val timeLimitTag = "timeLimit"
+
     private val ratio = 10.0
     private val diff = 400.0
     private val K = 20.0
@@ -28,13 +31,13 @@ object GameFunc {
     }
 
     fun Intent.putGameType(gameType: GameType) {
-        this.putExtra("initWall", gameType.initWall)
-        this.putExtra("timeLimit", gameType.timeLimit)
+        this.putExtra(initWallTag, gameType.initWall)
+        this.putExtra(timeLimitTag,  gameType.timeLimit)
     }
 
     fun Intent.getGameType(): GameType {
-        val initWall = this.getIntExtra("initWall", 10)
-        val timeLimit = this.getLongExtra("initWall", 1000*60*3L)
+        val initWall = this.getIntExtra(initWallTag, 10)
+        val timeLimit = this.getLongExtra(timeLimitTag, 1000*60*3L)
 
         return if (initWall == GameType.CLASSIC.initWall && timeLimit == GameType.CLASSIC.timeLimit)
             GameType.CLASSIC
