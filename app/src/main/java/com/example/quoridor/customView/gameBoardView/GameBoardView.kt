@@ -17,6 +17,7 @@ import androidx.core.view.children
 import androidx.lifecycle.MutableLiveData
 import com.example.quoridor.R
 import com.example.quoridor.customView.ObservableView
+import com.example.quoridor.customView.gameBoardView.Func.setOnShortLongClickListener
 import com.example.quoridor.databinding.CustomViewGameBoardBinding
 import com.example.quoridor.util.Coordinate
 import com.example.quoridor.util.Func
@@ -56,8 +57,14 @@ class GameBoardView: ObservableView {
     private var verticalWallChooseView: View = View(context)
     private var horizontalWallChooseView: View = View(context)
 
-    private var dropListener: GameBoardViewDropListener =
-        object : GameBoardViewDropListener {
+    private var dragListener: GameBoardViewWallListener.DragListener =
+        object: GameBoardViewWallListener.DragListener {
+            override fun startDrag(): Boolean {
+                return false
+            }
+        }
+    private var dropListener: GameBoardViewWallListener.DropListener =
+        object : GameBoardViewWallListener.DropListener {
 
             override fun cross(matchedView: View, wall: Wall): Boolean {
                 return true
@@ -332,6 +339,9 @@ class GameBoardView: ObservableView {
     }
 
     private fun wallChooseLongClick(view: View): Boolean {
+        if (!dragListener.startDrag())
+            return true
+
         Log.d(TAG, "wallChooseLongClick")
 
         val dragData = ClipData(
@@ -347,30 +357,34 @@ class GameBoardView: ObservableView {
     fun setWallChooseView(verticalWallChooseView: View, horizontalWallChooseView: View){
         this.verticalWallChooseView.apply {
             tag = null
-            setOnLongClickListener { true }
+            setOnShortLongClickListener {  }
         }
         verticalWallChooseView.apply {
             tag = verticalWallTag
-            setOnLongClickListener {
-                wallChooseLongClick(it)
+            setOnShortLongClickListener {
+                wallChooseLongClick(this)
             }
         }
         this.verticalWallChooseView = verticalWallChooseView
 
         this.horizontalWallChooseView.apply {
             tag = null
-            setOnLongClickListener { true }
+            setOnShortLongClickListener {  }
         }
         horizontalWallChooseView.apply {
             tag = horizontalWallTag
-            setOnLongClickListener {
-                wallChooseLongClick(it)
+            setOnShortLongClickListener {
+                wallChooseLongClick(this)
             }
         }
         this.horizontalWallChooseView = horizontalWallChooseView
     }
 
-    fun setDropListener(listener: GameBoardViewDropListener){
+    fun setDragListener(listener: GameBoardViewWallListener.DragListener){
+        dragListener = listener
+    }
+
+    fun setDropListener(listener: GameBoardViewWallListener.DropListener){
         dropListener = listener
     }
 

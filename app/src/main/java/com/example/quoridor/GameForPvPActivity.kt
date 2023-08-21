@@ -1,17 +1,20 @@
 package com.example.quoridor
 
+import android.os.Build
 import android.os.Bundle
+import android.os.CountDownTimer
 import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.Toast
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import com.example.quoridor.customView.WallSelectorView
 import com.example.quoridor.customView.gameBoardView.Board
-import com.example.quoridor.customView.gameBoardView.GameBoardViewDropListener
 import com.example.quoridor.customView.gameBoardView.GameBoardViewPieceClickListener
 import com.example.quoridor.customView.gameBoardView.GameBoardViewPlayerImageGetter
+import com.example.quoridor.customView.gameBoardView.GameBoardViewWallListener
 import com.example.quoridor.customView.gameBoardView.Wall
 import com.example.quoridor.customView.gameBoardView.WallType
 import com.example.quoridor.customView.playerView.Player
@@ -20,6 +23,7 @@ import com.example.quoridor.game.Notation
 import com.example.quoridor.game.types.GameType
 import com.example.quoridor.game.types.NotationType
 import com.example.quoridor.game.util.GameFunc
+import com.example.quoridor.game.util.GameFunc.getGameType
 import com.example.quoridor.util.Coordinate
 import com.example.quoridor.util.Func.get
 import com.example.quoridor.util.Func.popToast
@@ -41,20 +45,12 @@ class GameForPvPActivity:  AppCompatActivity() {
         binding.gameBoardView.data
     }
 
-    private val initWall = 10
-    private val timeLimit by lazy {
-        when(intent.getIntExtra("gameType", GameType.BLITZ.ordinal)) {
-            GameType.BLITZ.ordinal -> GameType.BLITZ.timeLimit
-            GameType.STANDARD.ordinal -> GameType.STANDARD.timeLimit
-            GameType.CLASSIC.ordinal -> GameType.CLASSIC.timeLimit
-            else -> GameType.BLITZ.timeLimit
-        }
-    }
+    private lateinit var gameType: GameType
     private val imageResourceList = arrayOf( R.drawable.baseline_lens_24_red, R.drawable.baseline_lens_24_blue)
     private val imageViewList by lazy {
         Array(2) { ImageView(applicationContext) }
     }
-    private var timer: Timer? = null
+    private var timer: CountDownTimer? = null
     private var turn = 0
 
     private val TAG by lazy {
@@ -65,7 +61,7 @@ class GameForPvPActivity:  AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
 
-        val gameType = intent.getIntExtra("gameType", GameType.BLITZ.ordinal)
+        gameType = intent.getGameType()
 
         binding.gameBoardView.walls[WallType.VERTICAL.ordinal][0][0].post {
             val vertWalls = binding.gameBoardView.walls[WallType.VERTICAL.ordinal]
@@ -76,7 +72,7 @@ class GameForPvPActivity:  AppCompatActivity() {
             binding.myWallSelector.horizontalWallView.setSize(long, short)
         }
 
-        binding.gameBoardView.setDropListener(object : GameBoardViewDropListener {
+        binding.gameBoardView.setDropListener(object : GameBoardViewWallListener.DropListener {
             override fun cross(matchedView: View, wall: Wall): Boolean {
                 if (GameFunc.wallCross(wall, boardData.value!!)) {
                     popToast(this@GameForPvPActivity, "cross")
@@ -168,32 +164,29 @@ class GameForPvPActivity:  AppCompatActivity() {
         return image
     }
 
-    private fun buildTimer(playerNum: Int, timeOver: () -> Unit = {}): Timer? {
+    private fun buildTimer(playerNum: Int, timeOver: () -> Unit = {}): CountDownTimer? {
         if (playersData[playerNum].value == null)
             return null
 
         val playerValue = playersData[playerNum].value!!
-        return timer(period = 1000L) {
-            if (playerValue.leftTime <= 0L) {
-                this@GameForPvPActivity.runOnUiThread {
-                    timeOver()
-                }
-                this.cancel()
+        return object : CountDownTimer(playerValue.leftTime, 1000L) {
+            override fun onTick(p0: Long) {
+                playerValue.leftTime -= 1000L
+                playersData[playerNum].postValue(playerValue)
+                Log.d(TAG, "timer is running ${playerValue.leftTime}")
             }
 
-            playerValue.leftTime -= 1000L
-
-            playersData[playerNum].postValue(playerValue)
-
-            Log.d(TAG, "timer is running ${playerValue.leftTime}")
-        }
+            override fun onFinish() {
+                timeOver()
+            }
+        }.start()
     }
 
     fun initGame() {
-        val player0 = Player("p0", timeLimit, initWall, 1050)
+        val player0 = Player("p0", gameType.timeLimit, gameType.initWall, 1050)
         binding.myInfoView.profileImageView.setImageResource(R.drawable.hobanwoo_red)
         binding.myInfoView.data.value = player0
-        val player1 = Player("p1", timeLimit, initWall, 950)
+        val player1 = Player("p1", gameType.timeLimit, gameType.initWall, 950)
         binding.opPlayerInfoView.profileImageView.setImageResource(R.drawable.hobanwoo_blue)
         binding.opPlayerInfoView.data.value = player1
 

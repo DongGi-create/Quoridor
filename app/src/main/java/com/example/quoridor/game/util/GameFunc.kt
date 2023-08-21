@@ -1,10 +1,13 @@
 package com.example.quoridor.game.util
 
+import android.content.Intent
 import com.example.quoridor.customView.gameBoardView.Board
 import com.example.quoridor.customView.gameBoardView.Wall
 import com.example.quoridor.customView.gameBoardView.WallType
+import com.example.quoridor.customView.playerView.Player
 import com.example.quoridor.game.types.DirectionType
 import com.example.quoridor.game.types.GameResultType
+import com.example.quoridor.game.types.GameType
 import com.example.quoridor.util.Coordinate
 import com.example.quoridor.util.Func.get
 import com.example.quoridor.util.Func.set
@@ -22,6 +25,23 @@ object GameFunc {
 
     fun calcRating(myRating: Int, opponentRating: Int, gameResult: GameResultType): Int {
         return (myRating + K * (gameResult.ordinal/2.0 - calcW(myRating, opponentRating))).toInt()
+    }
+
+    fun Intent.putGameType(gameType: GameType) {
+        this.putExtra("initWall", gameType.initWall)
+        this.putExtra("timeLimit", gameType.timeLimit)
+    }
+
+    fun Intent.getGameType(): GameType {
+        val initWall = this.getIntExtra("initWall", 10)
+        val timeLimit = this.getLongExtra("initWall", 1000*60*3L)
+
+        return if (initWall == GameType.CLASSIC.initWall && timeLimit == GameType.CLASSIC.timeLimit)
+            GameType.CLASSIC
+        else if (initWall == GameType.STANDARD.initWall && timeLimit == GameType.STANDARD.timeLimit)
+            GameType.STANDARD
+        else
+            GameType.BLITZ
     }
 
     fun wallCross(wall: Wall, board: Board): Boolean {

@@ -1,10 +1,8 @@
 package com.example.quoridor.socket
 
-import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
-import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import com.example.quoridor.R
 import com.example.quoridor.databinding.ActivitySocketTestBinding
@@ -20,16 +18,13 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import okhttp3.OkHttpClient
 import okhttp3.Request
 import okhttp3.WebSocket
-import okhttp3.WebSocketListener
-import java.lang.Exception
 
 class SocketTestActivity: AppCompatActivity() {
 
     companion object {
-        const val URL = WebSocketTest.BASE_URL+"test"
+        const val URL = WebSocketTest.BASE_URL+"game/move"
 
         val request = Request.Builder().url(URL).build();
         val listener = WebSocketListenerTest()
