@@ -1,16 +1,14 @@
 package com.example.quoridor
 
-import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.FragmentActivity
+import com.example.quoridor.communication.retrofit.DTO
+import com.example.quoridor.communication.retrofit.HttpResult
+import com.example.quoridor.communication.retrofit.Service
 import com.example.quoridor.databinding.ActivitySignupBinding
 import com.example.quoridor.login.LoginActivity
-import com.example.quoridor.retrofit.DTO
-import com.example.quoridor.retrofit.HttpResult
-import com.example.quoridor.retrofit.Service
 
 class SignUpActivity :AppCompatActivity(){
     private val binding: ActivitySignupBinding by lazy {

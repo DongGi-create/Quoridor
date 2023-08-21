@@ -1,23 +1,20 @@
-package com.example.quoridor.retrofit
+package com.example.quoridor.communication.retrofit
 
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
-import com.example.quoridor.GameForLocalActivity
 import com.example.quoridor.GameForPvPActivity
 import com.example.quoridor.R
+import com.example.quoridor.communication.retrofit.util.RetrofitFunc
+import com.example.quoridor.communication.retrofit.util.ToastHttpResult
 import com.example.quoridor.databinding.ActivityRetrofitTestBinding
-import com.example.quoridor.retrofit.util.RetrofitFunc
-import com.example.quoridor.retrofit.util.ToastHttpResult
 import com.example.quoridor.util.Func.popToast
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.CoroutineStart
 import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
-import kotlinx.coroutines.async
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 class RetrofitTestActivity: AppCompatActivity() {

@@ -3,11 +3,11 @@ package com.example.quoridor
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import com.example.quoridor.communication.retrofit.RetrofitTestActivity
+import com.example.quoridor.communication.socket.SocketTestActivity
 import com.example.quoridor.databinding.ActivityTestBinding
 import com.example.quoridor.game.types.GameType
 import com.example.quoridor.game.util.GameFunc.putGameType
-import com.example.quoridor.retrofit.RetrofitTestActivity
-import com.example.quoridor.socket.SocketTestActivity
 
 class TestActivity:  AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

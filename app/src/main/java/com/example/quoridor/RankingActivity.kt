@@ -4,8 +4,8 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.quoridor.adapter.RankingRecyclerViewAdapter
+import com.example.quoridor.communication.retrofit.DTO
 import com.example.quoridor.databinding.ActivityRankingBinding
-import com.example.quoridor.retrofit.DTO
 
 class RankingActivity : AppCompatActivity() {
 

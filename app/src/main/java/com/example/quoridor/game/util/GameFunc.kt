@@ -4,7 +4,6 @@ import android.content.Intent
 import com.example.quoridor.customView.gameBoardView.Board
 import com.example.quoridor.customView.gameBoardView.Wall
 import com.example.quoridor.customView.gameBoardView.WallType
-import com.example.quoridor.customView.playerView.Player
 import com.example.quoridor.game.types.DirectionType
 import com.example.quoridor.game.types.GameResultType
 import com.example.quoridor.game.types.GameType

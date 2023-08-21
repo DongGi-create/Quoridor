@@ -5,8 +5,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.quoridor.R
+import com.example.quoridor.communication.retrofit.DTO
 import com.example.quoridor.databinding.ItemRankingRecyclerViewBinding
-import com.example.quoridor.retrofit.DTO
 
 class RankingRecyclerViewAdapter(val itemList: ArrayList<DTO.SignUpResponse>): RecyclerView.Adapter<RankingRecyclerViewAdapter.ViewHolder>() {
 

@@ -1,4 +1,4 @@
-package com.example.quoridor.socket
+package com.example.quoridor.communication.socket
 
 interface API {
     fun getAction()

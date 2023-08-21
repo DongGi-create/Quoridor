@@ -3,8 +3,6 @@ package com.example.quoridor
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
-import android.util.Log
-
 import androidx.appcompat.app.AppCompatActivity
 import com.example.quoridor.databinding.ActivityMypageBinding
 import com.example.quoridor.login.UserManager

@@ -1,6 +1,5 @@
 package com.example.quoridor
 
-import android.os.Build
 import android.os.Bundle
 import android.os.CountDownTimer
 import android.util.Log
@@ -8,7 +7,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.Toast
-import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import com.example.quoridor.customView.WallSelectorView
 import com.example.quoridor.customView.gameBoardView.Board
@@ -29,8 +27,6 @@ import com.example.quoridor.util.Func.get
 import com.example.quoridor.util.Func.popToast
 import com.example.quoridor.util.Func.set
 import com.example.quoridor.util.Func.setSize
-import java.util.Timer
-import kotlin.concurrent.timer
 
 class GameForPvPActivity:  AppCompatActivity() {
     private var available: Array<Coordinate> = Array(0){ Coordinate(0,0) }

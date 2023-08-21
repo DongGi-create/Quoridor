@@ -30,7 +30,7 @@
             android:exported="true" />
 
         <activity
-            android:name=".retrofit.RetrofitTestActivity"
+            android:name=".communication.retrofit.RetrofitTestActivity"
             android:exported="true"/>
 
         <activity
@@ -39,10 +39,6 @@
 
         <activity
             android:name=".login.LoginActivity"
-            android:exported="true"/>
-
-        <activity
-            android:name=".retrofit.SignUpTestActivity"
             android:exported="true"/>
 
         <activity
@@ -65,7 +61,7 @@
 
 
         <activity
-            android:name=".socket.SocketTestActivity"
+            android:name=".communication.socket.SocketTestActivity"
             android:exported="true"/>
 
         <activity android:name=".PieChartTest"

@@ -1,4 +1,4 @@
-package com.example.quoridor.retrofit
+package com.example.quoridor.communication.retrofit
 
 import retrofit2.Call
 import retrofit2.http.Body

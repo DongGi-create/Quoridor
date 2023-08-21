@@ -1,9 +1,7 @@
 package com.example.quoridor
 
-import android.R
 import android.graphics.Color
 import android.os.Bundle
-import android.os.PersistableBundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import com.example.quoridor.databinding.ActivityPieChartTestBinding

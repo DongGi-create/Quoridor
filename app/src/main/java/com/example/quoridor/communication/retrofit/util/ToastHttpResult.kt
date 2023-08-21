@@ -1,10 +1,9 @@
-package com.example.quoridor.retrofit.util
+package com.example.quoridor.communication.retrofit.util
 
 import android.content.Context
 import android.util.Log
-import android.widget.Toast
-import com.example.quoridor.retrofit.DTO
-import com.example.quoridor.retrofit.HttpResult
+import com.example.quoridor.communication.retrofit.DTO
+import com.example.quoridor.communication.retrofit.HttpResult
 import com.example.quoridor.util.Func
 
 class ToastHttpResult<T>(

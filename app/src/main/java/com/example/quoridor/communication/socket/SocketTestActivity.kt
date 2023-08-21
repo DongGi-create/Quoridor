@@ -1,16 +1,13 @@
-package com.example.quoridor.socket
+package com.example.quoridor.communication.socket
 
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.quoridor.R
+import com.example.quoridor.communication.retrofit.util.ToastHttpResult
+import com.example.quoridor.communication.socket.WebSocketTest.client
 import com.example.quoridor.databinding.ActivitySocketTestBinding
-import com.example.quoridor.retrofit.util.ToastHttpResult
-import com.example.quoridor.socket.Parser.toByteArray
-import com.example.quoridor.socket.Parser.toData
-import com.example.quoridor.socket.Parser.toHexString
-import com.example.quoridor.socket.WebSocketTest.client
 import com.google.gson.Gson
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.CoroutineStart
@@ -21,16 +18,13 @@ import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import okhttp3.Request
-import okhttp3.RequestBody
 import okhttp3.WebSocket
-import org.json.JSONException
-import org.json.JSONObject
 
 
 class SocketTestActivity: AppCompatActivity() {
 
     companion object {
-        val URL = WebSocketTest.BASE_URL+"game/move"+"?gameId="+ToastHttpResult.data1.gameId+"&turn="+ToastHttpResult.data1.turn.toString();
+        val URL = WebSocketTest.BASE_URL +"game/move"+"?gameId="+ ToastHttpResult.data1.gameId+"&turn="+ ToastHttpResult.data1.turn.toString();
 //        const val URL = WebSocketTest.BASE_URL+"game/move"
 
         val request = Request.Builder().url(URL).build();
@@ -68,7 +62,7 @@ class SocketTestActivity: AppCompatActivity() {
         }
 
         binding.makeMassage.setOnClickListener {
-            val data = DTO.Data(1000*60*3L, 0, 0, 3)
+            val data = DTO.Data(1000 * 60 * 3L, 0, 0, 3)
             jsonData = Gson().toJson(data)
 //            val data = 'c'
 //            Log.d(TAG, "${data.toByteArray().size}\n${data.toByteArray().toHexString()}")
@@ -85,28 +79,23 @@ class SocketTestActivity: AppCompatActivity() {
         }
 
         binding.sendMassage.setOnClickListener {
-            val data = DTO.Data(1000*60*3L, 0, 0, 3)
+            val data = DTO.Data(1000 * 60 * 3L, 0, 0, 3)
             jsonData = Gson().toJson(data)
             buildAsyncJob {
-                ws.send(jsonData);
+                ws.send("$data");
             }.start()
         }
 
         binding.close.setOnClickListener {
             buildAsyncJob {
-                ws.close(1000, null)
+                ws.close(1000, "close btn")
             }.start()
         }
     }
 
     override fun onPause() {
         super.onPause()
-        try {
-            client.dispatcher.executorService.shutdown()
-        }
-        catch (_: Exception) {
-
-        }
+        ws.close(1000, "end")
     }
 
     private fun buildAsyncJob(networkJob: () -> Unit): Deferred<Unit> {

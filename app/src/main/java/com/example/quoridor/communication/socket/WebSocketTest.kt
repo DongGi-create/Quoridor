@@ -1,4 +1,4 @@
-package com.example.quoridor.socket
+package com.example.quoridor.communication.socket
 
 import okhttp3.JavaNetCookieJar
 import okhttp3.OkHttpClient

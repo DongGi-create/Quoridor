@@ -33,8 +33,6 @@ import com.example.quoridor.util.Func.get
 import com.example.quoridor.util.Func.popToast
 import com.example.quoridor.util.Func.set
 import com.example.quoridor.util.Func.setSize
-import java.util.Timer
-import kotlin.concurrent.timer
 
 class GameForLocalActivity:  AppCompatActivity() {
 

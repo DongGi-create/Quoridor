@@ -1,7 +1,7 @@
-package com.example.quoridor.retrofit.util
+package com.example.quoridor.communication.retrofit.util
 
 import android.util.Log
-import com.example.quoridor.retrofit.HttpResult
+import com.example.quoridor.communication.retrofit.HttpResult
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.CoroutineStart
