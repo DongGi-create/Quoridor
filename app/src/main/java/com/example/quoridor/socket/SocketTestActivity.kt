@@ -24,6 +24,7 @@ import okhttp3.WebSocket
 class SocketTestActivity: AppCompatActivity() {
 
     companion object {
+//        const val URL = WebSocketTest.BASE_URL+"game/move"+"?gameId="+gameId+"&turn="+turn;
         const val URL = WebSocketTest.BASE_URL+"game/move"
 
         val request = Request.Builder().url(URL).build();
@@ -90,8 +91,8 @@ class SocketTestActivity: AppCompatActivity() {
         }
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
+    override fun onPause() {
+        super.onPause()
         try {
             client.dispatcher.executorService.shutdown()
         }

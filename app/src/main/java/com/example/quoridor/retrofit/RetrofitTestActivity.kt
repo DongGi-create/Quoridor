@@ -28,6 +28,7 @@ class RetrofitTestActivity: AppCompatActivity() {
 
     private val service = Service()
     private lateinit var keepTryingJob: Deferred<DTO.MatchingResponse?>
+    private lateinit var gameStartJob: Job
 
     private val TAG: String by lazy {
         getString(R.string.Dirtfy_test_tag)
@@ -44,63 +45,70 @@ class RetrofitTestActivity: AppCompatActivity() {
             service.login(id, pw, ToastHttpResult(applicationContext, "login", TAG))
         }
 
-        binding.button.setOnClickListener{
-            val job = CoroutineScope(Dispatchers.IO).async {
-                var gameId :String?
-                var matchingResponse: DTO.MatchingResponse? = null
-                gameId = null
-                while(gameId == null) {
-                    service.match(1, object : HttpResult<DTO.MatchingResponse> {
-                        override fun success(data: DTO.MatchingResponse) {
-                            popToast(this@RetrofitTestActivity, "success! data: $data")
-                            gameId = data.gameId
-                            matchingResponse = data
-                        }
-
-                        override fun appFail() {
-                            popToast(this@RetrofitTestActivity, "app fail")
-                        }
-
-                        override fun fail(throwable: Throwable) {
-                            popToast(this@RetrofitTestActivity, "fail")
-                        }
-
-                        override fun finally() {
-                            popToast(this@RetrofitTestActivity, "end")
-                        }
-                    })
-                    delay(5000)
-                }
-                matchingResponse
-            }
-            CoroutineScope(Dispatchers.Main).launch {
-                popToast(this@RetrofitTestActivity, "매칭성공! GameID: " + job.await().toString())//await는 비동기로만 받을 수 있다
-                val intent = Intent(this@RetrofitTestActivity, GameForPvPActivity::class.java)
-                startActivity(intent)
-            }
-        }
-
-
-//        binding.button.setOnClickListener {
-//            if (!this@RetrofitTestActivity::keepTryingJob.isInitialized || !keepTryingJob.isActive) {
-//                val matchData = DTO.MatchingRequest(1)
+//        binding.button.setOnClickListener{
+//            val job = CoroutineScope(Dispatchers.IO).async {
+//                var gameId :String?
+//                var matchingResponse: DTO.MatchingResponse? = null
+//                gameId = null
+//                while(gameId == null) {
+//                    service.match(1, object : HttpResult<DTO.MatchingResponse> {
+//                        override fun success(data: DTO.MatchingResponse) {
+//                            popToast(this@RetrofitTestActivity, "success! data: $data")
+//                            gameId = data.gameId
+//                            matchingResponse = data
+//                        }
 //
-//                keepTryingJob = RetrofitFunc.buildKeepTryingJob(
-//                    matchData,
-//                    service::makeMatchCall,
-//                    ToastHttpResult(applicationContext, "matching", TAG))
+//                        override fun appFail() {
+//                            popToast(this@RetrofitTestActivity, "app fail")
+//                        }
 //
-//                buildGameStartJob(keepTryingJob).start()
+//                        override fun fail(throwable: Throwable) {
+//                            popToast(this@RetrofitTestActivity, "fail")
+//                        }
 //
-//                keepTryingJob.start()
+//                        override fun finally() {
+//                            popToast(this@RetrofitTestActivity, "end")
+//                        }
+//                    })
+//                    delay(5000)
+//                }
+//                matchingResponse
+//            }
+//            CoroutineScope(Dispatchers.Main).launch {
+//                popToast(this@RetrofitTestActivity, "매칭성공! GameID: " + job.await().toString())//await는 비동기로만 받을 수 있다
+//                val intent = Intent(this@RetrofitTestActivity, GameForPvPActivity::class.java)
+//                startActivity(intent)
 //            }
 //        }
+
+
+        binding.button.setOnClickListener {
+            if (!this@RetrofitTestActivity::keepTryingJob.isInitialized || !keepTryingJob.isActive) {
+                val matchData = DTO.MatchingRequest(1)
+
+                keepTryingJob = RetrofitFunc.buildKeepTryingJob(
+                    matchData,
+                    service::makeMatchCall,
+                    ToastHttpResult(applicationContext, "matching", TAG),
+                    {
+                        !(it.gameId == null || it.turn == null)
+                    })
+
+                gameStartJob = buildGameStartJob(keepTryingJob)
+
+                gameStartJob.start()
+                keepTryingJob.start()
+            }
+        }
     }
 
     override fun onPause() {
         super.onPause()
         if (this@RetrofitTestActivity::keepTryingJob.isInitialized && keepTryingJob.isActive) {
             keepTryingJob.cancel()
+        }
+        if (this@RetrofitTestActivity::gameStartJob.isInitialized && gameStartJob.isActive) {
+            gameStartJob.cancel()
         }
     }
 
@@ -117,7 +125,7 @@ class RetrofitTestActivity: AppCompatActivity() {
                 }
                 else {
                     popToast(applicationContext, "매칭성공! GameID: $gameId")//await는 비동기로만 받을 수 있다
-                    val intent = Intent(this@RetrofitTestActivity, GameForLocalActivity::class.java)
+                    val intent = Intent(this@RetrofitTestActivity, GameForPvPActivity::class.java)
                     startActivity(intent)
                 }
             }

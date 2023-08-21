@@ -43,8 +43,8 @@ object DTO {
 
     data class MatchingResponse(
         @SerializedName("gameId")
-        val gameId: String,
+        val gameId: String?,
         @SerializedName("turn")
-        val turn: Int
+        val turn: Int?
     )
 }

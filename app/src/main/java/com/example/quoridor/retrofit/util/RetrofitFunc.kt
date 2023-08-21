@@ -92,6 +92,8 @@ object RetrofitFunc {
         data: RequestType,
         callMaker: (RequestType) -> Call<ResponseType>,
         httpResult: HttpResult<ResponseType>,
+        validTest: (ResponseType) -> Boolean,
+        delay: Long = 5000L,
         requestTimeout: Int = 15
     ): Deferred<ResponseType?> {
         return CoroutineScope(Dispatchers.Default)
@@ -105,8 +107,8 @@ object RetrofitFunc {
                     val requestingJob = buildRequestingJob(callMaker(data), httpResult, requestTimeout)
                     requestingJob.start()
                     response = requestingJob.await()
-                    if (response != null) break
-                    delay(1000)
+                    if (response != null && validTest(response)) break
+                    delay(delay)
                 }
 
                 Log.d(TAG, "keepTryingJob end")
