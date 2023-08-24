@@ -8,7 +8,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.example.quoridor.MainActivity
 import com.example.quoridor.R
 import com.example.quoridor.SignUpActivity
-import com.example.quoridor.communication.retrofit.DTO
+import com.example.quoridor.communication.retrofit.HttpDTO
 import com.example.quoridor.communication.retrofit.HttpResult
 import com.example.quoridor.communication.retrofit.Service
 import com.example.quoridor.databinding.ActivityLoginBinding
@@ -33,8 +33,8 @@ class LoginActivity : AppCompatActivity() {
             val id = binding.loginEtId.text.toString()
             val pw = binding.loginEtPw.text.toString()
 
-            service.login(id,pw, object: HttpResult<DTO.SignUpResponse> {
-                override fun success(data: DTO.SignUpResponse) {
+            service.login(id,pw, object: HttpResult<HttpDTO.SignUpResponse> {
+                override fun success(data: HttpDTO.SignUpResponse) {
                     popToast("success!")
                     val user = UserManager.getInstance()
                     user.setUser(data)

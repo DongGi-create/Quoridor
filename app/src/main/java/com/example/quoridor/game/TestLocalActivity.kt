@@ -1,10 +1,11 @@
-package com.example.quoridor
+package com.example.quoridor.game
 
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.ImageView
 import android.widget.Toast
+import com.example.quoridor.R
 import com.example.quoridor.customView.WallSelectorView
 import com.example.quoridor.customView.gameBoardView.Board
 import com.example.quoridor.customView.gameBoardView.GameBoardView
@@ -14,13 +15,11 @@ import com.example.quoridor.customView.gameBoardView.Wall
 import com.example.quoridor.customView.gameBoardView.WallType
 import com.example.quoridor.customView.playerView.Player
 import com.example.quoridor.databinding.ActivityGameForLocalBinding
-import com.example.quoridor.game.GameActivity
 import com.example.quoridor.util.Coordinate
 import com.example.quoridor.util.Func
-import com.example.quoridor.util.Func.popToast
 import com.example.quoridor.util.Func.setSize
 
-class GameForLocalActivity: GameActivity() {
+class TestLocalActivity: GameActivity() {
 
     private val binding by lazy {
         ActivityGameForLocalBinding.inflate(layoutInflater)
@@ -35,7 +34,7 @@ class GameForLocalActivity: GameActivity() {
         get() = object : GameBoardViewWallListener.DragListener {
             override fun startDrag(): Boolean {
                 return if (!viewModel.isWallLeft()) {
-                    Func.popToast(this@GameForLocalActivity, "no left wall")
+                    Func.popToast(this@TestLocalActivity, "no left wall")
                     false
                 } else true
             }
@@ -44,7 +43,7 @@ class GameForLocalActivity: GameActivity() {
         get() = object : GameBoardViewWallListener.DropListener {
             override fun cross(matchedView: View, wall: Wall): Boolean {
                 if (viewModel.wallCross(wall)) {
-                    Func.popToast(this@GameForLocalActivity, "cross")
+                    Func.popToast(this@TestLocalActivity, "cross")
                     return true
                 }
                 return false
@@ -52,7 +51,7 @@ class GameForLocalActivity: GameActivity() {
 
             override fun closed(matchedView: View, wall: Wall): Boolean {
                 if (viewModel.wallClosed(wall)) {
-                    Func.popToast(this@GameForLocalActivity, "closed")
+                    Func.popToast(this@TestLocalActivity, "closed")
                     return true
                 }
                 return false
@@ -60,7 +59,7 @@ class GameForLocalActivity: GameActivity() {
 
             override fun match(matchedView: View, wall: Wall): Boolean {
                 if (viewModel.wallMatch(wall)) {
-                    Func.popToast(this@GameForLocalActivity, "match")
+                    Func.popToast(this@TestLocalActivity, "match")
                     return true
                 }
                 return false
@@ -88,7 +87,7 @@ class GameForLocalActivity: GameActivity() {
                         viewModel.turnPass()
                 }
                 else{
-                    popToast(this@GameForLocalActivity, "unavailable")
+                    Toast.makeText(applicationContext, R.string.Cannot_Go, Toast.LENGTH_LONG).show()
                 }
             }
         }

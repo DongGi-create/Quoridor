@@ -4,7 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
-import com.example.quoridor.GameForPvPActivity
+import com.example.quoridor.GameForLocalActivity
 import com.example.quoridor.R
 import com.example.quoridor.communication.retrofit.util.RetrofitFunc
 import com.example.quoridor.communication.retrofit.util.ToastHttpResult
@@ -24,7 +24,7 @@ class RetrofitTestActivity: AppCompatActivity() {
     }
 
     private val service = Service()
-    private lateinit var keepTryingJob: Deferred<DTO.MatchingResponse?>
+    private lateinit var keepTryingJob: Deferred<HttpDTO.MatchingResponse?>
     private lateinit var gameStartJob: Job
 
     private val TAG: String by lazy {
@@ -81,7 +81,7 @@ class RetrofitTestActivity: AppCompatActivity() {
 
         binding.button.setOnClickListener {
             if (!this@RetrofitTestActivity::keepTryingJob.isInitialized || !keepTryingJob.isActive) {
-                val matchData = DTO.MatchingRequest(1)
+                val matchData = HttpDTO.MatchingRequest(1)
 
                 keepTryingJob = RetrofitFunc.buildKeepTryingJob(
                     matchData,
@@ -109,7 +109,7 @@ class RetrofitTestActivity: AppCompatActivity() {
         }
     }
 
-    private fun buildGameStartJob(keepTryingJob: Deferred<DTO.MatchingResponse?>): Job {
+    private fun buildGameStartJob(keepTryingJob: Deferred<HttpDTO.MatchingResponse?>): Job {
         return CoroutineScope(Dispatchers.Main)
             .launch(start = CoroutineStart.LAZY) {
                 Log.d(TAG, "gameStartJob start")
@@ -122,7 +122,7 @@ class RetrofitTestActivity: AppCompatActivity() {
                 }
                 else {
                     popToast(applicationContext, "매칭성공! GameID: $gameId")//await는 비동기로만 받을 수 있다
-                    val intent = Intent(this@RetrofitTestActivity, GameForPvPActivity::class.java)
+                    val intent = Intent(this@RetrofitTestActivity, GameForLocalActivity::class.java)
                     startActivity(intent)
                 }
             }

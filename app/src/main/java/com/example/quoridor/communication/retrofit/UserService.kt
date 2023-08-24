@@ -17,7 +17,7 @@ interface UserService {
                 "Accept: application/json"
     )
     @POST("users/login")
-    fun login(@Body data: DTO.Login): Call<DTO.SignUpResponse>
+    fun login(@Body data: HttpDTO.Login): Call<HttpDTO.SignUpResponse>
 
     @Headers(
         "Postman-Token: <calculate when request is sent>;" +
@@ -30,7 +30,7 @@ interface UserService {
                 "Accept: application/json"
     )
     @POST("users")
-    fun signUp(@Body data: DTO.SignUpRequest): Call<DTO.SignUpResponse>
+    fun signUp(@Body data: HttpDTO.SignUpRequest): Call<HttpDTO.SignUpResponse>
 
     @Headers(
         "Postman-Token: <calculate when request is sent>;" +
@@ -43,5 +43,5 @@ interface UserService {
                 "Accept: application/json"
     )
     @POST("match")
-    fun matchRequest(@Body data: DTO.MatchingRequest): Call<DTO.MatchingResponse>
+    fun matchRequest(@Body data: HttpDTO.MatchingRequest): Call<HttpDTO.MatchingResponse>
 }

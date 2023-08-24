@@ -62,8 +62,8 @@ class SocketTestActivity: AppCompatActivity() {
         }
 
         binding.makeMassage.setOnClickListener {
-            val data = DTO.Data(1000 * 60 * 3L, 0, 0, 3)
-            jsonData = Gson().toJson(data)
+            val action = WebSocketDTO.Action(1000 * 60 * 3L, 0, 0, 3)
+            jsonData = Gson().toJson(action)
 //            val data = 'c'
 //            Log.d(TAG, "${data.toByteArray().size}\n${data.toByteArray().toHexString()}")
 //            for (b in data.toByteArray()) {
@@ -79,10 +79,10 @@ class SocketTestActivity: AppCompatActivity() {
         }
 
         binding.sendMassage.setOnClickListener {
-            val data = DTO.Data(1000 * 60 * 3L, 0, 0, 3)
-            jsonData = Gson().toJson(data)
+            val action = WebSocketDTO.Action(1000 * 60 * 3L, 0, 0, 3)
+            jsonData = Gson().toJson(action)
             buildAsyncJob {
-                ws.send("$data");
+                ws.send("$action");
             }.start()
         }
 

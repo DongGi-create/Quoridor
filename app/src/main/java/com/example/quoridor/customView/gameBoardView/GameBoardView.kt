@@ -83,7 +83,7 @@ class GameBoardView: ObservableView {
         }
     private var clickListener: GameBoardViewPieceClickListener =
         object : GameBoardViewPieceClickListener {
-            override fun click(clickedPiece: View, row: Int, col: Int) {
+            override fun click(clickedPiece: View, coordinate: Coordinate) {
 
             }
         }
@@ -133,7 +133,7 @@ class GameBoardView: ObservableView {
                     val col = tag[2].digitToInt()
 
                     v.setOnClickListener {
-                        clickListener.click(it, row, col)
+                        clickListener.click(it, Coordinate(row, col))
                     }
 
                     pieces[row][col] = v

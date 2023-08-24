@@ -2,7 +2,7 @@ package com.example.quoridor.communication.retrofit.util
 
 import android.content.Context
 import android.util.Log
-import com.example.quoridor.communication.retrofit.DTO
+import com.example.quoridor.communication.retrofit.HttpDTO
 import com.example.quoridor.communication.retrofit.HttpResult
 import com.example.quoridor.util.Func
 
@@ -13,11 +13,11 @@ class ToastHttpResult<T>(
     ): HttpResult<T> {
 
     companion object{
-        lateinit var data1: DTO.MatchingResponse
+        lateinit var data1: HttpDTO.MatchingResponse
     }
     override fun success(data: T) {
         Func.popToast(context, "$str success")
-        data1 = data as DTO.MatchingResponse
+        data1 = data as HttpDTO.MatchingResponse
         Log.d(tag, "$str success, data: $data")
     }
 

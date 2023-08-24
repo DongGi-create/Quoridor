@@ -1,10 +1,11 @@
-package com.example.quoridor
+package com.example.quoridor.game
 
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.ImageView
 import android.widget.Toast
+import com.example.quoridor.R
 import com.example.quoridor.communication.retrofit.HttpDTO
 import com.example.quoridor.communication.socket.WebSocketDTO
 import com.example.quoridor.communication.socket.WebSocketTest
@@ -16,7 +17,6 @@ import com.example.quoridor.customView.gameBoardView.Wall
 import com.example.quoridor.customView.gameBoardView.WallType
 import com.example.quoridor.customView.playerView.Player
 import com.example.quoridor.databinding.ActivityGameForPvpBinding
-import com.example.quoridor.game.GameActivity
 import com.example.quoridor.game.types.ActionType
 import com.example.quoridor.game.util.GameFunc.getMatchData
 import com.example.quoridor.util.Coordinate
@@ -36,7 +36,7 @@ import okhttp3.WebSocketListener
 import java.net.CookieManager
 import java.util.concurrent.TimeUnit
 
-class GameForPvPActivity: GameActivity() {
+class TestPvpActivity: GameActivity() {
 
     private val client = OkHttpClient.Builder()
         .connectTimeout(10, TimeUnit.SECONDS)
@@ -46,12 +46,12 @@ class GameForPvPActivity: GameActivity() {
         .pingInterval(30, TimeUnit.SECONDS)
         .cookieJar(JavaNetCookieJar(CookieManager()))
         .build()
-    private lateinit var URL: String
+    lateinit var URL: String
 
-    private lateinit var request: Request
-    private lateinit var listener: WebSocketListener
+    lateinit var request: Request
+    lateinit var listener: WebSocketListener
 
-    private lateinit var ws: WebSocket
+    lateinit var ws: WebSocket
 
     private val gson = Gson()
 
@@ -78,11 +78,11 @@ class GameForPvPActivity: GameActivity() {
         get() = object :  GameBoardViewWallListener.DragListener{
             override fun startDrag(): Boolean {
                 return if (viewModel.isMyTurn(myTurn)){
-                    popToast(this@GameForPvPActivity, "not my turn")
+                    popToast(this@TestPvpActivity, "not my turn")
                     false
                 }
                 else if (viewModel.isWallLeft(myTurn)) {
-                    popToast(this@GameForPvPActivity, "no left wall")
+                    popToast(this@TestPvpActivity, "no left wall")
                     false
                 }
                 else true
@@ -92,7 +92,7 @@ class GameForPvPActivity: GameActivity() {
         get() = object : GameBoardViewWallListener.DropListener {
             override fun cross(matchedView: View, wall: Wall): Boolean {
                 if (viewModel.wallCross(wall)) {
-                    Func.popToast(this@GameForPvPActivity, "cross")
+                    Func.popToast(this@TestPvpActivity, "cross")
                     return true
                 }
                 return false
@@ -100,7 +100,7 @@ class GameForPvPActivity: GameActivity() {
 
             override fun closed(matchedView: View, wall: Wall): Boolean {
                 if (viewModel.wallClosed(wall)) {
-                    Func.popToast(this@GameForPvPActivity, "closed")
+                    Func.popToast(this@TestPvpActivity, "closed")
                     return true
                 }
                 return false
@@ -108,7 +108,7 @@ class GameForPvPActivity: GameActivity() {
 
             override fun match(matchedView: View, wall: Wall): Boolean {
                 if (viewModel.wallMatch(wall)) {
-                    Func.popToast(this@GameForPvPActivity, "match")
+                    Func.popToast(this@TestPvpActivity, "match")
                     return true
                 }
                 return false
@@ -138,7 +138,7 @@ class GameForPvPActivity: GameActivity() {
                         viewModel.turnPass()
                 }
                 else{
-                    popToast(this@GameForPvPActivity, "unavailable")
+                    Toast.makeText(applicationContext,R.string.Cannot_Go, Toast.LENGTH_LONG).show()
                 }
             }
         }

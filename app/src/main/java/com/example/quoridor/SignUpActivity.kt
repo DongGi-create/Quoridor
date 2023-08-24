@@ -4,7 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.example.quoridor.communication.retrofit.DTO
+import com.example.quoridor.communication.retrofit.HttpDTO
 import com.example.quoridor.communication.retrofit.HttpResult
 import com.example.quoridor.communication.retrofit.Service
 import com.example.quoridor.databinding.ActivitySignupBinding
@@ -36,8 +36,8 @@ class SignUpActivity :AppCompatActivity(){
             val email = binding.signupEtEmail.text.toString()
             val name = binding.signupEtName.text.toString()
 
-            service.signUp(id,pw,email,name, object: HttpResult<DTO.SignUpResponse> {
-                override fun success(data: DTO.SignUpResponse) {
+            service.signUp(id,pw,email,name, object: HttpResult<HttpDTO.SignUpResponse> {
+                override fun success(data: HttpDTO.SignUpResponse) {
                     popToast("SignUp success!")
                     val intent = Intent(this@SignUpActivity, LoginActivity::class.java)
                     startActivity(intent)

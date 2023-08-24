@@ -60,8 +60,13 @@ dependencies {
     implementation 'com.squareup.okhttp3:okhttp:4.9.3'
     // cookieJar
     implementation "com.squareup.okhttp3:okhttp-urlconnection:4.9.1"
+    // ViewModel
+    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.1"
+    // LiveData
+    implementation "androidx.lifecycle:lifecycle-livedata-ktx:2.6.1"
 
-    // Coroutine
+
+// Coroutine
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.4'
 
     // graph

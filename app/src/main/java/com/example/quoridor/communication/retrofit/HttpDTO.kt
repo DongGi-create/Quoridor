@@ -2,7 +2,7 @@ package com.example.quoridor.communication.retrofit
 
 import com.google.gson.annotations.SerializedName
 
-object DTO {
+object HttpDTO {
     data class Login(
         @SerializedName("loginId")
         val loginId: String,

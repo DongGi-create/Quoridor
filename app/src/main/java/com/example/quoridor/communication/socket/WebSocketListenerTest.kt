@@ -20,7 +20,7 @@ class WebSocketListenerTest: WebSocketListener() {
     override fun onMessage(webSocket: WebSocket, text: String) {
         super.onMessage(webSocket, text)
         Log.d(TAG, "text 데이터 확인 : $text")
-        val gson = Gson().fromJson(text, DTO.Data::class.java)
+        val gson = Gson().fromJson(text, WebSocketDTO.Action::class.java)
         Log.d(TAG,gson.toString())
     }
 

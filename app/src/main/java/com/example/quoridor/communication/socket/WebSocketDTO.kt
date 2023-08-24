@@ -4,9 +4,9 @@ import com.example.quoridor.communication.Sendable
 import com.google.gson.annotations.SerializedName
 import java.io.Serializable
 
-object DTO {
+object WebSocketDTO {
 
-    data class Data(
+    data class Action(
         @SerializedName("remainTime")
         val remainTime: Long,
         @SerializedName("type")

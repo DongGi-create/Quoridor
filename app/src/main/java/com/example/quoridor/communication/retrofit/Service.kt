@@ -31,9 +31,9 @@ class Service {
     fun login(
         id: String,
         pw: String,
-        httpResult: HttpResult<DTO.SignUpResponse>
+        httpResult: HttpResult<HttpDTO.SignUpResponse>
     ) {
-        val body = DTO.Login(id, pw)
+        val body = HttpDTO.Login(id, pw)
         service.login(body).enqueue(makeCallBack(httpResult))
     }
 
@@ -42,20 +42,20 @@ class Service {
         password: String,
         email: String,
         name: String,
-        httpResult: HttpResult<DTO.SignUpResponse>
+        httpResult: HttpResult<HttpDTO.SignUpResponse>
     ) {
-        val body = DTO.SignUpRequest(loginId, password, email, name)
+        val body = HttpDTO.SignUpRequest(loginId, password, email, name)
         service.signUp(body).enqueue(makeCallBack(httpResult))
     }
 
     fun match(
         gameType: Int,
-        httpResult: HttpResult<DTO.MatchingResponse>
+        httpResult: HttpResult<HttpDTO.MatchingResponse>
     ) {
-        val body = DTO.MatchingRequest(gameType)
+        val body = HttpDTO.MatchingRequest(gameType)
         service.matchRequest(body).enqueue(makeCallBack(httpResult))
     }
-    fun makeMatchCall(data: DTO.MatchingRequest): Call<DTO.MatchingResponse> {
+    fun makeMatchCall(data: HttpDTO.MatchingRequest): Call<HttpDTO.MatchingResponse> {
         return service.matchRequest(data)
     }
 

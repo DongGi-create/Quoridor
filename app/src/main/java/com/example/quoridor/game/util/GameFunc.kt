@@ -1,6 +1,7 @@
 package com.example.quoridor.game.util
 
 import android.content.Intent
+import com.example.quoridor.communication.retrofit.HttpDTO
 import com.example.quoridor.customView.gameBoardView.Board
 import com.example.quoridor.customView.gameBoardView.Wall
 import com.example.quoridor.customView.gameBoardView.WallType
@@ -14,12 +15,16 @@ import kotlin.math.pow
 
 object GameFunc {
 
-    private val initWallTag = "initWall"
-    private val timeLimitTag = "timeLimit"
+    private const val initWallTag = "initWall"
+    private const val timeLimitTag = "timeLimit"
 
-    private val ratio = 10.0
-    private val diff = 400.0
-    private val K = 20.0
+    private const val gameIdTag = "gameId"
+    private const val turnTag = "turn"
+
+
+    private const val ratio = 10.0
+    private const val diff = 400.0
+    private const val K = 20.0
 
     private fun calcW(myRating: Int, opponentRating: Int): Double {
         return 1/(ratio.pow((opponentRating - myRating) / diff) + 1)
@@ -44,6 +49,18 @@ object GameFunc {
             GameType.STANDARD
         else
             GameType.BLITZ
+    }
+
+    fun Intent.putMatchData(matchData: HttpDTO.MatchingResponse) {
+        this.putExtra(gameIdTag, matchData.gameId)
+        this.putExtra(turnTag,  matchData.turn)
+    }
+
+    fun Intent.getMatchData(): HttpDTO.MatchingResponse {
+        val gameId = this.getStringExtra(gameIdTag)
+        val turn = this.getIntExtra(turnTag, 0)
+
+        return HttpDTO.MatchingResponse(gameId, turn)
     }
 
     fun wallCross(wall: Wall, board: Board): Boolean {

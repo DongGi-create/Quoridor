@@ -3,11 +3,15 @@ package com.example.quoridor
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import com.example.quoridor.communication.retrofit.HttpDTO
 import com.example.quoridor.communication.retrofit.RetrofitTestActivity
 import com.example.quoridor.communication.socket.SocketTestActivity
 import com.example.quoridor.databinding.ActivityTestBinding
+import com.example.quoridor.game.TestLocalActivity
+import com.example.quoridor.game.TestPvpActivity
 import com.example.quoridor.game.types.GameType
 import com.example.quoridor.game.util.GameFunc.putGameType
+import com.example.quoridor.game.util.GameFunc.putMatchData
 
 class TestActivity:  AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -24,14 +28,15 @@ class TestActivity:  AppCompatActivity() {
         }
 
         binding.localGameTest.setOnClickListener {
-            val intent = Intent(this, GameForLocalActivity::class.java)
+            val intent = Intent(this, TestLocalActivity::class.java)
             intent.putGameType(GameType.BLITZ)
             startActivity(intent)
         }
 
         binding.pvpGameTest.setOnClickListener {
-            val intent = Intent(this, GameForPvPActivity::class.java)
+            val intent = Intent(this, TestPvpActivity::class.java)
             intent.putGameType(GameType.BLITZ)
+            intent.putMatchData(HttpDTO.MatchingResponse("gameId", 1))
             startActivity(intent)
         }
 

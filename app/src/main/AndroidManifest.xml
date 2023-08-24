@@ -48,15 +48,21 @@
         <activity
             android:name=".GameForLocalActivity"
             android:exported="true"/>
-
         <activity
             android:name=".GameForPvPActivity"
             android:exported="true"/>
 
         <activity android:name=".SignUpActivity"
             android:exported="true"/>
+
+        <activity android:name=".TestActivity"
+            android:exported="true"/>
+
         <activity
-            android:name=".TestActivity"
+            android:name=".game.TestLocalActivity"
+            android:exported="true"/>
+        <activity
+            android:name=".game.TestPvpActivity"
             android:exported="true"/>
 
 

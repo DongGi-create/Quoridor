@@ -1,6 +1,6 @@
 package com.example.quoridor.login
 
-import com.example.quoridor.communication.retrofit.DTO
+import com.example.quoridor.communication.retrofit.HttpDTO
 
 object UserManager {
     var umid: String? = ""//로그인 안할때는 빈문자열
@@ -28,7 +28,7 @@ object UserManager {
         return instance!!
     }
 
-    fun setUser(user: DTO.SignUpResponse){
+    fun setUser(user: HttpDTO.SignUpResponse){
         umid = user.loginId
         umpw = user.password
         umemail = user.email
