@@ -107,8 +107,18 @@ class GameViewModel: ViewModel() {
     }
     fun turnPass() {
         Log.d(TAG, "turnPass")
-        val turnValue = turn.value!!
+
+        var turnValue = turn.value!!
+        var playerValue = players[turnValue].value!!
+        playerValue.myTurn = false
+        players[turnValue].value = playerValue
+
         turn.value = (turnValue+1)%2
+
+        turnValue = turn.value!!
+        playerValue = players[turnValue].value!!
+        playerValue.myTurn = true
+        players[turnValue].value = playerValue
     }
 
     fun isMyTurn(myTurn: Int): Boolean {
@@ -119,6 +129,11 @@ class GameViewModel: ViewModel() {
     fun isWallLeft(turn: Int): Boolean {
         Log.d(TAG, "isWallLeft($turn)")
         return players[turn].value!!.leftWall > 0
+    }
+    fun setTime(remainTime: Long) {
+        val playerValue = players[turn.value!!].value!!
+        playerValue.leftTime = remainTime
+        players[turn.value!!].value = playerValue
     }
     fun isWallLeft(): Boolean {
         Log.d(TAG, "isWallLeft()")

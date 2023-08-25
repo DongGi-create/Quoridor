@@ -19,6 +19,16 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintBottom_toBottomOf="parent">
 
+        <ImageView
+            android:id="@+id/turn_indicator_iv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:maxWidth="15dp"
+            android:maxHeight="15dp"
+            android:adjustViewBounds="true"
+            android:src="@drawable/baseline_lens_24_green"
+            android:layout_marginRight="10dp"/>
+
         <TextView
             android:id="@+id/left_wall_prefix_tv"
             android:layout_width="wrap_content"

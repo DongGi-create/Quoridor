@@ -180,9 +180,9 @@ abstract class GameActivity: AppCompatActivity() {
 
     fun buildTimer(playerNum: Int, timeOver: () -> Unit = {}): CountDownTimer? {
         val playerValue = viewModel.players[playerNum].value!!
-        return object : CountDownTimer(playerValue.leftTime, 1000L) {
+        return object : CountDownTimer(playerValue.leftTime, 100L) {
             override fun onTick(p0: Long) {
-                playerValue.leftTime -= 1000L
+                playerValue.leftTime -= 100L
                 viewModel.players[playerNum].postValue(playerValue)
                 Log.d(TAG, "timer is running ${playerValue.leftTime}")
             }

@@ -30,6 +30,10 @@ class LocalPlayInfoView: ObservableView {
         data.observe {
             binding.leftWallTv.text = it.leftWall.toString()
             binding.leftTimeTv.text = Func.millToMinSec(it.leftTime)
+            binding.turnIndicatorIv.setImageResource(
+                if (it.myTurn) R.drawable.baseline_lens_24_green
+                else R.drawable.baseline_lens_24_red
+            )
         }
     }
 }

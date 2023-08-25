@@ -160,10 +160,10 @@ class GameForPvPActivity: GameActivity() {
             }
         }
 
-        val player0 = Player("p0", gameType.timeLimit, gameType.initWall, 1050)
+        val player0 = Player("p0", gameType.timeLimit, gameType.initWall, 1050, true)
         binding.myInfoView.profileImageView.setImageResource(R.drawable.hobanwoo_red)
         binding.myInfoView.data.value = player0
-        val player1 = Player("p1", gameType.timeLimit, gameType.initWall, 950)
+        val player1 = Player("p1", gameType.timeLimit, gameType.initWall, 950, false)
         binding.opPlayerInfoView.profileImageView.setImageResource(R.drawable.hobanwoo_blue)
         binding.opPlayerInfoView.data.value = player1
 
@@ -263,6 +263,7 @@ class GameForPvPActivity: GameActivity() {
 
                 val action = gson.fromJson(text, WebSocketDTO.Action::class.java)
 
+                viewModel.setTime(action.remainTime)
                 when (action.type) {
                     ActionType.VERTICAL.ordinal -> {
                         viewModel.addVerticalWall(Coordinate(action.row, action.col))

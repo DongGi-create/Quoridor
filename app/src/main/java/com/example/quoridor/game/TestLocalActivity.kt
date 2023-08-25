@@ -97,9 +97,9 @@ class TestLocalActivity: GameActivity() {
         get() = "$_TAG - TestLocalActivity"
 
     override fun initGame() {
-        val player0 = Player("p0", gameType.timeLimit, gameType.initWall, 1050)
+        val player0 = Player("p0", gameType.timeLimit, gameType.initWall, 1050, true)
         binding.lowerPlayerInfoView.data.value = player0
-        val player1 = Player("p1", gameType.timeLimit, gameType.initWall, 950)
+        val player1 = Player("p1", gameType.timeLimit, gameType.initWall, 950, false)
         binding.upperPlayerInfoView.data.value = player1
 
         val board = Board()

@@ -27,10 +27,10 @@
     <color name="D_second">#454545</color>
     <color name="D_third">#9E9E9E</color>
     <color name="D_text">#E1E1E1</color>
-    <color name="D_transparent">#00FFFFFF</color>
+    <color name="D_transparent">#40252525</color>
 
     <color name="D_red">#FF5454</color>
-    <color name="D_green">#54FFD7</color>
+    <color name="D_green">#2CB83A</color>
     <color name="D_blue">#54A7FF</color>
     <color name="D_purple">#D154FF</color>
     <color name="D_yellow">#F9FF54</color>

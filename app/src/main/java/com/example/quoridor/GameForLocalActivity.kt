@@ -35,7 +35,7 @@ class GameForLocalActivity: GameActivity() {
         get() = object : GameBoardViewWallListener.DragListener {
             override fun startDrag(): Boolean {
                 return if (!viewModel.isWallLeft()) {
-                    Func.popToast(this@GameForLocalActivity, "no left wall")
+                    popToast(this@GameForLocalActivity, "no left wall")
                     false
                 } else true
             }
@@ -44,7 +44,7 @@ class GameForLocalActivity: GameActivity() {
         get() = object : GameBoardViewWallListener.DropListener {
             override fun cross(matchedView: View, wall: Wall): Boolean {
                 if (viewModel.wallCross(wall)) {
-                    Func.popToast(this@GameForLocalActivity, "cross")
+                    popToast(this@GameForLocalActivity, "cross")
                     return true
                 }
                 return false
@@ -52,7 +52,7 @@ class GameForLocalActivity: GameActivity() {
 
             override fun closed(matchedView: View, wall: Wall): Boolean {
                 if (viewModel.wallClosed(wall)) {
-                    Func.popToast(this@GameForLocalActivity, "closed")
+                    popToast(this@GameForLocalActivity, "closed")
                     return true
                 }
                 return false
@@ -60,7 +60,7 @@ class GameForLocalActivity: GameActivity() {
 
             override fun match(matchedView: View, wall: Wall): Boolean {
                 if (viewModel.wallMatch(wall)) {
-                    Func.popToast(this@GameForLocalActivity, "match")
+                    popToast(this@GameForLocalActivity, "match")
                     return true
                 }
                 return false
@@ -98,9 +98,9 @@ class GameForLocalActivity: GameActivity() {
         get() = "$_TAG - TestLocalActivity"
 
     override fun initGame() {
-        val player0 = Player("p0", gameType.timeLimit, gameType.initWall, 1050)
+        val player0 = Player("p0", gameType.timeLimit, gameType.initWall, 1050, true)
         binding.lowerPlayerInfoView.data.value = player0
-        val player1 = Player("p1", gameType.timeLimit, gameType.initWall, 950)
+        val player1 = Player("p1", gameType.timeLimit, gameType.initWall, 950, false)
         binding.upperPlayerInfoView.data.value = player1
 
         val board = Board()
