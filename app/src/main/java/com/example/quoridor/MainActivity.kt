@@ -4,14 +4,26 @@ import android.app.Dialog
 import android.content.Intent
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
+import android.os.CountDownTimer
+import android.service.autofill.FieldClassification.Match
+import android.util.Log
+import android.view.View
 import android.view.Window
 import android.widget.Button
+import android.widget.ImageView
+import android.widget.ProgressBar
+import android.widget.TextView
+import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import com.example.quoridor.databinding.ActivityMainBinding
+import com.example.quoridor.databinding.ActivityProgressBarTestBinding
+import com.example.quoridor.databinding.DialogWaitingPvpBinding
 import com.example.quoridor.login.LoginActivity
 import com.example.quoridor.login.SharedLoginModel
 import com.example.quoridor.login.UserManager
+import java.util.concurrent.TimeUnit
 
 
 class MainActivity : AppCompatActivity() {
@@ -22,8 +34,11 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var sharedLoginModel: SharedLoginModel
     private lateinit var loginmypageIntent: Intent
-    override fun onCreate(savedInstanceState: Bundle?) {
+    private lateinit var pvpDialog: MatchingDialog
 
+
+
+    override fun onCreate(savedInstanceState: Bundle?) {
         val binding = ActivityMainBinding.inflate(layoutInflater)
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
@@ -63,7 +78,9 @@ class MainActivity : AppCompatActivity() {
             goto(GameForLocalActivity::class.java)
         }
         binding.mainIcPvp.setOnClickListener{
-            goto(GameForPvPActivity::class.java)
+            pvpDialog = MatchingDialog(this)
+            pvpDialog.show()
+
         }
 
         binding.mainIcAi.setOnClickListener{
@@ -81,6 +98,9 @@ class MainActivity : AppCompatActivity() {
         val intent = Intent(this, activityClass)
         startActivity(intent)
     }
+
+
+
     private fun dialog(){
         val dialog = Dialog(this)
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)

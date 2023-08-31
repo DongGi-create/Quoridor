@@ -45,7 +45,7 @@ class TestActivity:  AppCompatActivity() {
         }
 
         binding.pieChart.setOnClickListener{
-            goto(PieChartTest::class.java)
+            //goto(ProgressBarTest::class.java)
         }
     }
 
