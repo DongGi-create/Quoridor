@@ -25,10 +25,11 @@ class MyPage:AppCompatActivity() {
 
         chart = binding.pcMyPageWinningRate
         setPieChart()
-        val user = UserManager.getInstance() // UserManager 클래스에 맞게 수정
-        binding.tvMyPageName.setText(user.getName())
+        val user = UserManager/*.getInstance() // UserManager 클래스에 맞게 수정*/
+        binding.tvMyPageName.setText(user.umname)
         binding.btnMyPageLogout.setOnClickListener{
-            user.setId("")
+            user.umid = ""
+            //user.setId("")
             val intent = Intent(this@MyPage,MainActivity::class.java)
             startActivity(intent)
             //세션 끊기 넣기

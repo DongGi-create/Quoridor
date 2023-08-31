@@ -2,19 +2,24 @@ package com.example.quoridor.login
 
 import com.example.quoridor.communication.retrofit.HttpDTO
 
-object UserManager {
-    var umid: String? = ""//로그인 안할때는 빈문자열
-        private set
-    var umpw: String? = null
-        private set
-    var umemail: String? = null
-        private set
-    var umname: String? = null
-        private set
-    var umscore: String? = null
-        private set
+class UserManager {
+    companion object{
+        var umid: String? = ""//로그인 안할때는 빈문자열
+        //private set//객체 내부에서 setter 금지
+        var umpw: String? = null
+            private set
+        var umemail: String? = null
+            private set
+        var umname: String? = null
+            private set
+        var umscore: String? = null
+            private set
+        var umuid: Long? = null
+            private set
+    }
 
-    @Volatile
+
+    /*@Volatile
     private var instance: UserManager? = null
 
     fun getInstance(): UserManager {
@@ -26,7 +31,7 @@ object UserManager {
             }
         }
         return instance!!
-    }
+    }*/
 
     fun setUser(user: HttpDTO.SignUpResponse){
         umid = user.loginId
@@ -34,9 +39,10 @@ object UserManager {
         umemail = user.email
         umname = user.name
         umscore = user.score
+        umuid = user.uid
     }
 
-    fun setId(i: String){
+    /*fun setId(i: String){
         umid = i
     }
     fun setPw(p: String){
@@ -66,5 +72,5 @@ object UserManager {
     }
     fun getScore(): String?{
         return umscore
-    }
+    }*/
 }

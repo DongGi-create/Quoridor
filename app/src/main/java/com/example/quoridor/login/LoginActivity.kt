@@ -36,7 +36,8 @@ class LoginActivity : AppCompatActivity() {
             service.login(id,pw, object: HttpResult<HttpDTO.SignUpResponse> {
                 override fun success(data: HttpDTO.SignUpResponse) {
                     popToast("success!")
-                    val user = UserManager.getInstance()
+                    /*val user = UserManager.getInstance()*/
+                    val user = UserManager()
                     user.setUser(data)
                     sharedLoginModel.setLoginSuccess(true)
                     val intent = Intent(this@LoginActivity,MainActivity::class.java)

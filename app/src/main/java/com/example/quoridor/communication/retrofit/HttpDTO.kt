@@ -33,7 +33,7 @@ object HttpDTO {
         @SerializedName("score")
         val score: String,
         @SerializedName("uid")
-        val uid: String
+        val uid: Long
     )
 
     data class MatchingRequest(
