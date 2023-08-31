@@ -23,7 +23,6 @@ import java.util.concurrent.TimeUnit
 import com.example.quoridor.communication.retrofit.util.RetrofitFunc
 import com.example.quoridor.communication.retrofit.util.ToastHttpResult
 import com.example.quoridor.game.types.GameType
-import com.example.quoridor.game.util.GameFunc.putMatchData
 import com.example.quoridor.util.Func.startGameActivity
 
 class MatchingDialog(context:Context): Dialog(context) {

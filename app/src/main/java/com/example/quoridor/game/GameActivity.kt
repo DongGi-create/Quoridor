@@ -65,7 +65,8 @@ abstract class GameActivity: AppCompatActivity() {
         initGame()
 
         viewModel.board.observe(this) {
-            gameBoardView.data.value = it
+//            gameBoardView.data.value = it
+            gameBoardView.data.postValue(it)
         }
         viewModel.players[0].observe(this) {
             player0Observe(it)

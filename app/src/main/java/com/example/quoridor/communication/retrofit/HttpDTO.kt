@@ -59,6 +59,8 @@ object HttpDTO {
         @SerializedName("win")
         val win: Boolean,
         @SerializedName("opponentName")
-        val opponentName: String
+        val opponentName: String,
+        @SerializedName("opponentScore")
+        val opponentScore: Int
     )
 }

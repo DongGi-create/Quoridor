@@ -1,51 +1,61 @@
 package com.example.quoridor.adapter
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.quoridor.R
 import com.example.quoridor.communication.retrofit.HttpDTO
-import com.example.quoridor.databinding.ItemRankingRecyclerViewBinding
+import com.example.quoridor.databinding.ItemHistoryRecyclerViewBinding
+import com.example.quoridor.databinding.ItemHistoryRecyclerViewFooterBinding
 
-class HistoryRecyclerViewAdapter(val itemList: ArrayList<HttpDTO.SignUpResponse>): RecyclerView.Adapter<HistoryRecyclerViewAdapter.ViewHolder>() {
+class HistoryRecyclerViewAdapter(
+    val itemList: MutableList<HttpDTO.HistoriesResponse>,
+    val footerClickListener: () -> Unit
+): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
-    inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val binding by lazy {
-            ItemRankingRecyclerViewBinding.bind(itemView)
+    inner class ViewHolder(val binding: ItemHistoryRecyclerViewBinding) : RecyclerView.ViewHolder(binding.root) {
+
+        fun bind(data: HttpDTO.HistoriesResponse) {
+            binding.opponentName.text = data.opponentName
+            binding.opponentRating.text = data.opponentScore.toString()
+            binding.resultIamgeView.setImageResource(
+                when(data.win) {
+                    true -> R.drawable.baseline_lens_24_green
+                    false -> R.drawable.baseline_lens_24_red
+                }
+            )
         }
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val view = LayoutInflater
-            .from(parent.context)
-            .inflate(R.layout.item_ranking_recycler_view, parent, false)
-        return ViewHolder(view)
+    inner class Footer(val binding: ItemHistoryRecyclerViewFooterBinding) : RecyclerView.ViewHolder(binding.root) {
+
     }
 
-    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val data = itemList[position]
+    override fun getItemViewType(position: Int): Int {
+        return if (position == itemList.size) R.layout.item_history_recycler_view_footer
+                else R.layout.item_history_recycler_view
+    }
 
-        val name = data.name
-        val rating = data.score
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
+        val view = LayoutInflater.from(parent.context).inflate(viewType, parent, false)
 
-        holder.binding.nameTextView.text = name
-        holder.binding.ratingTextView.text = rating.toString()
-        holder.binding.rankingTextView.text = "${position+1}"
-
-        val ratingInt = rating.toInt()
-        holder.binding.ratingImageView.setImageResource(
-            when(ratingInt) {
-                in 0 until 1000 -> R.drawable.baseline_workspace_premium_24_purple
-                in 1000 until 1200 -> R.drawable.baseline_workspace_premium_24_yellow
-                in 1200 until 1500 -> R.drawable.baseline_workspace_premium_24_blue
-                else -> R.drawable.baseline_workspace_premium_24_green
+        return if (viewType == R.layout.item_history_recycler_view){
+            ViewHolder(ItemHistoryRecyclerViewBinding.bind(view))
+        } else {
+            val holder = Footer(ItemHistoryRecyclerViewFooterBinding.bind(view))
+            holder.binding.loadMoreButton.setOnClickListener {
+                footerClickListener()
             }
-        )
+            holder
+        }
+    }
 
+    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+        if (holder !is Footer) (holder as ViewHolder).bind(itemList[position])
     }
 
     override fun getItemCount(): Int {
-        return itemList.count()
+        return itemList.count() + 1
     }
+
 }

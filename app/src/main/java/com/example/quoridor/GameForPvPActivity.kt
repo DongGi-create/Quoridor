@@ -163,20 +163,29 @@ class GameForPvPActivity: GameActivity() {
 
         val player0 = Player("p0", gameType.timeLimit, gameType.initWall, 1050, true)
         binding.myInfoView.profileImageView.setImageResource(R.drawable.hobanwoo_red)
-        binding.myInfoView.data.value = player0
+//        binding.myInfoView.data.value = player0
+        binding.myInfoView.data.postValue(player0)
         val player1 = Player("p1", gameType.timeLimit, gameType.initWall, 950, false)
         binding.opPlayerInfoView.profileImageView.setImageResource(R.drawable.hobanwoo_blue)
-        binding.opPlayerInfoView.data.value = player1
+//        binding.opPlayerInfoView.data.value = player1
+        binding.opPlayerInfoView.data.postValue(player1)
 
         val board = Board()
-        gameBoardView.data.value = board
+//        gameBoardView.data.value = board
+        gameBoardView.data.postValue(board)
 
-        viewModel.board.value = board
-        viewModel.players[0].value = player0
-        viewModel.players[1].value = player1
-        viewModel.availableMoves.value = arrayOf()
-        viewModel.turn.value = 0
-        viewModel.isEnd.value = false
+//        viewModel.board.value = board
+//        viewModel.players[0].value = player0
+//        viewModel.players[1].value = player1
+//        viewModel.availableMoves.value = arrayOf()
+//        viewModel.turn.value = 0
+//        viewModel.isEnd.value = false
+        viewModel.board.postValue(board)
+        viewModel.players[0].postValue(player0)
+        viewModel.players[1].postValue(player1)
+        viewModel.availableMoves.postValue(arrayOf())
+        viewModel.turn.postValue(0)
+        viewModel.isEnd.postValue(false)
 
         ivList[0] = createPlayerImageView(imageResourceList[0])
         ivList[1] = createPlayerImageView(imageResourceList[1])
@@ -206,16 +215,20 @@ class GameForPvPActivity: GameActivity() {
 
     override fun player0Observe(player: Player) {
         if (myTurn == 0)
-            binding.myInfoView.data.value = player
+            binding.myInfoView.data.postValue(player)
+//            binding.myInfoView.data.value = player
         else
-            binding.opPlayerInfoView.data.value = player
+            binding.opPlayerInfoView.data.postValue(player)
+//            binding.opPlayerInfoView.data.value = player
     }
 
     override fun player1Observe(player: Player) {
         if (myTurn == 1)
-            binding.myInfoView.data.value = player
+            binding.myInfoView.data.postValue(player)
+//            binding.myInfoView.data.value = player
         else
-            binding.opPlayerInfoView.data.value = player
+            binding.opPlayerInfoView.data.postValue(player)
+//            binding.opPlayerInfoView.data.value = player
     }
 
     override fun turnObserve(turn: Int) {
