@@ -13,7 +13,6 @@ class UserManager {
         var umname: String? = null
             private set
         var umscore: Int? = null
-            private set
         var umuid: Long? = null
             private set
         fun setUser(user: HttpDTO.SignUpResponse){

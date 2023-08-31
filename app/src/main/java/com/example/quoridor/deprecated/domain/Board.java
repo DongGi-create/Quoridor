@@ -1,4 +1,4 @@
-package com.example.quoridor.domain;
+package com.example.quoridor.deprecated.domain;
 
 import android.util.Pair;
 

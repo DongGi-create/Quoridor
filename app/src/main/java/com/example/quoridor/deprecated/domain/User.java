@@ -1,4 +1,4 @@
-package com.example.quoridor.domain;
+package com.example.quoridor.deprecated.domain;
 
 public class User {
     private String tier = null;

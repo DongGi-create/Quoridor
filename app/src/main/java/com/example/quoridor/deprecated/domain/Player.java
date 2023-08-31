@@ -1,6 +1,6 @@
-package com.example.quoridor.domain;
+package com.example.quoridor.deprecated.domain;
 
-import com.example.quoridor.domain.utils.PlayerColorType;
+import com.example.quoridor.deprecated.domain.utils.PlayerColorType;
 
 public class Player {
     // (벽 남은 개수, 남은 시간, 말 위치, uid, 색깔)

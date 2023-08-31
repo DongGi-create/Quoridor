@@ -18,6 +18,7 @@ import com.example.quoridor.databinding.ActivityGameForPvpBinding
 import com.example.quoridor.game.GameActivity
 import com.example.quoridor.game.types.ActionType
 import com.example.quoridor.game.util.GameFunc.getMatchData
+import com.example.quoridor.login.UserManager
 import com.example.quoridor.util.Coordinate
 import com.example.quoridor.util.Func
 import com.example.quoridor.util.Func.popToast
@@ -248,7 +249,7 @@ class GameForPvPActivity: GameActivity() {
 
         matchData = intent.getMatchData()
 
-        URL = "${WebSocketTest.BASE_URL}game/move?gameId=${matchData.gameId}&turn=${matchData.turn}"
+        URL = "${WebSocketTest.BASE_URL}game/move?uid=${UserManager.umuid}&gameId=${matchData.gameId}&turn=${matchData.turn}"
         request = Request.Builder().url(URL).build()
         listener = object : WebSocketListener() {
             override fun onOpen(webSocket: WebSocket, response: Response) {
@@ -281,6 +282,10 @@ class GameForPvPActivity: GameActivity() {
                     }
                     ActionType.LOSE.ordinal -> {
                         gameEnd(myTurn)
+                    }
+                    -1 -> {
+                        val rating = action.remainTime
+                        UserManager.umscore = rating.toInt()
                     }
                 }
             }

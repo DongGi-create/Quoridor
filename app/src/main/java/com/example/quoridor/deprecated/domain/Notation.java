@@ -1,6 +1,6 @@
-package com.example.quoridor.domain;
+package com.example.quoridor.deprecated.domain;
 
-import com.example.quoridor.domain.utils.NotationType;
+import com.example.quoridor.deprecated.domain.utils.NotationType;
 
 public class Notation {
     // 기보: 가로벽/세로벽/말, to row, to col

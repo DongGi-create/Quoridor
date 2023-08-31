@@ -1,4 +1,4 @@
-package com.example.quoridor.domain.utils;
+package com.example.quoridor.deprecated.domain.utils;
 
 public enum NotationType {
     HORIZONTAL, VERTICAL, PLAYER
