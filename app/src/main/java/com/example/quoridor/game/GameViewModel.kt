@@ -47,21 +47,32 @@ class GameViewModel: ViewModel() {
     }
     fun setAvailableMove(available: Array<Coordinate>) {
         Log.d(TAG, "setAvailableMove")
-        availableMoves.value = available
+//        availableMoves.value = available
+        availableMoves.postValue(available)
     }
     fun getAvailableMoves(turn: Int) {
         Log.d(TAG, "getAvailableMoves($turn)")
-        availableMoves.value = GameFunc.getAvailableMove(
-            turn,
-            board.value!!
+        availableMoves.postValue(
+            GameFunc.getAvailableMove(
+                turn,
+                board.value!!
+            )
         )
+//        availableMoves.value = GameFunc.getAvailableMove(
+//            turn,
+//            board.value!!
+//        )
     }
     fun getAvailableMoves() {
         Log.d(TAG, "getAvailableMoves()")
-        availableMoves.value = GameFunc.getAvailableMove(
+//        availableMoves.value = GameFunc.getAvailableMove(
+//            turn.value!!,
+//            board.value!!
+//        )
+        availableMoves.postValue(GameFunc.getAvailableMove(
             turn.value!!,
             board.value!!
-        )
+        ))
     }
     fun isPlayer(coordinate: Coordinate): Boolean {
         Log.d(TAG, "isPlayer")
@@ -76,10 +87,12 @@ class GameViewModel: ViewModel() {
 
         boardValue.playCoordinates[turnValue] = coordinate
 
-        board.value = boardValue
+//        board.value = boardValue
+        board.postValue(boardValue)
 
         if (GameFunc.reachedEnd(coordinate, turnValue))
-            isEnd.value = true
+            isEnd.postValue(true)
+//            isEnd.value = true
     }
     fun addVerticalWall(coordinate: Coordinate) {
         Log.d(TAG, "addVerticalWall")
@@ -90,8 +103,10 @@ class GameViewModel: ViewModel() {
         boardValue.verticalWalls.set(coordinate, true)
         playerValue.leftWall -= 1
 
-        players[turnValue].value = playerValue
-        board.value = boardValue
+//        players[turnValue].value = playerValue
+        players[turnValue].postValue(playerValue)
+//        board.value = boardValue
+        board.postValue(boardValue)
     }
     fun addHorizontalWall(coordinate: Coordinate) {
         Log.d(TAG, "addHorizontalWall")
@@ -102,8 +117,10 @@ class GameViewModel: ViewModel() {
         boardValue.horizontalWalls.set(coordinate, true)
         playerValue.leftWall -= 1
 
-        players[turnValue].value = playerValue
-        board.value = boardValue
+//        players[turnValue].value = playerValue
+        players[turnValue].postValue(playerValue)
+//        board.value = boardValue
+        board.postValue(boardValue)
     }
     fun turnPass() {
         Log.d(TAG, "turnPass")
@@ -111,14 +128,17 @@ class GameViewModel: ViewModel() {
         var turnValue = turn.value!!
         var playerValue = players[turnValue].value!!
         playerValue.myTurn = false
-        players[turnValue].value = playerValue
+//        players[turnValue].value = playerValue
+        players[turnValue].postValue(playerValue)
 
-        turn.value = (turnValue+1)%2
+//        turn.value = (turnValue+1)%2
+        turn.postValue((turnValue+1)%2)
 
         turnValue = turn.value!!
         playerValue = players[turnValue].value!!
         playerValue.myTurn = true
-        players[turnValue].value = playerValue
+//        players[turnValue].value = playerValue
+        players[turnValue].postValue(playerValue)
     }
 
     fun isMyTurn(myTurn: Int): Boolean {
@@ -133,7 +153,8 @@ class GameViewModel: ViewModel() {
     fun setTime(remainTime: Long) {
         val playerValue = players[turn.value!!].value!!
         playerValue.leftTime = remainTime
-        players[turn.value!!].value = playerValue
+//        players[turn.value!!].value = playerValue
+        players[turn.value!!].postValue(playerValue)
     }
     fun isWallLeft(): Boolean {
         Log.d(TAG, "isWallLeft()")
