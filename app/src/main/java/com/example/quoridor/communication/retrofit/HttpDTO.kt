@@ -31,7 +31,7 @@ object HttpDTO {
         @SerializedName("name")
         val name: String,
         @SerializedName("score")
-        val score: String,
+        val score: Int,
         @SerializedName("uid")
         val uid: Long
     )

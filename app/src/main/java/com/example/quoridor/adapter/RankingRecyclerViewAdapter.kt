@@ -30,7 +30,7 @@ class RankingRecyclerViewAdapter(val itemList: ArrayList<HttpDTO.SignUpResponse>
         val rating = data.score
 
         holder.binding.nameTextView.text = name
-        holder.binding.ratingTextView.text = rating
+        holder.binding.ratingTextView.text = rating.toString()
         holder.binding.rankingTextView.text = "${position+1}"
 
         val ratingInt = rating.toInt()

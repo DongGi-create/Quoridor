@@ -12,10 +12,18 @@ class UserManager {
             private set
         var umname: String? = null
             private set
-        var umscore: String? = null
+        var umscore: Int? = null
             private set
         var umuid: Long? = null
             private set
+        fun setUser(user: HttpDTO.SignUpResponse){
+            umid = user.loginId
+            umpw = user.password
+            umemail = user.email
+            umname = user.name
+            umscore = user.score
+            umuid = user.uid
+        }
     }
 
 
@@ -32,15 +40,6 @@ class UserManager {
         }
         return instance!!
     }*/
-
-    fun setUser(user: HttpDTO.SignUpResponse){
-        umid = user.loginId
-        umpw = user.password
-        umemail = user.email
-        umname = user.name
-        umscore = user.score
-        umuid = user.uid
-    }
 
     /*fun setId(i: String){
         umid = i
