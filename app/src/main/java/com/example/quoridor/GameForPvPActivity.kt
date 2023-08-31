@@ -134,6 +134,7 @@ class GameForPvPActivity: GameActivity() {
                 if(viewModel.isAvailableMove(coordinate) && viewModel.isMyTurn(myTurn)){
                     viewModel.move(coordinate)
                     viewModel.setAvailableMove(arrayOf())
+                    send(makeMessage(ActionType.MOVE, coordinate))
                     if (!viewModel.isEnd.value!!)
                         viewModel.turnPass()
                 }
@@ -144,7 +145,7 @@ class GameForPvPActivity: GameActivity() {
         }
 
     override val TAG: String
-        get() = "$_TAG - TestPvpActivity"
+        get() = "$_TAG - GameForPvpActivity"
 
     override fun onPause() {
         super.onPause()
@@ -244,10 +245,10 @@ class GameForPvPActivity: GameActivity() {
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        matchData = intent.getMatchData()
+
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
-
-        matchData = intent.getMatchData()
 
         URL = "${WebSocketTest.BASE_URL}game/move?uid=${UserManager.umuid}&gameId=${matchData.gameId}&turn=${matchData.turn}"
         request = Request.Builder().url(URL).build()
@@ -307,6 +308,7 @@ class GameForPvPActivity: GameActivity() {
 
         }
         ws = client.newWebSocket(request, listener)
+        send(WebSocketDTO.Action(9, 9, 9, 9))
     }
 
     private fun makeMessage(type: ActionType, coordinate: Coordinate): WebSocketDTO.Action{
@@ -329,7 +331,8 @@ class GameForPvPActivity: GameActivity() {
     private fun send(action: WebSocketDTO.Action) {
         CoroutineScope(Dispatchers.IO)
             .launch {
-                ws.send("$action")
+                Log.d(TAG, "ws send ${gson.toJson(action)}")
+                ws.send(gson.toJson(action))
             }
     }
 }

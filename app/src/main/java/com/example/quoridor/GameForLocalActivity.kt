@@ -95,7 +95,7 @@ class GameForLocalActivity: GameActivity() {
     override val imageViewList: Array<ImageView>
         get() = ivList
     override val TAG: String
-        get() = "$_TAG - TestLocalActivity"
+        get() = "$_TAG - GameForLocalActivity"
 
     override fun initGame() {
         val player0 = Player("p0", gameType.timeLimit, gameType.initWall, 1050, true)

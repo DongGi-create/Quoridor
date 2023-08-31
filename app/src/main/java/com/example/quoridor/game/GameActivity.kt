@@ -184,7 +184,7 @@ abstract class GameActivity: AppCompatActivity() {
             override fun onTick(p0: Long) {
                 playerValue.leftTime -= 100L
                 viewModel.players[playerNum].postValue(playerValue)
-                Log.d(TAG, "timer is running ${playerValue.leftTime}")
+//                Log.d(_TAG, "timer is running ${playerValue.leftTime}")
             }
 
             override fun onFinish() {
