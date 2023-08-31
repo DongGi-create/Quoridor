@@ -20,9 +20,11 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import java.util.concurrent.TimeUnit
-import com.example.quoridor.R
 import com.example.quoridor.communication.retrofit.util.RetrofitFunc
 import com.example.quoridor.communication.retrofit.util.ToastHttpResult
+import com.example.quoridor.game.types.GameType
+import com.example.quoridor.game.util.GameFunc.putMatchData
+import com.example.quoridor.util.Func.startGameActivity
 
 class MatchingDialog(context:Context): Dialog(context) {
     private var minuteMills = (5 * 60000).toLong()
@@ -125,18 +127,18 @@ class MatchingDialog(context:Context): Dialog(context) {
         return CoroutineScope(Dispatchers.Main)
             .launch(start = CoroutineStart.LAZY) {
                 Log.d(TAG, "gameStartJob start")
-                val gameId = keepTryingJob.await()
-                Log.d(TAG, "gameStartJob awaited $gameId")
+                val matchData = keepTryingJob.await()!!
+                Log.d(TAG, "gameStartJob awaited $matchData")
                 Log.d(TAG, "gameStartJob end")
 
-                if (gameId == null) {
+                if (matchData.gameId == null) {
                     Func.popToast(context, "매칭 실패")
                 }
                 else {
-                    Func.popToast(context, "매칭성공! GameID: $gameId")//await는 비동기로만 받을 수 있다
+                    Func.popToast(context, "매칭성공! GameID: $matchData")//await는 비동기로만 받을 수 있다
                     dismiss()
                     val intent = Intent(context, GameForPvPActivity::class.java)
-                    context.startActivity(intent)
+                    context.startGameActivity(intent, GameType.STANDARD, matchData)
                 }
             }
     }

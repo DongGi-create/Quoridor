@@ -1,9 +1,14 @@
 package com.example.quoridor.util
 
 import android.content.Context
+import android.content.Intent
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import com.example.quoridor.communication.retrofit.HttpDTO
+import com.example.quoridor.game.types.GameType
+import com.example.quoridor.game.util.GameFunc.putGameType
+import com.example.quoridor.game.util.GameFunc.putMatchData
 import kotlin.math.pow
 import kotlin.math.sqrt
 
@@ -14,6 +19,16 @@ object Func {
     }
     fun <T> Array<Array<T>>.set(cor: Coordinate, value: T) {
         this[cor.r][cor.c] = value
+    }
+
+    fun Context.startGameActivity(intent: Intent, gameType: GameType) {
+        intent.putGameType(gameType)
+        this.startActivity(intent)
+    }
+    fun Context.startGameActivity(intent: Intent, gameType: GameType, matchData: HttpDTO.MatchingResponse) {
+        intent.putGameType(gameType)
+        intent.putMatchData(matchData)
+        this.startActivity(intent)
     }
 
     fun View.move(newParent: ViewGroup) {

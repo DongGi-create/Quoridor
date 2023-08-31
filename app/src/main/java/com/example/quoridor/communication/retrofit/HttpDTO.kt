@@ -47,4 +47,18 @@ object HttpDTO {
         @SerializedName("turn")
         val turn: Int?
     )
+
+    data class HistoriesRequest(
+        @SerializedName("recentGameId")
+        val recentGameId: Long
+    )
+
+    data class HistoriesResponse(
+        @SerializedName("gameId")
+        val gameId: Long,
+        @SerializedName("win")
+        val win: Boolean,
+        @SerializedName("opponentName")
+        val opponentName: String
+    )
 }

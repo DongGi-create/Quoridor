@@ -59,6 +59,14 @@ class Service {
         return service.matchRequest(data)
     }
 
+    fun histories(
+        recentGameId: Long,
+        httpResult: HttpResult<List<HttpDTO.HistoriesResponse>>
+    ) {
+        val body = HttpDTO.HistoriesRequest(recentGameId)
+        service.historyRequest(body).enqueue(makeCallBack(httpResult))
+    }
+
     private fun <ResponseType> makeCallBack(
         httpResult: HttpResult<ResponseType>
     ): Callback<ResponseType> {

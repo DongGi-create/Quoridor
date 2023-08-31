@@ -69,6 +69,10 @@
         <activity
             android:name=".communication.socket.SocketTestActivity"
             android:exported="true"/>
+
+        <activity
+            android:name=".HistoryActivity"
+            android:exported="false"/>
     </application>
 
 </manifest>

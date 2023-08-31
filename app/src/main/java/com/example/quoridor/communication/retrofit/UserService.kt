@@ -44,4 +44,18 @@ interface UserService {
     )
     @POST("match")
     fun matchRequest(@Body data: HttpDTO.MatchingRequest): Call<HttpDTO.MatchingResponse>
+
+    @Headers(
+        "Postman-Token: <calculate when request is sent>;" +
+                "Content-Type: application/json;" +
+                "Content-Length: <calculate when request is sent>;" +
+                "Host: <calculate when request is sent>;" +
+                "User-Agent: PostmanRuntime/7.32.3;" +
+                "Accept-Encoding: gzip, deflate, br;" +
+                "Connection: keep-alive;" +
+                "Accept: application/json"
+    )
+    @POST("histories")
+    fun historyRequest(@Body data: HttpDTO.HistoriesRequest): Call<List<HttpDTO.HistoriesResponse>>
+
 }
