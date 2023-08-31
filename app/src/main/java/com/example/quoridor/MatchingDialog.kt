@@ -28,8 +28,8 @@ class MatchingDialog(context:Context): Dialog(context) {
     private var minuteMills = (5 * 60000).toLong()
     private var progressBarCircle: ProgressBar? = null
     private var remainTime: TextView? = null
-    private lateinit var countDownTimer: CountDownTimer
     private val service = Service()
+    private lateinit var countDownTimer: CountDownTimer
     private lateinit var keepTryingJob: Deferred<HttpDTO.MatchingResponse?>
     private lateinit var gameStartJob: Job
 
