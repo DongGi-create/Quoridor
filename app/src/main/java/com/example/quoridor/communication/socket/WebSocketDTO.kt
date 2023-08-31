@@ -1,6 +1,5 @@
 package com.example.quoridor.communication.socket
 
-import com.example.quoridor.communication.Sendable
 import com.google.gson.annotations.SerializedName
 import java.io.Serializable
 
@@ -15,6 +14,6 @@ object WebSocketDTO {
         val row: Int,
         @SerializedName("col")
         val col: Int
-    ): Serializable, Sendable()
+    ): Serializable
 
 }

@@ -38,7 +38,7 @@ abstract class GameActivity: AppCompatActivity() {
     lateinit var gameType: GameType
 
     val imageResourceList = arrayOf( R.drawable.baseline_lens_24_red, R.drawable.baseline_lens_24_blue)
-    var shadowImageViewList: Array<ImageView> = arrayOf()
+    private var shadowImageViewList: Array<ImageView> = arrayOf()
     abstract val imageViewList: Array<ImageView>
     var timer: CountDownTimer? = null
 
