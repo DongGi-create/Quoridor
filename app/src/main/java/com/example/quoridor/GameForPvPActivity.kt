@@ -147,11 +147,19 @@ class GameForPvPActivity: GameActivity() {
             }
         }
 
-        val player0 = Player("p0", gameType.timeLimit, gameType.initWall, 1050, true)
+        val player0 = Player(
+            if (myTurn == 0) UserManager.umname!! else matchData.opponentName!!,
+            gameType.timeLimit, gameType.initWall,
+            if (myTurn == 0) UserManager.umscore!! else matchData.opponentScore!!,
+            true)
         binding.myInfoView.profileImageView.setImageResource(R.drawable.hobanwoo_red)
 //        binding.myInfoView.data.value = player0
         binding.myInfoView.data.postValue(player0)
-        val player1 = Player("p1", gameType.timeLimit, gameType.initWall, 950, false)
+        val player1 = Player(
+            if (myTurn != 0) UserManager.umname!! else matchData.opponentName!!,
+            gameType.timeLimit, gameType.initWall,
+            if (myTurn != 0) UserManager.umscore!! else matchData.opponentScore!!,
+            false)
         binding.opPlayerInfoView.profileImageView.setImageResource(R.drawable.hobanwoo_blue)
 //        binding.opPlayerInfoView.data.value = player1
         binding.opPlayerInfoView.data.postValue(player1)

@@ -58,7 +58,11 @@ object HttpDTO {
             @SerializedName("gameId")
             val gameId: String?,
             @SerializedName("turn")
-            val turn: Int?
+            val turn: Int?,
+            @SerializedName("opponentName")
+            val opponentName: String?,
+            @SerializedName("opponentScore")
+            val opponentScore: Int?
         )
 
         data class CompHistory(

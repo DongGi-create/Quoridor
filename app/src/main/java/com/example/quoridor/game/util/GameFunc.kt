@@ -20,6 +20,8 @@ object GameFunc {
 
     private const val gameIdTag = "gameId"
     private const val turnTag = "turn"
+    private const val opponentNameTag = "opponentName"
+    private const val opponentScoreTag = "opponentScore"
 
 
     private const val ratio = 10.0
@@ -54,13 +56,17 @@ object GameFunc {
     fun Intent.putMatchData(matchData: HttpDTO.Response.Match) {
         this.putExtra(gameIdTag, matchData.gameId)
         this.putExtra(turnTag,  matchData.turn)
+        this.putExtra(opponentNameTag, matchData.opponentName)
+        this.putExtra(opponentScoreTag, matchData.opponentScore)
     }
 
     fun Intent.getMatchData(): HttpDTO.Response.Match {
         val gameId = this.getStringExtra(gameIdTag)
         val turn = this.getIntExtra(turnTag, 0)
+        val opponentName = this.getStringExtra(opponentNameTag)
+        val opponentScore = this.getIntExtra(opponentScoreTag, 0)
 
-        return HttpDTO.Response.Match(gameId, turn)
+        return HttpDTO.Response.Match(gameId, turn, opponentName, opponentScore)
     }
 
     fun wallCross(wall: Wall, board: Board): Boolean {
