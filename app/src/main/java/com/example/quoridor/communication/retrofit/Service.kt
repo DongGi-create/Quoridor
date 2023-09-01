@@ -22,18 +22,18 @@ class Service {
             .baseUrl("http://43.201.189.249:8080/")
             .addConverterFactory(GsonConverterFactory.create())
             .build()
-        var service = retrofit.create(UserService::class.java)
+        var service = retrofit.create(ServiceInterface::class.java)
 
-        private val TAG = "Dirtfy Test"
+        private val TAG = "Dirtfy Test - Service"
 
     }
 
     fun login(
         id: String,
         pw: String,
-        httpResult: HttpResult<HttpDTO.SignUpResponse>
+        httpResult: HttpResult<HttpDTO.Response.User>
     ) {
-        val body = HttpDTO.Login(id, pw)
+        val body = HttpDTO.Request.Login(id, pw)
         service.login(body).enqueue(makeCallBack(httpResult))
     }
 
@@ -42,29 +42,28 @@ class Service {
         password: String,
         email: String,
         name: String,
-        httpResult: HttpResult<HttpDTO.SignUpResponse>
+        httpResult: HttpResult<HttpDTO.Response.User>
     ) {
-        val body = HttpDTO.SignUpRequest(loginId, password, email, name)
+        val body = HttpDTO.Request.Signup(loginId, password, email, name)
         service.signUp(body).enqueue(makeCallBack(httpResult))
     }
 
     fun match(
         gameType: Int,
-        httpResult: HttpResult<HttpDTO.MatchingResponse>
+        httpResult: HttpResult<HttpDTO.Response.Match>
     ) {
-        val body = HttpDTO.MatchingRequest(gameType)
+        val body = HttpDTO.Request.Match(gameType)
         service.matchRequest(body).enqueue(makeCallBack(httpResult))
     }
-    fun makeMatchCall(data: HttpDTO.MatchingRequest): Call<HttpDTO.MatchingResponse> {
+    fun makeMatchCall(data: HttpDTO.Request.Match): Call<HttpDTO.Response.Match> {
         return service.matchRequest(data)
     }
 
     fun histories(
         recentGameId: Long,
-        httpResult: HttpResult<List<HttpDTO.HistoriesResponse>>
+        httpResult: HttpResult<List<HttpDTO.Response.CompHistory>>
     ) {
-        val body = HttpDTO.HistoriesRequest(recentGameId)
-        service.historyRequest(body).enqueue(makeCallBack(httpResult))
+        service.historyListRequest(recentGameId).enqueue(makeCallBack(httpResult))
     }
 
     private fun <ResponseType> makeCallBack(
@@ -75,12 +74,13 @@ class Service {
                 call: Call<ResponseType>,
                 response: Response<ResponseType>
             ) {//일을 집어넣어주고
+                Log.d(TAG, "${response.code()}\n${response.headers()}\n${response.body()}")
+
                 if (response.isSuccessful) {//성공이되면
-                    val header = response.headers()
                     val result = response.body()//값을 받아옴
 
                     if (result != null) {
-                        Log.d(TAG, "response successful\n$header\n$result")
+                        Log.d(TAG, "response successful")
                         httpResult.success(result)
                     } else {
                         Log.d(TAG, "response fail")

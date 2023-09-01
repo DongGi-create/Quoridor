@@ -31,7 +31,7 @@ class MatchingDialog(context:Context): Dialog(context) {
     private var remainTime: TextView? = null
     private val service = Service()
     private lateinit var countDownTimer: CountDownTimer
-    private lateinit var keepTryingJob: Deferred<HttpDTO.MatchingResponse?>
+    private lateinit var keepTryingJob: Deferred<HttpDTO.Response.Match?>
     private lateinit var gameStartJob: Job
 
     private val TAG: String by lazy {
@@ -95,7 +95,7 @@ class MatchingDialog(context:Context): Dialog(context) {
 
     fun startMatching(){
         if (!this@MatchingDialog::keepTryingJob.isInitialized || !keepTryingJob.isActive) {
-            val matchData = HttpDTO.MatchingRequest(1)
+            val matchData = HttpDTO.Request.Match(1)
 
             keepTryingJob = RetrofitFunc.buildKeepTryingJob(
                 matchData,
@@ -122,7 +122,7 @@ class MatchingDialog(context:Context): Dialog(context) {
             gameStartJob.cancel()
         }
     }
-    private fun buildGameStartJob(keepTryingJob: Deferred<HttpDTO.MatchingResponse?>): Job {
+    private fun buildGameStartJob(keepTryingJob: Deferred<HttpDTO.Response.Match?>): Job {
         return CoroutineScope(Dispatchers.Main)
             .launch(start = CoroutineStart.LAZY) {
                 Log.d(TAG, "gameStartJob start")

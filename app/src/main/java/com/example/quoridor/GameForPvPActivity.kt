@@ -62,7 +62,7 @@ class GameForPvPActivity: GameActivity() {
         Array(2) { ImageView(applicationContext) }
     }
 
-    private lateinit var matchData: HttpDTO.MatchingResponse
+    private lateinit var matchData: HttpDTO.Response.Match
     private val myTurn by lazy {
         matchData.turn!!
     }

@@ -13,11 +13,11 @@ class ToastHttpResult<T>(
     ): HttpResult<T> {
 
     companion object{
-        lateinit var data1: HttpDTO.MatchingResponse
+        lateinit var data1: HttpDTO.Response.Match
     }
     override fun success(data: T) {
         Func.popToast(context, "$str success")
-        data1 = data as HttpDTO.MatchingResponse
+        data1 = data as HttpDTO.Response.Match
         Log.d(tag, "$str success, data: $data")
     }
 

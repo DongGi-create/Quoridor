@@ -24,7 +24,7 @@ class RetrofitTestActivity: AppCompatActivity() {
     }
 
     private val service = Service()
-    private lateinit var keepTryingJob: Deferred<HttpDTO.MatchingResponse?>
+    private lateinit var keepTryingJob: Deferred<HttpDTO.Response.Match?>
     private lateinit var gameStartJob: Job
 
     private val TAG: String by lazy {
@@ -81,7 +81,7 @@ class RetrofitTestActivity: AppCompatActivity() {
 
         binding.button.setOnClickListener {
             if (!this@RetrofitTestActivity::keepTryingJob.isInitialized || !keepTryingJob.isActive) {
-                val matchData = HttpDTO.MatchingRequest(1)
+                val matchData = HttpDTO.Request.Match(1)
 
                 keepTryingJob = RetrofitFunc.buildKeepTryingJob(
                     matchData,
@@ -109,7 +109,7 @@ class RetrofitTestActivity: AppCompatActivity() {
         }
     }
 
-    private fun buildGameStartJob(keepTryingJob: Deferred<HttpDTO.MatchingResponse?>): Job {
+    private fun buildGameStartJob(keepTryingJob: Deferred<HttpDTO.Response.Match?>): Job {
         return CoroutineScope(Dispatchers.Main)
             .launch(start = CoroutineStart.LAZY) {
                 Log.d(TAG, "gameStartJob start")

@@ -51,16 +51,16 @@ object GameFunc {
             GameType.BLITZ
     }
 
-    fun Intent.putMatchData(matchData: HttpDTO.MatchingResponse) {
+    fun Intent.putMatchData(matchData: HttpDTO.Response.Match) {
         this.putExtra(gameIdTag, matchData.gameId)
         this.putExtra(turnTag,  matchData.turn)
     }
 
-    fun Intent.getMatchData(): HttpDTO.MatchingResponse {
+    fun Intent.getMatchData(): HttpDTO.Response.Match {
         val gameId = this.getStringExtra(gameIdTag)
         val turn = this.getIntExtra(turnTag, 0)
 
-        return HttpDTO.MatchingResponse(gameId, turn)
+        return HttpDTO.Response.Match(gameId, turn)
     }
 
     fun wallCross(wall: Wall, board: Board): Boolean {

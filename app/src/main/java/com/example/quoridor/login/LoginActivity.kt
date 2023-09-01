@@ -33,8 +33,8 @@ class LoginActivity : AppCompatActivity() {
             val id = binding.loginEtId.text.toString()
             val pw = binding.loginEtPw.text.toString()
 
-            service.login(id,pw, object: HttpResult<HttpDTO.SignUpResponse> {
-                override fun success(data: HttpDTO.SignUpResponse) {
+            service.login(id,pw, object: HttpResult<HttpDTO.Response.User> {
+                override fun success(data: HttpDTO.Response.User) {
                     popToast("success!")
                     /*val user = UserManager.getInstance()*/
                     val user = UserManager

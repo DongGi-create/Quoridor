@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.quoridor.adapter.HistoryRecyclerViewAdapter
+import com.example.quoridor.communication.retrofit.HttpDTO
 import com.example.quoridor.databinding.ActivityHistoryBinding
 import com.example.quoridor.history.HistoryViewModel
 
@@ -24,6 +25,7 @@ class HistoryActivity: AppCompatActivity() {
         binding.historyRecyclerView.apply {
             adapter = HistoryRecyclerViewAdapter(viewModel.getList()) {
                 viewModel.loadMoreHistories()
+//                viewModel.historyList.add(HttpDTO.HistoriesResponse(0, false, "didwoahqkqhajdcjddl", 2000))
             }
             layoutManager = LinearLayoutManager(
                 this@HistoryActivity,

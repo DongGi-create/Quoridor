@@ -9,13 +9,13 @@ import com.example.quoridor.databinding.ItemHistoryRecyclerViewBinding
 import com.example.quoridor.databinding.ItemHistoryRecyclerViewFooterBinding
 
 class HistoryRecyclerViewAdapter(
-    val itemList: MutableList<HttpDTO.HistoriesResponse>,
+    val itemList: MutableList<HttpDTO.Response.CompHistory>,
     val footerClickListener: () -> Unit
 ): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     inner class ViewHolder(val binding: ItemHistoryRecyclerViewBinding) : RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(data: HttpDTO.HistoriesResponse) {
+        fun bind(data: HttpDTO.Response.CompHistory) {
             binding.opponentName.text = data.opponentName
             binding.opponentRating.text = data.opponentScore.toString()
             binding.resultIamgeView.setImageResource(

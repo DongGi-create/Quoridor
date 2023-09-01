@@ -8,7 +8,7 @@ import com.example.quoridor.R
 import com.example.quoridor.communication.retrofit.HttpDTO
 import com.example.quoridor.databinding.ItemRankingRecyclerViewBinding
 
-class RankingRecyclerViewAdapter(val itemList: ArrayList<HttpDTO.SignUpResponse>): RecyclerView.Adapter<RankingRecyclerViewAdapter.ViewHolder>() {
+class RankingRecyclerViewAdapter(val itemList: ArrayList<HttpDTO.Response.User>): RecyclerView.Adapter<RankingRecyclerViewAdapter.ViewHolder>() {
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val binding by lazy {

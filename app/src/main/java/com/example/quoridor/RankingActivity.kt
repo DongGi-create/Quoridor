@@ -13,7 +13,7 @@ class RankingActivity : AppCompatActivity() {
         ActivityRankingBinding.inflate(layoutInflater)
     }
 
-    private val rankingList = ArrayList<HttpDTO.SignUpResponse>()
+    private val rankingList = ArrayList<HttpDTO.Response.User>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

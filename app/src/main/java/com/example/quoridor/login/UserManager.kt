@@ -15,7 +15,7 @@ class UserManager {
         var umscore: Int? = null
         var umuid: Long? = null
             private set
-        fun setUser(user: HttpDTO.SignUpResponse){
+        fun setUser(user: HttpDTO.Response.User){
             umid = user.loginId
             umpw = user.password
             umemail = user.email

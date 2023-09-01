@@ -36,8 +36,8 @@ class SignUpActivity :AppCompatActivity(){
             val email = binding.signupEtEmail.text.toString()
             val name = binding.signupEtName.text.toString()
 
-            service.signUp(id,pw,email,name, object: HttpResult<HttpDTO.SignUpResponse> {
-                override fun success(data: HttpDTO.SignUpResponse) {
+            service.signUp(id,pw,email,name, object: HttpResult<HttpDTO.Response.User> {
+                override fun success(data: HttpDTO.Response.User) {
                     popToast("SignUp success!")
                     val intent = Intent(this@SignUpActivity, LoginActivity::class.java)
                     startActivity(intent)

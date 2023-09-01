@@ -12,6 +12,7 @@ import com.example.quoridor.game.TestPvpActivity
 import com.example.quoridor.game.types.GameType
 import com.example.quoridor.game.util.GameFunc.putGameType
 import com.example.quoridor.game.util.GameFunc.putMatchData
+import com.example.quoridor.util.Func.startGameActivity
 
 class TestActivity:  AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -34,10 +35,10 @@ class TestActivity:  AppCompatActivity() {
         }
 
         binding.pvpGameTest.setOnClickListener {
-            val intent = Intent(this, TestPvpActivity::class.java)
-            intent.putGameType(GameType.BLITZ)
-            intent.putMatchData(HttpDTO.MatchingResponse("gameId", 1))
-            startActivity(intent)
+//            val intent = Intent(this, TestPvpActivity::class.java)
+//            intent.putGameType(GameType.BLITZ)
+//            intent.putMatchData(HttpDTO.MatchingResponse("gameId", 1))
+//            startActivity(intent)
         }
 
         binding.socketTest.setOnClickListener {
@@ -46,6 +47,10 @@ class TestActivity:  AppCompatActivity() {
 
         binding.pieChart.setOnClickListener{
             //goto(ProgressBarTest::class.java)
+        }
+
+        binding.history.setOnClickListener {
+            goto(HistoryActivity::class.java)
         }
     }
 

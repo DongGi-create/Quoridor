@@ -5,7 +5,6 @@ import android.content.Intent
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.lifecycle.LiveData
 import com.example.quoridor.communication.retrofit.HttpDTO
 import com.example.quoridor.game.types.GameType
 import com.example.quoridor.game.util.GameFunc.putGameType
@@ -26,7 +25,7 @@ object Func {
         intent.putGameType(gameType)
         this.startActivity(intent)
     }
-    fun Context.startGameActivity(intent: Intent, gameType: GameType, matchData: HttpDTO.MatchingResponse) {
+    fun Context.startGameActivity(intent: Intent, gameType: GameType, matchData: HttpDTO.Response.Match) {
         intent.putGameType(gameType)
         intent.putMatchData(matchData)
         this.startActivity(intent)

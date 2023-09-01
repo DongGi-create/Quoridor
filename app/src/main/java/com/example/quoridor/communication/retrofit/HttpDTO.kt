@@ -1,66 +1,94 @@
 package com.example.quoridor.communication.retrofit
 
 import com.google.gson.annotations.SerializedName
+import java.sql.Timestamp
 
 object HttpDTO {
-    data class Login(
-        @SerializedName("loginId")
-        val loginId: String,
-        @SerializedName("password")
-        val password: String
-    )
+    object Request {
+        data class Login(
+            @SerializedName("loginId")
+            val loginId: String,
+            @SerializedName("password")
+            val password: String
+        )
 
-    data class SignUpRequest(
-        @SerializedName("loginId")
-        val loginId: String,
-        @SerializedName("password")
-        val password: String,
-        @SerializedName("email")
-        val email: String,
-        @SerializedName("name")
-        val name: String
-    )
+        data class Signup(
+            @SerializedName("loginId")
+            val loginId: String,
+            @SerializedName("password")
+            val password: String,
+            @SerializedName("email")
+            val email: String,
+            @SerializedName("name")
+            val name: String,
+        )
 
-    data class SignUpResponse(
-        @SerializedName("loginId")
-        val loginId: String,
-        @SerializedName("password")
-        val password: String,
-        @SerializedName("email")
-        val email: String,
-        @SerializedName("name")
-        val name: String,
-        @SerializedName("score")
-        val score: Int,
-        @SerializedName("uid")
-        val uid: Long
-    )
+        data class UserUpdate(
+            @SerializedName("password")
+            val password: String,
+            @SerializedName("email")
+            val email: String,
+            @SerializedName("name")
+            val name: String
+        )
 
-    data class MatchingRequest(
-        @SerializedName("gameType")
-        val gameType: Int
-    )
+        data class Match(
+            @SerializedName("gameType")
+            val gameType: Int
+        )
+    }
+    
+    object Response {
+        data class User(
+            @SerializedName("loginId")
+            val loginId: String,
+            @SerializedName("password")
+            val password: String,
+            @SerializedName("email")
+            val email: String,
+            @SerializedName("name")
+            val name: String,
+            @SerializedName("score")
+            val score: Int,
+            @SerializedName("uid")
+            val uid: Long
+        )
 
-    data class MatchingResponse(
-        @SerializedName("gameId")
-        val gameId: String?,
-        @SerializedName("turn")
-        val turn: Int?
-    )
+        data class Match(
+            @SerializedName("gameId")
+            val gameId: String?,
+            @SerializedName("turn")
+            val turn: Int?
+        )
 
-    data class HistoriesRequest(
-        @SerializedName("recentGameId")
-        val recentGameId: Long
-    )
+        data class CompHistory(
+            @SerializedName("gameId")
+            val gameId: Long,
+            @SerializedName("win")
+            val win: Boolean,
+            @SerializedName("opponentName")
+            val opponentName: String,
+            @SerializedName("opponentScore")
+            val opponentScore: Int
+        )
 
-    data class HistoriesResponse(
-        @SerializedName("gameId")
-        val gameId: Long,
-        @SerializedName("win")
-        val win: Boolean,
-        @SerializedName("opponentName")
-        val opponentName: String,
-        @SerializedName("opponentScore")
-        val opponentScore: Int
-    )
+        data class DetailHistory(
+            @SerializedName("gameId")
+            val gameId: Long,
+            @SerializedName("uid0")
+            val uid0: Long,
+            @SerializedName("uid1")
+            val uid1: Long,
+            @SerializedName("score0")
+            val score0: Int,
+            @SerializedName("score1")
+            val score1: Int,
+            @SerializedName("stamp")
+            val stamp: Timestamp,
+            @SerializedName("moves")
+            val moves: String,
+            @SerializedName("winnerId")
+            val winnerId: Long
+        )
+    }
 }
