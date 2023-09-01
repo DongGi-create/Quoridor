@@ -255,7 +255,7 @@ class GameForPvPActivity: GameActivity() {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
 
-        val url = "${Statics.WEB_SOCKET_BASE_URL}game/move?uid=${UserManager.umuid}&gameId=${matchData.gameId}&turn=${matchData.turn}"
+        val url = "${Statics.WEB_SOCKET_BASE_URL}/game/move?uid=${UserManager.umuid}&gameId=${matchData.gameId}&turn=${matchData.turn}"
         val listener = object : WebSocketListener() {
             override fun onOpen(webSocket: WebSocket, response: Response) {
                 super.onOpen(webSocket, response)
