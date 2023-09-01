@@ -50,6 +50,7 @@ class GameForPvPActivity: GameActivity() {
     private val opTurn by lazy {
         (matchData.turn!!+1)%2
     }
+    private var winner = 0
 
     override val gameBoardView: GameBoardView
         get() = binding.gameBoardView
@@ -58,7 +59,7 @@ class GameForPvPActivity: GameActivity() {
     override val dragListener: GameBoardViewWallListener.DragListener
         get() = object :  GameBoardViewWallListener.DragListener{
             override fun startDrag(): Boolean {
-                return if (viewModel.isMyTurn(myTurn)){
+                return if (!viewModel.isMyTurn(myTurn)){
                     popToast(this@GameForPvPActivity, "not my turn")
                     false
                 }
@@ -115,9 +116,14 @@ class GameForPvPActivity: GameActivity() {
                 if(viewModel.isAvailableMove(coordinate) && viewModel.isMyTurn(myTurn)){
                     viewModel.move(coordinate)
                     viewModel.setAvailableMove(arrayOf())
-                    webSocketService.send(makeMessage(ActionType.MOVE, coordinate))
-                    if (!viewModel.isEnd.value!!)
+                    if (viewModel.isEnd()) {
+                        webSocketService.send(makeMessage(ActionType.WIN, coordinate))
+                        winner = myTurn
+                    }
+                    else {
+                        webSocketService.send(makeMessage(ActionType.MOVE, coordinate))
                         viewModel.turnPass()
+                    }
                 }
                 else{
                     popToast(this@GameForPvPActivity, "unavailable")
@@ -152,17 +158,28 @@ class GameForPvPActivity: GameActivity() {
             gameType.timeLimit, gameType.initWall,
             if (myTurn == 0) UserManager.umscore!! else matchData.opponentScore!!,
             true)
-        binding.myInfoView.profileImageView.setImageResource(R.drawable.hobanwoo_red)
-        binding.myInfoView.data.value = player0
 //        binding.myInfoView.data.postValue(player0)
         val player1 = Player(
             if (myTurn != 0) UserManager.umname!! else matchData.opponentName!!,
             gameType.timeLimit, gameType.initWall,
             if (myTurn != 0) UserManager.umscore!! else matchData.opponentScore!!,
             false)
-        binding.opPlayerInfoView.profileImageView.setImageResource(R.drawable.hobanwoo_blue)
-        binding.opPlayerInfoView.data.value = player1
 //        binding.opPlayerInfoView.data.postValue(player1)
+
+        if (myTurn == 0) {
+            binding.myInfoView.profileImageView.setImageResource(R.drawable.hobanwoo_red)
+            binding.myInfoView.data.value = player0
+
+            binding.opPlayerInfoView.profileImageView.setImageResource(R.drawable.hobanwoo_blue)
+            binding.opPlayerInfoView.data.value = player1
+        }
+        else {
+            binding.myInfoView.profileImageView.setImageResource(R.drawable.hobanwoo_blue)
+            binding.myInfoView.data.value = player1
+
+            binding.opPlayerInfoView.profileImageView.setImageResource(R.drawable.hobanwoo_red)
+            binding.opPlayerInfoView.data.value = player0
+        }
 
         val board = Board()
         gameBoardView.data.value = board
@@ -190,7 +207,8 @@ class GameForPvPActivity: GameActivity() {
         )
 
         timer = buildTimer(0) {
-            gameEnd(1)
+//            gameEnd(1)
+            winner = 1
             if (viewModel.isMyTurn(myTurn))
                 webSocketService.send(makeMessage())
         }
@@ -228,28 +246,29 @@ class GameForPvPActivity: GameActivity() {
     override fun turnObserve(turn: Int) {
         timer?.cancel()
 
-        if (turn == matchData.turn)
+        if (turn == myTurn)
             viewModel.getAvailableMoves()
         else
             viewModel.setAvailableMove(arrayOf())
 
         timer = buildTimer(turn) {
-            gameEnd((turn+1)%2)
+//            gameEnd((turn+1)%2)
+            winner = (turn+1)%2
             if (turn == myTurn)
                 webSocketService.send(makeMessage())
         }
     }
 
-    override fun gameEnd(winner: Int) {
-        super.gameEnd(winner)
-        val remainTime = viewModel.players[myTurn].value!!.leftTime
-        val cor = viewModel.board.value!!.playCoordinates[myTurn]
-        webSocketService.send(WebSocketDTO.Action(
-            remainTime,
-            ActionType.WIN.ordinal,
-            cor.r,
-            cor.c))
-    }
+//    override fun gameEnd(winner: Int) {
+//        super.gameEnd(winner)
+//        val remainTime = viewModel.players[myTurn].value!!.leftTime
+//        val cor = viewModel.board.value!!.playCoordinates[myTurn]
+//        webSocketService.send(WebSocketDTO.Action(
+//            remainTime,
+//            ActionType.WIN.ordinal,
+//            cor.r,
+//            cor.c))
+//    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -283,12 +302,15 @@ class GameForPvPActivity: GameActivity() {
                         viewModel.turnPass()
                     }
                     ActionType.WIN.ordinal -> {
-                        gameEnd(opTurn)
+                        winner = opTurn
+//                        gameEnd(opTurn)
                     }
                     ActionType.LOSE.ordinal -> {
-                        gameEnd(myTurn)
+                        winner = myTurn
+//                        gameEnd(myTurn)
                     }
                     -1 -> {
+                        gameEnd(winner)
                         val rating = action.remainTime
                         UserManager.umscore = rating.toInt()
                     }

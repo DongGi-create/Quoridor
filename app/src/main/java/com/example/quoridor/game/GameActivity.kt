@@ -91,11 +91,11 @@ abstract class GameActivity: AppCompatActivity() {
         viewModel.turn.observe(this) {
             turnObserve(it)
         }
-        viewModel.isEnd.observe(this) {
-            if (it) {
-                gameEnd(viewModel.turn.value!!)
-            }
-        }
+//        viewModel.isEnd.observe(this) {
+//            if (it) {
+//                gameEnd(viewModel.turn.value!!)
+//            }
+//        }
     }
 
     override fun onPause() {

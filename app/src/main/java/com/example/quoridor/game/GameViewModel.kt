@@ -90,8 +90,8 @@ class GameViewModel: ViewModel() {
 //        board.value = boardValue
         board.postValue(boardValue)
 
-        if (GameFunc.reachedEnd(coordinate, turnValue))
-            isEnd.postValue(true)
+//        if (GameFunc.reachedEnd(coordinate, turnValue))
+//            isEnd.postValue(true)
 //            isEnd.value = true
     }
     fun addVerticalWall(coordinate: Coordinate) {
@@ -169,4 +169,7 @@ class GameViewModel: ViewModel() {
         return turn.value!!
     }
 
+    fun isEnd(): Boolean {
+        return GameFunc.reachedEnd(board.value!!.playCoordinates[turn.value!!], turn.value!!)
+    }
 }
