@@ -4,8 +4,10 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.ImageView
+import com.example.quoridor.communication.Statics
 import com.example.quoridor.communication.retrofit.HttpDTO
 import com.example.quoridor.communication.socket.WebSocketDTO
+import com.example.quoridor.communication.socket.WebSocketService
 import com.example.quoridor.communication.socket.WebSocketTest
 import com.example.quoridor.customView.gameBoardView.Board
 import com.example.quoridor.customView.gameBoardView.GameBoardView
@@ -23,37 +25,16 @@ import com.example.quoridor.util.Coordinate
 import com.example.quoridor.util.Func
 import com.example.quoridor.util.Func.popToast
 import com.example.quoridor.util.Func.setSize
-import com.google.gson.Gson
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import okhttp3.JavaNetCookieJar
-import okhttp3.OkHttpClient
-import okhttp3.Request
 import okhttp3.Response
 import okhttp3.WebSocket
 import okhttp3.WebSocketListener
-import java.net.CookieManager
-import java.util.concurrent.TimeUnit
 
 class GameForPvPActivity: GameActivity() {
 
-    private val client = OkHttpClient.Builder()
-        .connectTimeout(10, TimeUnit.SECONDS)
-        .callTimeout(30, TimeUnit.SECONDS)
-        .readTimeout(30, TimeUnit.SECONDS)
-        .writeTimeout(30, TimeUnit.SECONDS)
-        .pingInterval(30, TimeUnit.SECONDS)
-        .cookieJar(JavaNetCookieJar(CookieManager()))
-        .build()
-    private lateinit var URL: String
-
-    private lateinit var request: Request
-    private lateinit var listener: WebSocketListener
-
-    private lateinit var ws: WebSocket
-
-    private val gson = Gson()
+    private lateinit var webSocketService: WebSocketService
 
     private val binding by lazy {
         ActivityGameForPvpBinding.inflate(layoutInflater)
@@ -118,11 +99,11 @@ class GameForPvPActivity: GameActivity() {
                 when(wall.type) {
                     WallType.VERTICAL -> {
                         viewModel.addVerticalWall(wall.coordinate)
-                        send(makeMessage(ActionType.VERTICAL, wall.coordinate))
+                        webSocketService.send(makeMessage(ActionType.VERTICAL, wall.coordinate))
                     }
                     WallType.HORIZONTAL -> {
                         viewModel.addHorizontalWall(wall.coordinate)
-                        send(makeMessage(ActionType.HORIZONTAL, wall.coordinate))
+                        webSocketService.send(makeMessage(ActionType.HORIZONTAL, wall.coordinate))
                     }
                 }
                 viewModel.turnPass()
@@ -134,7 +115,7 @@ class GameForPvPActivity: GameActivity() {
                 if(viewModel.isAvailableMove(coordinate) && viewModel.isMyTurn(myTurn)){
                     viewModel.move(coordinate)
                     viewModel.setAvailableMove(arrayOf())
-                    send(makeMessage(ActionType.MOVE, coordinate))
+                    webSocketService.send(makeMessage(ActionType.MOVE, coordinate))
                     if (!viewModel.isEnd.value!!)
                         viewModel.turnPass()
                 }
@@ -147,10 +128,15 @@ class GameForPvPActivity: GameActivity() {
     override val TAG: String
         get() = "$_TAG - GameForPvpActivity"
 
+    override fun findIntent() {
+        super.findIntent()
+        matchData = intent.getMatchData()
+    }
+
     override fun onPause() {
         super.onPause()
-        send(makeMessage())
-        ws.close(1000, "onPause")
+        webSocketService.send(makeMessage())
+        webSocketService.close()
     }
 
     override fun initGame() {
@@ -198,7 +184,7 @@ class GameForPvPActivity: GameActivity() {
         timer = buildTimer(0) {
             gameEnd(1)
             if (viewModel.isMyTurn(myTurn))
-                send(makeMessage())
+                webSocketService.send(makeMessage())
         }
     }
 
@@ -242,7 +228,7 @@ class GameForPvPActivity: GameActivity() {
         timer = buildTimer(turn) {
             gameEnd((turn+1)%2)
             if (turn == myTurn)
-                send(makeMessage())
+                webSocketService.send(makeMessage())
         }
     }
 
@@ -250,7 +236,7 @@ class GameForPvPActivity: GameActivity() {
         super.gameEnd(winner)
         val remainTime = viewModel.players[myTurn].value!!.leftTime
         val cor = viewModel.board.value!!.playCoordinates[myTurn]
-        send(WebSocketDTO.Action(
+        webSocketService.send(WebSocketDTO.Action(
             remainTime,
             ActionType.WIN.ordinal,
             cor.r,
@@ -258,14 +244,11 @@ class GameForPvPActivity: GameActivity() {
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        matchData = intent.getMatchData()
-
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
 
-        URL = "${WebSocketTest.BASE_URL}game/move?uid=${UserManager.umuid}&gameId=${matchData.gameId}&turn=${matchData.turn}"
-        request = Request.Builder().url(URL).build()
-        listener = object : WebSocketListener() {
+        val url = "${Statics.WEB_SOCKET_BASE_URL}game/move?uid=${UserManager.umuid}&gameId=${matchData.gameId}&turn=${matchData.turn}"
+        val listener = object : WebSocketListener() {
             override fun onOpen(webSocket: WebSocket, response: Response) {
                 super.onOpen(webSocket, response)
                 Log.d(TAG, "web socket opened\n$response")
@@ -275,7 +258,7 @@ class GameForPvPActivity: GameActivity() {
                 super.onMessage(webSocket, text)
                 Log.d(TAG, "web socket messaged\n$text")
 
-                val action = gson.fromJson(text, WebSocketDTO.Action::class.java)
+                val action = webSocketService.fromJsonString(text, WebSocketDTO.Action::class.java)
 
                 viewModel.setTime(action.remainTime)
                 when (action.type) {
@@ -320,8 +303,8 @@ class GameForPvPActivity: GameActivity() {
             }
 
         }
-        ws = client.newWebSocket(request, listener)
-        send(WebSocketDTO.Action(9, 9, 9, 9))
+        webSocketService = WebSocketService(url, listener)
+        webSocketService.send(WebSocketDTO.Action(9, 9, 9, 9))
     }
 
     private fun makeMessage(type: ActionType, coordinate: Coordinate): WebSocketDTO.Action{
@@ -341,11 +324,4 @@ class GameForPvPActivity: GameActivity() {
             0)
     }
 
-    private fun send(action: WebSocketDTO.Action) {
-        CoroutineScope(Dispatchers.IO)
-            .launch {
-                Log.d(TAG, "ws send ${gson.toJson(action)}")
-                ws.send(gson.toJson(action))
-            }
-    }
 }

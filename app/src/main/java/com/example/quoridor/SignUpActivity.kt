@@ -6,7 +6,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.quoridor.communication.retrofit.HttpDTO
 import com.example.quoridor.communication.retrofit.HttpResult
-import com.example.quoridor.communication.retrofit.Service
+import com.example.quoridor.communication.retrofit.HttpService
 import com.example.quoridor.databinding.ActivitySignupBinding
 import com.example.quoridor.login.LoginActivity
 
@@ -14,7 +14,7 @@ class SignUpActivity :AppCompatActivity(){
     private val binding: ActivitySignupBinding by lazy {
         ActivitySignupBinding.inflate(layoutInflater)
     }
-    private val service = Service()
+    private val httpService = HttpService()
 
     private val TAG: String by lazy {
         getString(R.string.Minseok_test_tag)
@@ -36,7 +36,7 @@ class SignUpActivity :AppCompatActivity(){
             val email = binding.signupEtEmail.text.toString()
             val name = binding.signupEtName.text.toString()
 
-            service.signUp(id,pw,email,name, object: HttpResult<HttpDTO.Response.User> {
+            httpService.signUp(id,pw,email,name, object: HttpResult<HttpDTO.Response.User> {
                 override fun success(data: HttpDTO.Response.User) {
                     popToast("SignUp success!")
                     val intent = Intent(this@SignUpActivity, LoginActivity::class.java)

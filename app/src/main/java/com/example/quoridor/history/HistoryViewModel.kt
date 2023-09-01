@@ -2,13 +2,13 @@ package com.example.quoridor.history
 
 import androidx.lifecycle.ViewModel
 import com.example.quoridor.communication.retrofit.HttpDTO
-import com.example.quoridor.communication.retrofit.Service
+import com.example.quoridor.communication.retrofit.HttpService
 import com.example.quoridor.communication.retrofit.util.SuccessfulHttpResult
 import java.util.Calendar
 
 class HistoryViewModel: ViewModel() {
 
-    private val service = Service()
+    private val httpService = HttpService()
     private var defaultGameId = 0L
 
     private val TAG = "Dirtfy Test - HistoryViewModel"
@@ -31,7 +31,7 @@ class HistoryViewModel: ViewModel() {
     }
 
     fun loadMoreHistories() {
-        service.histories(
+        httpService.histories(
              if((historyList.value?.size ?: 0) == 0) defaultGameId
              else historyList.value?.last()?.gameId?: defaultGameId,
             SuccessfulHttpResult {

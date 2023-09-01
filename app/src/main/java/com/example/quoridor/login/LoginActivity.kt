@@ -10,7 +10,7 @@ import com.example.quoridor.R
 import com.example.quoridor.SignUpActivity
 import com.example.quoridor.communication.retrofit.HttpDTO
 import com.example.quoridor.communication.retrofit.HttpResult
-import com.example.quoridor.communication.retrofit.Service
+import com.example.quoridor.communication.retrofit.HttpService
 import com.example.quoridor.databinding.ActivityLoginBinding
 
 class LoginActivity : AppCompatActivity() {
@@ -18,7 +18,7 @@ class LoginActivity : AppCompatActivity() {
         ActivityLoginBinding.inflate(layoutInflater)
     }
 
-    private val service = Service()
+    private val httpService = HttpService()
     private val TAG: String by lazy {
         getString(R.string.Minseok_test_tag)
     }
@@ -33,7 +33,7 @@ class LoginActivity : AppCompatActivity() {
             val id = binding.loginEtId.text.toString()
             val pw = binding.loginEtPw.text.toString()
 
-            service.login(id,pw, object: HttpResult<HttpDTO.Response.User> {
+            httpService.login(id,pw, object: HttpResult<HttpDTO.Response.User> {
                 override fun success(data: HttpDTO.Response.User) {
                     popToast("success!")
                     /*val user = UserManager.getInstance()*/

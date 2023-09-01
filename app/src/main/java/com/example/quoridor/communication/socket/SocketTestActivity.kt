@@ -23,15 +23,13 @@ import okhttp3.WebSocket
 
 class SocketTestActivity: AppCompatActivity() {
 
-    companion object {
-        val URL = WebSocketTest.BASE_URL +"game/move"+"?gameId="+ ToastHttpResult.data1.gameId+"&turn="+ ToastHttpResult.data1.turn.toString();
+    val URL = WebSocketTest.BASE_URL +"game/move"+"?gameId="+ ToastHttpResult.data1.gameId+"&turn="+ ToastHttpResult.data1.turn.toString();
 //        const val URL = WebSocketTest.BASE_URL+"game/move"
 
-        val request = Request.Builder().url(URL).build();
-        val listener = WebSocketListenerTest()
+    val request = Request.Builder().url(URL).build();
+    val listener = WebSocketListenerTest()
 
-        lateinit var ws: WebSocket
-    }
+    lateinit var ws: WebSocket
 
     private var byteArray = byteArrayOf()
 

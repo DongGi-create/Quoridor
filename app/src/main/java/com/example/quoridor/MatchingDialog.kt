@@ -11,7 +11,7 @@ import android.widget.ImageView
 import android.widget.ProgressBar
 import android.widget.TextView
 import com.example.quoridor.communication.retrofit.HttpDTO
-import com.example.quoridor.communication.retrofit.Service
+import com.example.quoridor.communication.retrofit.HttpService
 import com.example.quoridor.util.Func
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.CoroutineStart
@@ -29,7 +29,7 @@ class MatchingDialog(context:Context): Dialog(context) {
     private var minuteMills = (5 * 60000).toLong()
     private var progressBarCircle: ProgressBar? = null
     private var remainTime: TextView? = null
-    private val service = Service()
+    private val httpService = HttpService()
     private lateinit var countDownTimer: CountDownTimer
     private lateinit var keepTryingJob: Deferred<HttpDTO.Response.Match?>
     private lateinit var gameStartJob: Job
@@ -99,7 +99,7 @@ class MatchingDialog(context:Context): Dialog(context) {
 
             keepTryingJob = RetrofitFunc.buildKeepTryingJob(
                 matchData,
-                service::makeMatchCall,
+                httpService::makeMatchCall,
                 ToastHttpResult(context, "matching", TAG),
                 {
                     !(it.gameId == null || it.turn == null)

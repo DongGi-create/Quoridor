@@ -50,7 +50,7 @@ abstract class GameActivity: AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        gameType = intent.getGameType()
+        findIntent()
 
         setWallSize()
         gameBoardView.setDragListener(dragListener)
@@ -121,6 +121,10 @@ abstract class GameActivity: AppCompatActivity() {
         }
 
         dialog.show()
+    }
+
+    open fun findIntent() {
+        gameType = intent.getGameType()
     }
 
     open fun gameEnd(winner: Int) {

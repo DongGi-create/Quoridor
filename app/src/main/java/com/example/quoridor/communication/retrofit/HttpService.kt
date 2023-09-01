@@ -1,28 +1,23 @@
 package com.example.quoridor.communication.retrofit
 
 import android.util.Log
+import com.example.quoridor.communication.Statics
 
-import okhttp3.JavaNetCookieJar
-import okhttp3.OkHttpClient
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import java.net.CookieManager
 
-class Service {
+class HttpService {
 
     companion object {
-        private val client = OkHttpClient.Builder()
-            .cookieJar(JavaNetCookieJar(CookieManager()))
-            .build()
         private val retrofit = Retrofit.Builder()
-            .client(client)
-            .baseUrl("http://43.201.189.249:8080/")
+            .client(Statics.client)
+            .baseUrl(Statics.HTTP_BASE_URL)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
-        var service = retrofit.create(ServiceInterface::class.java)
+        private var service: ServiceInterface = retrofit.create(ServiceInterface::class.java)
 
         private val TAG = "Dirtfy Test - Service"
 

@@ -23,7 +23,7 @@ class RetrofitTestActivity: AppCompatActivity() {
         ActivityRetrofitTestBinding.inflate(layoutInflater)
     }
 
-    private val service = Service()
+    private val httpService = HttpService()
     private lateinit var keepTryingJob: Deferred<HttpDTO.Response.Match?>
     private lateinit var gameStartJob: Job
 
@@ -39,7 +39,7 @@ class RetrofitTestActivity: AppCompatActivity() {
             val id = binding.idEt.text.toString()
             val pw = binding.pwEt.text.toString()
 
-            service.login(id, pw, ToastHttpResult(applicationContext, "login", TAG))
+            httpService.login(id, pw, ToastHttpResult(applicationContext, "login", TAG))
         }
 
 //        binding.button.setOnClickListener{
@@ -85,7 +85,7 @@ class RetrofitTestActivity: AppCompatActivity() {
 
                 keepTryingJob = RetrofitFunc.buildKeepTryingJob(
                     matchData,
-                    service::makeMatchCall,
+                    httpService::makeMatchCall,
                     ToastHttpResult(applicationContext, "matching", TAG),
                     {
                         !(it.gameId == null || it.turn == null)
