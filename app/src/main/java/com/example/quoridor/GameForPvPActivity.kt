@@ -153,33 +153,33 @@ class GameForPvPActivity: GameActivity() {
             if (myTurn == 0) UserManager.umscore!! else matchData.opponentScore!!,
             true)
         binding.myInfoView.profileImageView.setImageResource(R.drawable.hobanwoo_red)
-//        binding.myInfoView.data.value = player0
-        binding.myInfoView.data.postValue(player0)
+        binding.myInfoView.data.value = player0
+//        binding.myInfoView.data.postValue(player0)
         val player1 = Player(
             if (myTurn != 0) UserManager.umname!! else matchData.opponentName!!,
             gameType.timeLimit, gameType.initWall,
             if (myTurn != 0) UserManager.umscore!! else matchData.opponentScore!!,
             false)
         binding.opPlayerInfoView.profileImageView.setImageResource(R.drawable.hobanwoo_blue)
-//        binding.opPlayerInfoView.data.value = player1
-        binding.opPlayerInfoView.data.postValue(player1)
+        binding.opPlayerInfoView.data.value = player1
+//        binding.opPlayerInfoView.data.postValue(player1)
 
         val board = Board()
-//        gameBoardView.data.value = board
-        gameBoardView.data.postValue(board)
+        gameBoardView.data.value = board
+//        gameBoardView.data.postValue(board)
 
-//        viewModel.board.value = board
-//        viewModel.players[0].value = player0
-//        viewModel.players[1].value = player1
-//        viewModel.availableMoves.value = arrayOf()
-//        viewModel.turn.value = 0
-//        viewModel.isEnd.value = false
-        viewModel.board.postValue(board)
-        viewModel.players[0].postValue(player0)
-        viewModel.players[1].postValue(player1)
-        viewModel.availableMoves.postValue(arrayOf())
-        viewModel.turn.postValue(0)
-        viewModel.isEnd.postValue(false)
+        viewModel.board.value = board
+        viewModel.players[0].value = player0
+        viewModel.players[1].value = player1
+        viewModel.availableMoves.value = arrayOf()
+        viewModel.turn.value = 0
+        viewModel.isEnd.value = false
+//        viewModel.board.postValue(board)
+//        viewModel.players[0].postValue(player0)
+//        viewModel.players[1].postValue(player1)
+//        viewModel.availableMoves.postValue(arrayOf())
+//        viewModel.turn.postValue(0)
+//        viewModel.isEnd.postValue(false)
 
         ivList[0] = createPlayerImageView(imageResourceList[0])
         ivList[1] = createPlayerImageView(imageResourceList[1])
