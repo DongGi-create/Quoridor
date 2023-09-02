@@ -38,10 +38,13 @@ class WebSocketService(
     }
 
     fun <T> fromJsonString(text: String, cls: Class<T>): T {
-        return gson.fromJson(text, cls)
+        val instance = gson.fromJson(text, cls)
+        Log.d(TAG, "fromJsonString \n${text}\n${instance}")
+        return instance
     }
 
     fun <T> send(data: T) {
+        Log.d(TAG, "send \n${toJsonString(data)}")
         CoroutineScope(Dispatchers.IO)
             .launch {
                 ws.send(toJsonString(data))
@@ -49,6 +52,7 @@ class WebSocketService(
     }
 
     fun close() {
+        Log.d(TAG, "close \n${END_CODE}\n${END_MASSAGE}")
         ws.close(END_CODE, END_MASSAGE)
     }
 

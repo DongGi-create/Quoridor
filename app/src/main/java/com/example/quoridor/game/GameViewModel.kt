@@ -35,7 +35,7 @@ class GameViewModel: ViewModel() {
     }
     fun wallClosed(wall: Wall): Boolean {
         Log.d(TAG, "wallClosed")
-        return GameFunc.wallCross(wall, board.value!!)
+        return GameFunc.wallClosed(wall, board.value!!)
     }
     fun wallMatch(wall: Wall): Boolean {
         Log.d(TAG, "wallMatch")
@@ -168,8 +168,12 @@ class GameViewModel: ViewModel() {
         Log.d(TAG, "getTurn")
         return turn.value!!
     }
+    fun getCoordinate(turn: Int): Coordinate {
+        return board.value!!.playCoordinates[turn]
+    }
 
     fun isEnd(): Boolean {
+        Log.d(TAG, "end")
         return GameFunc.reachedEnd(board.value!!.playCoordinates[turn.value!!], turn.value!!)
     }
 }

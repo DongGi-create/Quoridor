@@ -95,7 +95,7 @@ class MatchingDialog(context:Context): Dialog(context) {
 
     fun startMatching(){
         if (!this@MatchingDialog::keepTryingJob.isInitialized || !keepTryingJob.isActive) {
-            val matchData = HttpDTO.Request.Match(1)
+            val matchData = HttpDTO.Request.Match(3)
 
             keepTryingJob = RetrofitFunc.buildKeepTryingJob(
                 matchData,
@@ -137,7 +137,7 @@ class MatchingDialog(context:Context): Dialog(context) {
                     Func.popToast(context, "매칭성공! GameID: $matchData")//await는 비동기로만 받을 수 있다
                     dismiss()
                     val intent = Intent(context, GameForPvPActivity::class.java)
-                    context.startGameActivity(intent, GameType.STANDARD, matchData)
+                    context.startGameActivity(intent, GameType.BLITZ, matchData)
                 }
             }
     }

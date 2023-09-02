@@ -98,8 +98,8 @@ abstract class GameActivity: AppCompatActivity() {
 //        }
     }
 
-    override fun onPause() {
-        super.onPause()
+    override fun onDestroy() {
+        super.onDestroy()
         timer?.cancel()
     }
 

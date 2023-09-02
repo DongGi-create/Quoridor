@@ -16,11 +16,11 @@ object Statics {
     const val WEB_SOCKET_BASE_URL = "$WEB_SOCKET$IP:$PORT"
 
     val client = OkHttpClient.Builder()
-        .connectTimeout(10, TimeUnit.SECONDS)
+        .connectTimeout(30, TimeUnit.SECONDS)
         .callTimeout(30, TimeUnit.SECONDS)
         .readTimeout(30, TimeUnit.SECONDS)
         .writeTimeout(30, TimeUnit.SECONDS)
-        .pingInterval(30, TimeUnit.SECONDS)
+        .pingInterval(60, TimeUnit.SECONDS)
         .cookieJar(JavaNetCookieJar(CookieManager()))
         .build()
 }

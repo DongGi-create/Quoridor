@@ -63,7 +63,7 @@ class GameForPvPActivity: GameActivity() {
                     popToast(this@GameForPvPActivity, "not my turn")
                     false
                 }
-                else if (viewModel.isWallLeft(myTurn)) {
+                else if (!viewModel.isWallLeft(myTurn)) {
                     popToast(this@GameForPvPActivity, "no left wall")
                     false
                 }
@@ -73,27 +73,27 @@ class GameForPvPActivity: GameActivity() {
     override val dropListener: GameBoardViewWallListener.DropListener
         get() = object : GameBoardViewWallListener.DropListener {
             override fun cross(matchedView: View, wall: Wall): Boolean {
-                if (viewModel.wallCross(wall)) {
-                    Func.popToast(this@GameForPvPActivity, "cross")
-                    return true
+                return if (viewModel.wallCross(wall)) {
+                    popToast(this@GameForPvPActivity, "cross")
+                    true
                 }
-                return false
+                else false
             }
 
             override fun closed(matchedView: View, wall: Wall): Boolean {
-                if (viewModel.wallClosed(wall)) {
-                    Func.popToast(this@GameForPvPActivity, "closed")
-                    return true
+                return if (viewModel.wallClosed(wall)) {
+                    popToast(this@GameForPvPActivity, "closed")
+                    true
                 }
-                return false
+                else false
             }
 
             override fun match(matchedView: View, wall: Wall): Boolean {
-                if (viewModel.wallMatch(wall)) {
-                    Func.popToast(this@GameForPvPActivity, "match")
-                    return true
+                return if (viewModel.wallMatch(wall)) {
+                    popToast(this@GameForPvPActivity, "match")
+                    true
                 }
-                return false
+                else false
             }
 
             override fun success(matchedView: View, wall: Wall) {
@@ -139,8 +139,8 @@ class GameForPvPActivity: GameActivity() {
         matchData = intent.getMatchData()
     }
 
-    override fun onPause() {
-        super.onPause()
+    override fun onDestroy() {
+        super.onDestroy()
         webSocketService.send(makeMessage())
         webSocketService.close()
     }
@@ -203,7 +203,7 @@ class GameForPvPActivity: GameActivity() {
 
         binding.gameBoardView.setWallChooseView(
             binding.myWallSelector.verticalWallChooseView,
-            binding.myWallSelector.verticalWallChooseView
+            binding.myWallSelector.horizontalWallChooseView
         )
 
         timer = buildTimer(0) {
@@ -303,14 +303,18 @@ class GameForPvPActivity: GameActivity() {
                     }
                     ActionType.WIN.ordinal -> {
                         winner = opTurn
+                        viewModel.move(Coordinate(action.row, action.col))
 //                        gameEnd(opTurn)
                     }
                     ActionType.LOSE.ordinal -> {
                         winner = myTurn
+                        viewModel.move(Coordinate(action.row, action.col))
 //                        gameEnd(myTurn)
                     }
                     -1 -> {
-                        gameEnd(winner)
+                        CoroutineScope(Dispatchers.Main).launch {
+                            gameEnd(winner)
+                        }
                         val rating = action.remainTime
                         UserManager.umscore = rating.toInt()
                     }
@@ -347,11 +351,12 @@ class GameForPvPActivity: GameActivity() {
     }
     private fun makeMessage(): WebSocketDTO.Action {
         val myData = viewModel.getPlayerValue(myTurn)
+        val cor = viewModel.getCoordinate(myTurn)
         return WebSocketDTO.Action(
             myData.leftTime,
             ActionType.LOSE.ordinal,
-            0,
-            0)
+            cor.r,
+            cor.c)
     }
 
 }
