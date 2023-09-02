@@ -59,19 +59,15 @@
             android:exported="true"/>
 
         <activity
-            android:name=".game.TestLocalActivity"
-            android:exported="true"/>
-        <activity
-            android:name=".game.TestPvpActivity"
-            android:exported="true"/>
-
-
-        <activity
             android:name=".communication.socket.SocketTestActivity"
             android:exported="true"/>
 
         <activity
             android:name=".HistoryActivity"
+            android:exported="false"/>
+
+        <activity
+            android:name=".login.KakaoLoginActivity"
             android:exported="false"/>
     </application>
 

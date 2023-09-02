@@ -75,7 +75,7 @@ class GameForLocalActivity: GameActivity() {
                         viewModel.addHorizontalWall(wall.coordinate)
                     }
                 }
-                viewModel.turnPass()
+                viewModel.turnPass(false)
             }
         }
     override val clickListener: GameBoardViewPieceClickListener
@@ -84,8 +84,10 @@ class GameForLocalActivity: GameActivity() {
                 if(viewModel.isAvailableMove(coordinate)){
                     viewModel.move(coordinate)
                     viewModel.setAvailableMove(arrayOf())
-                    if (!viewModel.isEnd.value!!)
-                        viewModel.turnPass()
+                    if (viewModel.isEnd())
+                        gameEnd(viewModel.getTurn())
+                    else
+                        viewModel.turnPass(false)
                 }
                 else{
                     popToast(this@GameForLocalActivity, "unavailable")
@@ -94,13 +96,15 @@ class GameForLocalActivity: GameActivity() {
         }
     override val imageViewList: Array<ImageView>
         get() = ivList
+    override val isRatingGame: Boolean
+        get() = false
     override val TAG: String
         get() = "$_TAG - GameForLocalActivity"
 
     override fun initGame() {
-        val player0 = Player("p0", gameType.timeLimit, gameType.initWall, 1050, true)
+        val player0 = Player("red", gameType.timeLimit, gameType.initWall, 0, true)
         binding.lowerPlayerInfoView.data.value = player0
-        val player1 = Player("p1", gameType.timeLimit, gameType.initWall, 950, false)
+        val player1 = Player("blue", gameType.timeLimit, gameType.initWall, 0, false)
         binding.upperPlayerInfoView.data.value = player1
 
         val board = Board()
@@ -148,11 +152,21 @@ class GameForLocalActivity: GameActivity() {
     override fun turnObserve(turn: Int) {
         Log.d(TAG, "$turn")
 
+        Log.d(TAG, "${viewModel.players[1].value?.myTurn}")
+
         timer?.cancel()
 
         setWallChooseView(when(turn){
-            0 -> binding.lowerPlayerWallSelector
-            else -> binding.upperPlayerWallSelector
+            0 -> {
+                binding.upperPlayerWallSelector.overlay.visibility = View.VISIBLE
+                binding.lowerPlayerWallSelector.overlay.visibility = View.INVISIBLE
+                binding.lowerPlayerWallSelector
+            }
+            else -> {
+                binding.upperPlayerWallSelector.overlay.visibility = View.INVISIBLE
+                binding.lowerPlayerWallSelector.overlay.visibility = View.VISIBLE
+                binding.upperPlayerWallSelector
+            }
         })
 
         viewModel.getAvailableMoves()

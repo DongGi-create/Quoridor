@@ -13,6 +13,7 @@
         android:orientation="vertical"
         android:layout_marginTop="20dp"
         android:rotation="180"
+        app:layout_constraintBottom_toTopOf="@id/game_board_view_layout"
         app:layout_constraintTop_toTopOf="parent">
 
         <com.example.quoridor.customView.playerView.LocalPlayInfoView
@@ -37,8 +38,8 @@
         android:padding="15dp"
         android:layout_margin="15dp"
         android:background="@drawable/dirtfy_item_bg"
-        app:layout_constraintTop_toBottomOf="@id/upper_player_layout"
-        app:layout_constraintBottom_toTopOf="@id/lower_player_layout">
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent">
 
         <com.example.quoridor.customView.gameBoardView.GameBoardView
             android:id="@+id/game_board_view"
@@ -53,6 +54,7 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:layout_marginBottom="20dp"
+        app:layout_constraintTop_toBottomOf="@id/game_board_view_layout"
         app:layout_constraintBottom_toBottomOf="parent">
 
         <com.example.quoridor.customView.playerView.LocalPlayInfoView
@@ -69,5 +71,6 @@
             android:layout_marginHorizontal="15dp"/>
 
     </LinearLayout>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

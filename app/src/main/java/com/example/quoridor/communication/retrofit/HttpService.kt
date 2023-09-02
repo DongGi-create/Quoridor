@@ -61,6 +61,13 @@ class HttpService {
         service.historyListRequest(recentGameId).enqueue(makeCallBack(httpResult))
     }
 
+    fun loginByKakao(
+        code: String,
+        httpResult: HttpResult<HttpDTO.Response.User>
+    ) {
+        service.loginByKakao(code).enqueue(makeCallBack(httpResult))
+    }
+
     private fun <ResponseType> makeCallBack(
         httpResult: HttpResult<ResponseType>
     ): Callback<ResponseType> {

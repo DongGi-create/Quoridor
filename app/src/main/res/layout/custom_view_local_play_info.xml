@@ -19,16 +19,6 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintBottom_toBottomOf="parent">
 
-        <ImageView
-            android:id="@+id/turn_indicator_iv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:maxWidth="15dp"
-            android:maxHeight="15dp"
-            android:adjustViewBounds="true"
-            android:src="@drawable/baseline_lens_24_green"
-            android:layout_marginRight="10dp"/>
-
         <TextView
             android:id="@+id/left_wall_prefix_tv"
             android:layout_width="wrap_content"
@@ -54,5 +44,17 @@
             android:textColor="@color/D_text"
             tools:text="10:00"/>
     </LinearLayout>
+    <View
+        android:id="@+id/tv_layout_overlay"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:orientation="horizontal"
+        android:padding="10dp"
+        android:background="@drawable/dirtfy_disable_item_overlay"
+        android:visibility="invisible"
+        app:layout_constraintStart_toStartOf="@id/tv_layout"
+        app:layout_constraintEnd_toEndOf="@id/tv_layout"
+        app:layout_constraintTop_toTopOf="@id/tv_layout"
+        app:layout_constraintBottom_toBottomOf="@id/tv_layout"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

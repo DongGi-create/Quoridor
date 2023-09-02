@@ -56,6 +56,8 @@ class GameForPvPActivity: GameActivity() {
         get() = binding.gameBoardView
     override val imageViewList: Array<ImageView>
         get() = ivList
+    override val isRatingGame: Boolean
+        get() = true
     override val dragListener: GameBoardViewWallListener.DragListener
         get() = object :  GameBoardViewWallListener.DragListener{
             override fun startDrag(): Boolean {

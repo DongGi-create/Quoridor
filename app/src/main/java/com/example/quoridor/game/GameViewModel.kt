@@ -122,23 +122,31 @@ class GameViewModel: ViewModel() {
 //        board.value = boardValue
         board.postValue(boardValue)
     }
-    fun turnPass() {
+    fun turnPass(post: Boolean = true) {
         Log.d(TAG, "turnPass")
 
         var turnValue = turn.value!!
         var playerValue = players[turnValue].value!!
         playerValue.myTurn = false
-//        players[turnValue].value = playerValue
-        players[turnValue].postValue(playerValue)
+        if (post)
+            players[turnValue].postValue(playerValue)
+        else
+            players[turnValue].value = playerValue
 
-//        turn.value = (turnValue+1)%2
-        turn.postValue((turnValue+1)%2)
+
+        if (post)
+            turn.postValue((turnValue+1)%2)
+        else
+            turn.value = (turnValue+1)%2
+
 
         turnValue = turn.value!!
         playerValue = players[turnValue].value!!
         playerValue.myTurn = true
-//        players[turnValue].value = playerValue
-        players[turnValue].postValue(playerValue)
+        if (post)
+            players[turnValue].postValue(playerValue)
+        else
+            players[turnValue].value = playerValue
     }
 
     fun isMyTurn(myTurn: Int): Boolean {

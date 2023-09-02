@@ -7,8 +7,6 @@ import com.example.quoridor.communication.retrofit.HttpDTO
 import com.example.quoridor.communication.retrofit.RetrofitTestActivity
 import com.example.quoridor.communication.socket.SocketTestActivity
 import com.example.quoridor.databinding.ActivityTestBinding
-import com.example.quoridor.game.TestLocalActivity
-import com.example.quoridor.game.TestPvpActivity
 import com.example.quoridor.game.types.GameType
 import com.example.quoridor.game.util.GameFunc.putGameType
 import com.example.quoridor.game.util.GameFunc.putMatchData
@@ -29,7 +27,7 @@ class TestActivity:  AppCompatActivity() {
         }
 
         binding.localGameTest.setOnClickListener {
-            val intent = Intent(this, TestLocalActivity::class.java)
+            val intent = Intent(this, GameForLocalActivity::class.java)
             intent.putGameType(GameType.BLITZ)
             startActivity(intent)
         }

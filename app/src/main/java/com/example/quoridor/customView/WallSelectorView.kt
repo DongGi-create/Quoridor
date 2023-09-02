@@ -27,6 +27,9 @@ class WallSelectorView: ConstraintLayout {
     val horizontalWallView by lazy {
         binding.horizontalWall
     }
+    val overlay by lazy {
+        binding.chooseLayoutOverlay
+    }
 
     constructor(context: Context): super(context) {
         initView()

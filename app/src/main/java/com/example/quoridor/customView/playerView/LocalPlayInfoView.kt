@@ -2,7 +2,9 @@ package com.example.quoridor.customView.playerView
 
 import android.content.Context
 import android.util.AttributeSet
+import android.util.Log
 import android.view.LayoutInflater
+import android.view.View
 import androidx.lifecycle.MutableLiveData
 import com.example.quoridor.R
 import com.example.quoridor.customView.ObservableView
@@ -30,10 +32,7 @@ class LocalPlayInfoView: ObservableView {
         data.observe {
             binding.leftWallTv.text = it.leftWall.toString()
             binding.leftTimeTv.text = Func.millToMinSec(it.leftTime)
-            binding.turnIndicatorIv.setImageResource(
-                if (it.myTurn) R.drawable.baseline_lens_24_green
-                else R.drawable.baseline_lens_24_red
-            )
+            binding.tvLayoutOverlay.visibility = if (it.myTurn) View.INVISIBLE else View.VISIBLE
         }
     }
 }

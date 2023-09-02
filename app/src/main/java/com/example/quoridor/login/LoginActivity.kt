@@ -62,6 +62,11 @@ class LoginActivity : AppCompatActivity() {
             val intent = Intent(this,SignUpActivity::class.java)
             startActivity(intent)
         }
+
+        binding.kakaoLoginImageView.setOnClickListener {
+            val intent = Intent(this, KakaoLoginActivity::class.java)
+            startActivity(intent)
+        }
     }
     private fun popToast(content: String) {
         Toast.makeText(applicationContext, content, Toast.LENGTH_SHORT).show()

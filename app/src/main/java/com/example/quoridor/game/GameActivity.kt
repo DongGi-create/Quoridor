@@ -5,6 +5,7 @@ import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.os.CountDownTimer
 import android.util.Log
+import android.view.View
 import android.view.ViewGroup
 import android.view.Window
 import android.widget.Button
@@ -36,6 +37,7 @@ abstract class GameActivity: AppCompatActivity() {
     abstract val clickListener: GameBoardViewPieceClickListener
 
     lateinit var gameType: GameType
+    abstract val isRatingGame: Boolean
 
     val imageResourceList = arrayOf( R.drawable.baseline_lens_24_red, R.drawable.baseline_lens_24_blue)
     private var shadowImageViewList: Array<ImageView> = arrayOf()
@@ -146,24 +148,29 @@ abstract class GameActivity: AppCompatActivity() {
         dialogBinding.winnerNameTv.text = winnerData.name
         dialogBinding.winnerProfileIv.setImageResource(imageResourceList[winner])
 
-        val player0 = viewModel.players[0].value!!
-        dialogBinding.p0NameTv.text = player0.name
-        dialogBinding.p0BeforeRating.text = player0.rating.toString()
+        if (isRatingGame) {
+            val player0 = viewModel.players[0].value!!
+            dialogBinding.p0NameTv.text = player0.name
+            dialogBinding.p0BeforeRating.text = player0.rating.toString()
 
-        val player1 = viewModel.players[1].value!!
-        dialogBinding.p1NameTv.text = player1.name
-        dialogBinding.p1BeforeRating.text = player1.rating.toString()
+            val player1 = viewModel.players[1].value!!
+            dialogBinding.p1NameTv.text = player1.name
+            dialogBinding.p1BeforeRating.text = player1.rating.toString()
 
-        val winnerAfterRating = GameFunc.calcRating(winnerData.rating, looserData.rating, GameResultType.WIN)
-        val looserAfterRating = GameFunc.calcRating(looserData.rating, winnerData.rating, GameResultType.LOSE)
+            val winnerAfterRating = GameFunc.calcRating(winnerData.rating, looserData.rating, GameResultType.WIN)
+            val looserAfterRating = GameFunc.calcRating(looserData.rating, winnerData.rating, GameResultType.LOSE)
 
-        if (winner == 0) {
-            dialogBinding.p0AfterRating.text = winnerAfterRating.toString()
-            dialogBinding.p1AfterRating.text = looserAfterRating.toString()
+            if (winner == 0) {
+                dialogBinding.p0AfterRating.text = winnerAfterRating.toString()
+                dialogBinding.p1AfterRating.text = looserAfterRating.toString()
+            }
+            else {
+                dialogBinding.p1AfterRating.text = winnerAfterRating.toString()
+                dialogBinding.p0AfterRating.text = looserAfterRating.toString()
+            }
         }
         else {
-            dialogBinding.p1AfterRating.text = winnerAfterRating.toString()
-            dialogBinding.p0AfterRating.text = looserAfterRating.toString()
+            dialogBinding.ratingLayout.visibility = View.GONE
         }
 
         dialogBinding.okBtn.setOnClickListener {

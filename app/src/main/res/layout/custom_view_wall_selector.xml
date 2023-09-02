@@ -72,5 +72,15 @@
             android:layout_weight="1"/>
 
     </LinearLayout>
+    <View
+        android:id="@+id/choose_layout_overlay"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@drawable/dirtfy_disable_item_overlay"
+        android:visibility="invisible"
+        app:layout_constraintTop_toTopOf="@id/choose_layout"
+        app:layout_constraintLeft_toLeftOf="@id/choose_layout"
+        app:layout_constraintRight_toRightOf="@id/choose_layout"
+        app:layout_constraintBottom_toBottomOf="@id/choose_layout"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
