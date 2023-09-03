@@ -50,7 +50,7 @@ interface ServiceInterface {
     @GET("histories/{gameId}")
     fun historyDetailRequest(@Path("gameId") gameId: Long): Call<HttpDTO.Response.DetailHistory>
 
-    @GET("/kakao/callback")
+    @GET("kakao/callback")
     fun loginByKakao(@Query("code") code: String): Call<HttpDTO.Response.User>
 
 }

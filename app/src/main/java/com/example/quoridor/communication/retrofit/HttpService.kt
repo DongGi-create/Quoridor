@@ -19,7 +19,7 @@ class HttpService {
             .build()
         private var service: ServiceInterface = retrofit.create(ServiceInterface::class.java)
 
-        private val TAG = "Dirtfy Test - Service"
+        private val TAG = "Dirtfy Test - HttpService"
 
     }
 

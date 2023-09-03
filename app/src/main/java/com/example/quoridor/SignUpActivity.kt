@@ -9,6 +9,10 @@ import com.example.quoridor.communication.retrofit.HttpResult
 import com.example.quoridor.communication.retrofit.HttpService
 import com.example.quoridor.databinding.ActivitySignupBinding
 import com.example.quoridor.login.LoginActivity
+import com.example.quoridor.util.Func.getAny
+import com.example.quoridor.util.Func.getUser
+import com.google.api.Http
+import okhttp3.MediaType.Companion.toMediaType
 
 class SignUpActivity :AppCompatActivity(){
     private val binding: ActivitySignupBinding by lazy {
@@ -25,6 +29,14 @@ class SignUpActivity :AppCompatActivity(){
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
+
+        val preSet = intent.getAny("user", HttpDTO.Response.User::class.java)
+        if (preSet != null) {
+            binding.signupEtEmail.apply {
+                setText(preSet.email)
+                isEnabled = false
+            }
+        }
 
         binding.signupIvProfile.setOnClickListener{
 

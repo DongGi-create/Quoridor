@@ -66,6 +66,7 @@ class LoginActivity : AppCompatActivity() {
         binding.kakaoLoginImageView.setOnClickListener {
             val intent = Intent(this, KakaoLoginActivity::class.java)
             startActivity(intent)
+            finish()
         }
     }
     private fun popToast(content: String) {
