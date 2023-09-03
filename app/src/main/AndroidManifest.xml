@@ -42,7 +42,7 @@
             android:exported="true"/>
 
         <activity
-            android:name=".MyPage"
+            android:name=".MyPageActivity"
             android:exported="true"/>
 
         <activity
@@ -64,6 +64,9 @@
 
         <activity
             android:name=".HistoryActivity"
+            android:exported="false"/>
+        <activity
+            android:name=".HistoryDetailActivity"
             android:exported="false"/>
 
         <activity

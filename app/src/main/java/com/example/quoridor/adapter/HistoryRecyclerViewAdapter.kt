@@ -10,6 +10,7 @@ import com.example.quoridor.databinding.ItemHistoryRecyclerViewFooterBinding
 
 class HistoryRecyclerViewAdapter(
     val itemList: MutableList<HttpDTO.Response.CompHistory>,
+    val itemClickListener: () -> Unit,
     val footerClickListener: () -> Unit
 ): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
@@ -40,7 +41,11 @@ class HistoryRecyclerViewAdapter(
         val view = LayoutInflater.from(parent.context).inflate(viewType, parent, false)
 
         return if (viewType == R.layout.item_history_recycler_view){
-            ViewHolder(ItemHistoryRecyclerViewBinding.bind(view))
+            val holder = ViewHolder(ItemHistoryRecyclerViewBinding.bind(view))
+            holder.itemView.setOnClickListener {
+                itemClickListener()
+            }
+            holder
         } else {
             val holder = Footer(ItemHistoryRecyclerViewFooterBinding.bind(view))
             holder.binding.loadMoreButton.setOnClickListener {

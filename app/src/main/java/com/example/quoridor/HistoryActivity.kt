@@ -23,10 +23,16 @@ class HistoryActivity: AppCompatActivity() {
         setContentView(binding.root)
 
         binding.historyRecyclerView.apply {
-            adapter = HistoryRecyclerViewAdapter(viewModel.getList()) {
-                viewModel.loadMoreHistories()
+            adapter = HistoryRecyclerViewAdapter(
+                viewModel.getList(),
+                {
+
+                },
+                {
+                    viewModel.loadMoreHistories()
 //                viewModel.historyList.add(HttpDTO.HistoriesResponse(0, false, "didwoahqkqhajdcjddl", 2000))
-            }
+                }
+            )
             layoutManager = LinearLayoutManager(
                 this@HistoryActivity,
                 LinearLayoutManager.VERTICAL,

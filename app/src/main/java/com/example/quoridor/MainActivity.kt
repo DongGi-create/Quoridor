@@ -4,26 +4,14 @@ import android.app.Dialog
 import android.content.Intent
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
-import android.os.CountDownTimer
-import android.service.autofill.FieldClassification.Match
-import android.util.Log
-import android.view.View
 import android.view.Window
 import android.widget.Button
-import android.widget.ImageView
-import android.widget.ProgressBar
-import android.widget.TextView
-import android.widget.Toast
-import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import com.example.quoridor.databinding.ActivityMainBinding
-import com.example.quoridor.databinding.ActivityProgressBarTestBinding
-import com.example.quoridor.databinding.DialogWaitingPvpBinding
 import com.example.quoridor.login.LoginActivity
 import com.example.quoridor.login.SharedLoginModel
 import com.example.quoridor.login.UserManager
-import java.util.concurrent.TimeUnit
 
 
 class MainActivity : AppCompatActivity() {
@@ -48,7 +36,7 @@ class MainActivity : AppCompatActivity() {
 
         sharedLoginModel.loginSuccess.observe(this) { success ->
             if(success){
-                loginmypageIntent = Intent(this,MyPage::class.java)
+                loginmypageIntent = Intent(this,MyPageActivity::class.java)
                 binding.mainIvLoginMyPage.setImageResource(R.drawable.ic_mypage)
             }else{
                 loginmypageIntent = Intent(this,LoginActivity::class.java)

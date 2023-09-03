@@ -9,7 +9,7 @@ import com.example.quoridor.login.UserManager
 import org.eazegraph.lib.charts.PieChart
 import org.eazegraph.lib.models.PieModel
 
-class MyPage:AppCompatActivity() {
+class MyPageActivity:AppCompatActivity() {
     val binding:ActivityMypageBinding by lazy{
         ActivityMypageBinding.inflate(layoutInflater)
     }
@@ -30,9 +30,13 @@ class MyPage:AppCompatActivity() {
         binding.btnMyPageLogout.setOnClickListener{
             user.umid = ""
             //user.setId("")
-            val intent = Intent(this@MyPage,MainActivity::class.java)
+            val intent = Intent(this@MyPageActivity,MainActivity::class.java)
             startActivity(intent)
             //세션 끊기 넣기
+        }
+
+        binding.cvMyPageVs4tier.setOnClickListener{
+            startActivity(Intent(this@MyPageActivity, HistoryActivity::class.java))
         }
     }
 
