@@ -54,20 +54,37 @@
             android:paddingStart="10dp"
             android:textColor="@color/D_text"
             android:textColorHint="@color/D_text" />
-
-        <EditText
-            android:id="@+id/login_et_pw"
+        <LinearLayout
+            android:id="@+id/login_layout_pw"
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:layout_marginHorizontal="20dp"
             android:layout_marginTop="10dp"
-            android:backgroundTint="@color/D_third"
-            android:drawableStart="@drawable/ic_password"
-            android:drawablePadding="10dp"
-            android:hint="Password"
-            android:paddingStart="10dp"
-            android:textColor="@color/D_text"
-            android:textColorHint="@color/D_text" />
+            android:orientation="horizontal"
+            >
+            <EditText
+                android:id="@+id/login_et_pw"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="10"
+                android:inputType="textPassword"
+                android:backgroundTint="@color/D_third"
+                android:drawableStart="@drawable/ic_password"
+                android:drawablePadding="10dp"
+                android:hint="Password"
+                android:paddingStart="10dp"
+                android:textColor="@color/D_text"
+                android:textColorHint="@color/D_text"
+                />
+            <ImageView
+                android:id="@+id/login_iv_see"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:src="@drawable/ic_seepw"
+                android:layout_margin="3dp"/>
+        </LinearLayout>
+
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"

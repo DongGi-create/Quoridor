@@ -5,6 +5,8 @@
     <string name="Minseok_test_tag">minseok</string>
     <string name="Cross_Wall">벽이 겹쳐용!</string>
     <string name="Cannot_Go">못 가용~!</string>
-
     <string name="left_wall_prefix">left wall: </string>
+    <string name="email">Email</string>
+    <string name="pw">Password</string>
+    <string name="name">Name</string>
 </resources>

@@ -4,6 +4,8 @@ import com.example.quoridor.communication.retrofit.HttpDTO
 
 class UserManager {
     companion object{
+        var umuid: Long? = null
+            private set
         var umid: String? = ""//로그인 안할때는 빈문자열
         //private set//객체 내부에서 setter 금지
         var umpw: String? = null
@@ -13,15 +15,19 @@ class UserManager {
         var umname: String? = null
             private set
         var umscore: Int? = null
-        var umuid: Long? = null
+        var umtotalGames: Int? = null
+            private set
+        var umwinGames: Int? = null
             private set
         fun setUser(user: HttpDTO.Response.User){
+            umuid = user.uid
             umid = user.loginId
             umpw = user.password
             umemail = user.email
             umname = user.name
             umscore = user.score
-            umuid = user.uid
+            umtotalGames = user.totalGames
+            umwinGames = user.winGames
         }
     }
 

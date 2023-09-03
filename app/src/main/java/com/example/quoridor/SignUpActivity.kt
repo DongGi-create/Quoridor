@@ -2,6 +2,9 @@ package com.example.quoridor
 
 import android.content.Intent
 import android.os.Bundle
+import android.text.method.PasswordTransformationMethod
+import android.view.MotionEvent
+import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.quoridor.communication.retrofit.HttpDTO
@@ -41,6 +44,19 @@ class SignUpActivity :AppCompatActivity(){
         binding.signupIvProfile.setOnClickListener{
 
         }
+
+        binding.signupEtPw.transformationMethod = PasswordTransformationMethod()
+        (binding.signupIvSee as View).setOnTouchListener(object: View.OnTouchListener{
+            override fun onTouch(v: View?, event: MotionEvent?): Boolean {
+                if(event?.action == MotionEvent.ACTION_DOWN){
+                    binding.signupEtPw.transformationMethod = null
+                }
+                else if(event?.action==MotionEvent.ACTION_UP){
+                    binding.signupEtPw.transformationMethod = PasswordTransformationMethod()
+                }
+                return true
+            }
+        })
 
         binding.signupBtnSignup.setOnClickListener{
             val id = binding.signupEtId.text.toString()

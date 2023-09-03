@@ -25,11 +25,11 @@ object HttpDTO {
 
         data class UserUpdate(
             @SerializedName("password")
-            val password: String,
+            val password: String?,
             @SerializedName("email")
-            val email: String,
+            val email: String?,
             @SerializedName("name")
-            val name: String
+            val name: String?
         )
 
         data class Match(
@@ -37,7 +37,7 @@ object HttpDTO {
             val gameType: Int
         )
     }
-    
+
     object Response {
         data class User(
             @SerializedName("loginId")
@@ -51,7 +51,11 @@ object HttpDTO {
             @SerializedName("score")
             val score: Int,
             @SerializedName("uid")
-            val uid: Long
+            val uid: Long,
+            @SerializedName("totalGames")
+            val totalGames: Int,
+            @SerializedName("winGames")
+            val winGames: Int
         )
 
         data class Match(

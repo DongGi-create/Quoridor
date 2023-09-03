@@ -2,6 +2,10 @@ package com.example.quoridor.login
 
 import android.content.Intent
 import android.os.Bundle
+import android.text.InputType
+import android.text.method.PasswordTransformationMethod
+import android.view.MotionEvent
+import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
@@ -57,6 +61,20 @@ class LoginActivity : AppCompatActivity() {
                 }
             })
         }
+
+        binding.loginEtPw.transformationMethod = PasswordTransformationMethod()
+
+        (binding.loginIvSee as View).setOnTouchListener(object : View.OnTouchListener {
+            override fun onTouch(v: View?, event: MotionEvent?): Boolean {
+                if (event?.action == MotionEvent.ACTION_DOWN) {
+                    binding.loginEtPw.transformationMethod = null
+                } else if (event?.action == MotionEvent.ACTION_UP) {
+                    binding.loginEtPw.transformationMethod = PasswordTransformationMethod()
+                }
+                return true
+            }
+        })
+
         //통신(로그인 통신하는동안 아무 액션도 안먹히게 해야 할듯)
         binding.loginTvRegister.setOnClickListener{
             val intent = Intent(this,SignUpActivity::class.java)

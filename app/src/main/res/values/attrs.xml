@@ -15,4 +15,11 @@
         <attr name="icon_text" format="string|reference"/>
     </declare-styleable>
 
+    <declare-styleable name="RankingView">
+        <attr name="medalId" format="reference"/>
+        <attr name="rank" format="string|reference"/>
+        <attr name="name" format="string|reference"/>
+        <attr name="rating" format="string|reference"/>
+    </declare-styleable>
+
 </resources>

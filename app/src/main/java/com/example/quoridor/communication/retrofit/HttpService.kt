@@ -43,6 +43,16 @@ class HttpService {
         service.signUp(body).enqueue(makeCallBack(httpResult))
     }
 
+    fun userUpdate(
+        password: String?,
+        email: String?,
+        name: String?,
+        httpResult: HttpResult<HttpDTO.Response.User>
+    ) {
+        val body = HttpDTO.Request.UserUpdate(password,email, name)
+        service.userUpdate(body).enqueue(makeCallBack(httpResult))
+    }
+
     fun match(
         gameType: Int,
         httpResult: HttpResult<HttpDTO.Response.Match>

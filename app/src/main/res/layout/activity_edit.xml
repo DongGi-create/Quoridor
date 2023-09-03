@@ -22,7 +22,7 @@
             android:layout_height="match_parent"
             android:background="@color/D_second">
             <TextView
-                android:id="@+id/signup_tv_title"
+                android:id="@+id/edit_tv_title"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 app:layout_constraintVertical_weight="2"
@@ -33,17 +33,17 @@
                 android:textSize="50sp"
                 android:gravity="center"
                 android:textColor="@color/white"
-                app:layout_constraintBottom_toTopOf="@+id/signup_iv_bg"/>
+                app:layout_constraintBottom_toTopOf="@+id/edit_iv_bg"/>
 
             <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/signup_iv_bg"
+                android:id="@+id/edit_iv_bg"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 app:layout_constraintVertical_weight="3"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/signup_tv_title"
-                app:layout_constraintBottom_toTopOf="@id/signup_linear_info"
+                app:layout_constraintTop_toBottomOf="@id/edit_tv_title"
+                app:layout_constraintBottom_toTopOf="@id/edit_linear_info"
                 android:layout_marginBottom="20dp">
 
                 <androidx.cardview.widget.CardView
@@ -57,7 +57,7 @@
                     android:layout_margin="20dp"
                     app:cardCornerRadius="100dp">
                     <ImageView
-                        android:id="@+id/signup_iv_profile"
+                        android:id="@+id/edit_iv_profile"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:src="@drawable/ic_identity"
@@ -67,7 +67,7 @@
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <LinearLayout
-                android:id="@+id/signup_linear_info"
+                android:id="@+id/edit_linear_info"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:background="@drawable/linear_background"
@@ -75,42 +75,40 @@
                 android:padding="10dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/signup_iv_bg"
-                app:layout_constraintBottom_toTopOf="@id/signup_btn_signup"
+                app:layout_constraintTop_toBottomOf="@id/edit_iv_bg"
+                app:layout_constraintBottom_toTopOf="@id/edit_btn_signup"
                 android:orientation="vertical">
-                <EditText
-                    android:id="@+id/signup_et_id"
+                <TextView
+                    android:id="@+id/edit_tv_id"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:layout_weight="1"
                     android:layout_margin="10dp"
-                    android:hint="ID"
                     android:textColor="@color/D_text"
-                    android:textColorHint="@color/D_text"
-                    android:backgroundTint="@color/D_third"
-                    android:drawableStart="@drawable/ic_identity"
-                    android:drawablePadding="10dp"/>
+                    android:drawablePadding="10dp"
+                    app:drawableStartCompat="@drawable/ic_identity" />
                 <EditText
-                    android:id="@+id/signup_et_email"
+                    android:id="@+id/edit_et_email"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:layout_weight="1"
                     android:layout_margin="10dp"
-                    android:hint="Email"
+                    android:hint="@string/email"
                     android:textColor="@color/D_text"
                     android:textColorHint="@color/D_text"
                     android:backgroundTint="@color/D_third"
                     android:drawableStart="@drawable/ic_email"
                     android:drawablePadding="10dp"/>
+
                 <LinearLayout
-                    android:id="@+id/signup_linear_pw"
+                    android:id="@+id/edit_linear_pw"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:layout_weight="1"
                     android:layout_margin="10dp"
                     android:orientation="horizontal">
                     <EditText
-                        android:id="@+id/signup_et_pw"
+                        android:id="@+id/edit_et_pw"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:inputType="textPassword"
@@ -123,7 +121,7 @@
                         android:drawablePadding="10dp"/>
 
                     <ImageView
-                        android:id="@+id/signup_iv_see"
+                        android:id="@+id/edit_iv_see"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
@@ -134,12 +132,12 @@
                         app:layout_constraintBottom_toBottomOf="parent"/>
                 </LinearLayout>
                 <EditText
-                    android:id="@+id/signup_et_name"
+                    android:id="@+id/edit_et_name"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:layout_weight="1"
                     android:layout_margin="10dp"
-                    android:hint="Name"
+                    android:hint="@string/name"
                     android:textColorHint="@color/D_text"
                     android:textColor="@color/D_text"
                     android:backgroundTint="@color/D_third"
@@ -150,7 +148,7 @@
             </LinearLayout>
 
             <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/signup_btn_signup"
+                android:id="@+id/edit_btn_signup"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:background="@drawable/dirtfy_button_pattern"
@@ -158,9 +156,9 @@
                 app:layout_constraintVertical_weight="1"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/signup_linear_info"
+                app:layout_constraintTop_toBottomOf="@id/edit_linear_info"
                 app:layout_constraintBottom_toBottomOf="parent"
-                android:text="Sign Up"
+                android:text="edit"
                 android:textColor="@color/D_primary"
                 android:textSize="30sp"
                 android:layout_margin="20dp"/>
