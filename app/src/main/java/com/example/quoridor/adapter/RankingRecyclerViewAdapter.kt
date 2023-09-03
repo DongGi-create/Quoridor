@@ -8,7 +8,7 @@ import com.example.quoridor.R
 import com.example.quoridor.communication.retrofit.HttpDTO
 import com.example.quoridor.databinding.ItemRankingRecyclerViewBinding
 
-class RankingRecyclerViewAdapter(val itemList: ArrayList<HttpDTO.Response.User>): RecyclerView.Adapter<RankingRecyclerViewAdapter.ViewHolder>() {
+class RankingRecyclerViewAdapter(val itemList: MutableList<HttpDTO.Response.RankingUser>): RecyclerView.Adapter<RankingRecyclerViewAdapter.ViewHolder>() {
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val binding by lazy {
@@ -33,7 +33,7 @@ class RankingRecyclerViewAdapter(val itemList: ArrayList<HttpDTO.Response.User>)
         holder.binding.ratingTextView.text = rating.toString()
         holder.binding.rankingTextView.text = "${position+1}"
 
-        val ratingInt = rating.toInt()
+        val ratingInt = rating
         holder.binding.ratingImageView.setImageResource(
             when(ratingInt) {
                 in 0 until 1000 -> R.drawable.baseline_workspace_premium_24_purple

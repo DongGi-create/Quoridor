@@ -94,5 +94,21 @@ object HttpDTO {
             @SerializedName("winnerId")
             val winnerId: Long
         )
+
+        data class RankingUser(
+            @SerializedName("score")
+            val score: Int,
+            @SerializedName("uid")
+            val uid: Long,
+            @SerializedName("name")
+            val name: String
+        )
+
+        data class Rank(
+            @SerializedName("firstElementRank")
+            val firstElementRank: String,
+            @SerializedName("rankingUserList")
+            val rankingUserList: List<RankingUser>
+        )
     }
 }

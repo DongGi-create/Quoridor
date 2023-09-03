@@ -75,6 +75,26 @@ class HttpService {
         service.loginByKakao(code).enqueue(makeCallBack(httpResult))
     }
 
+    fun adjacentRanking(
+        httpResult: HttpResult<HttpDTO.Response.Rank>
+    ) {
+        service.adjacentRanking().enqueue(makeCallBack(httpResult))
+    }
+
+    fun underRanking(
+        uid: Long,
+        httpResult: HttpResult<HttpDTO.Response.Rank>
+    ) {
+        service.underRanking(uid).enqueue(makeCallBack(httpResult))
+    }
+
+    fun overRanking(
+        uid: Long,
+        httpResult: HttpResult<HttpDTO.Response.Rank>
+    ) {
+        service.overRanking(uid).enqueue(makeCallBack(httpResult))
+    }
+
     private fun <ResponseType> makeCallBack(
         httpResult: HttpResult<ResponseType>
     ): Callback<ResponseType> {

@@ -53,4 +53,12 @@ interface ServiceInterface {
     @GET("kakao/callback")
     fun loginByKakao(@Query("code") code: String): Call<HttpDTO.Response.User>
 
+    @GET("ranking")
+    fun adjacentRanking(): Call<HttpDTO.Response.Rank>
+
+    @GET("ranking/under")
+    fun underRanking(@Query("uid") uid: Long): Call<HttpDTO.Response.Rank>
+
+    @GET("ranking/over")
+    fun overRanking(@Query("uid") uid: Long): Call<HttpDTO.Response.Rank>
 }
