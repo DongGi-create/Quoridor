@@ -5,9 +5,9 @@ import androidx.lifecycle.MutableLiveData
 class MutableLiveListData<T> : MutableLiveData<MutableList<T>>() {
     private val list = mutableListOf<T>()
 
-    private lateinit var insertObserver: (Int) -> Unit
-    private lateinit var removeObserver: (Int) -> Unit
-    private lateinit var changeObserver: (Int) -> Unit
+    private var insertObserver: (Int) -> Unit = {}
+    private var removeObserver: (Int) -> Unit = {}
+    private var changeObserver: (Int) -> Unit = {}
 
     init {
         value = list

@@ -1,5 +1,6 @@
 package com.example.quoridor.adapter
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -10,7 +11,7 @@ import com.example.quoridor.databinding.ItemHistoryRecyclerViewFooterBinding
 
 class HistoryRecyclerViewAdapter(
     val itemList: MutableList<HttpDTO.Response.CompHistory>,
-    val itemClickListener: () -> Unit,
+    val itemClickListener: (HttpDTO.Response.CompHistory) -> Unit,
     val footerClickListener: () -> Unit
 ): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
@@ -41,11 +42,7 @@ class HistoryRecyclerViewAdapter(
         val view = LayoutInflater.from(parent.context).inflate(viewType, parent, false)
 
         return if (viewType == R.layout.item_history_recycler_view){
-            val holder = ViewHolder(ItemHistoryRecyclerViewBinding.bind(view))
-            holder.itemView.setOnClickListener {
-                itemClickListener()
-            }
-            holder
+            ViewHolder(ItemHistoryRecyclerViewBinding.bind(view))
         } else {
             val holder = Footer(ItemHistoryRecyclerViewFooterBinding.bind(view))
             holder.binding.loadMoreButton.setOnClickListener {
@@ -56,7 +53,16 @@ class HistoryRecyclerViewAdapter(
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        if (holder !is Footer) (holder as ViewHolder).bind(itemList[position])
+        if (holder !is Footer) {
+            (holder as ViewHolder).apply {
+                val item = itemList[position]
+                bind(item)
+                binding.root.setOnClickListener {
+                    Log.d("Dirtfy Test - rv", "$position")
+                    itemClickListener(item)
+                }
+            }
+        }
     }
 
     override fun getItemCount(): Int {

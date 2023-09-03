@@ -1,6 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <TextView
+        android:id="@+id/game_id_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="gameId"/>
+
+    <TextView
+        android:id="@+id/uid0_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="uid0"/>
+
+    <TextView
+        android:id="@+id/uid1_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="uid1"/>
+
+    <TextView
+        android:id="@+id/score0_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:text="score0"/>
+
+    <TextView
+        android:id="@+id/score1_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:text="score1"/>
+
+</LinearLayout>

@@ -30,6 +30,16 @@ class HistoryViewModel: ViewModel() {
         return historyList.value!!
     }
 
+    fun loadRecentHistories(after: () -> Unit = {}) {
+        httpService.histories(
+            defaultGameId,
+            SuccessfulHttpResult {
+                historyList.addAll(it)
+                after()
+            }
+        )
+    }
+
     fun loadMoreHistories() {
         httpService.histories(
              if((historyList.value?.size ?: 0) == 0) defaultGameId

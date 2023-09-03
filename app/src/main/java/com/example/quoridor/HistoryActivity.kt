@@ -1,5 +1,6 @@
 package com.example.quoridor
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
@@ -22,34 +23,37 @@ class HistoryActivity: AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
 
-        binding.historyRecyclerView.apply {
-            adapter = HistoryRecyclerViewAdapter(
-                viewModel.getList(),
-                {
-
-                },
-                {
-                    viewModel.loadMoreHistories()
+        viewModel.loadRecentHistories {
+            binding.historyRecyclerView.apply {
+                adapter = HistoryRecyclerViewAdapter(
+                    viewModel.getList(),
+                    {
+                        val intent = Intent(this@HistoryActivity, HistoryDetailActivity::class.java)
+                        intent.putExtra("gameId", it.gameId)
+                        startActivity(intent)
+                    },
+                    {
+                        viewModel.loadMoreHistories()
 //                viewModel.historyList.add(HttpDTO.HistoriesResponse(0, false, "didwoahqkqhajdcjddl", 2000))
+                    }
+                )
+                layoutManager = LinearLayoutManager(
+                    this@HistoryActivity,
+                    LinearLayoutManager.VERTICAL,
+                    false)
+            }
+
+            binding.historyRecyclerView.adapter!!.also { that ->
+                viewModel.historyList.observeInsert {
+                    that.notifyItemInserted(it)
                 }
-            )
-            layoutManager = LinearLayoutManager(
-                this@HistoryActivity,
-                LinearLayoutManager.VERTICAL,
-                false)
-        }
-
-        binding.historyRecyclerView.adapter!!.also { that ->
-            viewModel.historyList.observeInsert {
-                that.notifyItemInserted(it)
-            }
-            viewModel.historyList.observeRemove {
-                that.notifyItemRemoved(it)
-            }
-            viewModel.historyList.observeChange {
-                that.notifyItemChanged(it)
+                viewModel.historyList.observeRemove {
+                    that.notifyItemRemoved(it)
+                }
+                viewModel.historyList.observeChange {
+                    that.notifyItemChanged(it)
+                }
             }
         }
-
     }
 }
