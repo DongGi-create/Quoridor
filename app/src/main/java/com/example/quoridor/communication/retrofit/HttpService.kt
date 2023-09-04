@@ -2,19 +2,26 @@ package com.example.quoridor.communication.retrofit
 
 import android.util.Log
 import com.example.quoridor.communication.Statics
+import com.google.gson.Gson
+import com.google.gson.GsonBuilder
+import okhttp3.MultipartBody
 
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import retrofit2.converter.scalars.ScalarsConverterFactory
+import retrofit2.http.Multipart
+import retrofit2.http.POST
+import retrofit2.http.Part
 
 class HttpService {
-
     companion object {
         private val retrofit = Retrofit.Builder()
             .client(Statics.client)
             .baseUrl(Statics.HTTP_BASE_URL)
+            .addConverterFactory(ScalarsConverterFactory.create())
             .addConverterFactory(GsonConverterFactory.create())
             .build()
         private var service: ServiceInterface = retrofit.create(ServiceInterface::class.java)
@@ -103,6 +110,25 @@ class HttpService {
         httpResult: HttpResult<HttpDTO.Response.Rank>
     ) {
         service.overRanking(uid).enqueue(makeCallBack(httpResult))
+    }
+    fun uploadImage(
+        image: MultipartBody.Part?,
+        httpResult: HttpResult<String>
+    ){
+        service.uploadImage(image).enqueue(makeCallBack(httpResult))
+    }
+
+    fun delImage(
+        httpResult: HttpResult<String>
+    ){
+        service.deleteImage().enqueue(makeCallBack(httpResult))
+    }
+
+    fun getImage(
+        uid: Long,
+        httpResult: HttpResult<String>
+    ){
+        service.getImage(uid).enqueue(makeCallBack(httpResult))
     }
 
     private fun <ResponseType> makeCallBack(

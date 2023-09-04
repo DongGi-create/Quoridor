@@ -1,10 +1,13 @@
 package com.example.quoridor.communication.retrofit
 
+import okhttp3.MultipartBody
 import retrofit2.Call
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.Headers
+import retrofit2.http.Multipart
 import retrofit2.http.POST
+import retrofit2.http.Part
 import retrofit2.http.Path
 import retrofit2.http.Query
 
@@ -61,4 +64,15 @@ interface ServiceInterface {
 
     @GET("ranking/over")
     fun overRanking(@Query("uid") uid: Long): Call<HttpDTO.Response.Rank>
+
+    @GET("profile/delete")
+    fun deleteImage(): Call<String>
+
+    @Headers(DEFAULT_HEADER)
+    @GET("profile")
+    fun getImage(@Query("uid") uid: Long): Call<String>
+
+    @Multipart
+    @POST("profile")
+    fun uploadImage(@Part image: MultipartBody.Part?): Call<String>
 }
