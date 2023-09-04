@@ -3,14 +3,11 @@ package com.example.quoridor
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import com.example.quoridor.communication.retrofit.HttpDTO
 import com.example.quoridor.communication.retrofit.RetrofitTestActivity
 import com.example.quoridor.communication.socket.SocketTestActivity
 import com.example.quoridor.databinding.ActivityTestBinding
 import com.example.quoridor.game.types.GameType
 import com.example.quoridor.game.util.GameFunc.putGameType
-import com.example.quoridor.game.util.GameFunc.putMatchData
-import com.example.quoridor.util.Func.startGameActivity
 
 class TestActivity:  AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -53,6 +50,10 @@ class TestActivity:  AppCompatActivity() {
 
         binding.mypage.setOnClickListener{
             goto(MyPageActivity::class.java)
+        }
+
+        binding.profile.setOnClickListener{
+            goto(ProfileTest::class.java)
         }
     }
 

@@ -4,6 +4,9 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
 
+
+
+
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -27,40 +30,40 @@
 
         <activity
             android:name=".deprecated.test"
-            android:exported="true" />
+            android:exported="false" />
 
         <activity
             android:name=".communication.retrofit.RetrofitTestActivity"
-            android:exported="true"/>
+            android:exported="false"/>
 
         <activity
             android:name=".RankingActivity"
-            android:exported="true"/>
+            android:exported="false"/>
 
         <activity
             android:name=".login.LoginActivity"
-            android:exported="true"/>
+            android:exported="false"/>
 
         <activity
             android:name=".MyPageActivity"
-            android:exported="true"/>
+            android:exported="false"/>
 
         <activity
             android:name=".GameForLocalActivity"
-            android:exported="true"/>
+            android:exported="false"/>
         <activity
             android:name=".GameForPvPActivity"
-            android:exported="true"/>
+            android:exported="false"/>
 
         <activity android:name=".SignUpActivity"
-            android:exported="true"/>
+            android:exported="false"/>
 
         <activity android:name=".TestActivity"
-            android:exported="true"/>
+            android:exported="false"/>
 
         <activity
             android:name=".communication.socket.SocketTestActivity"
-            android:exported="true"/>
+            android:exported="false"/>
 
         <activity
             android:name=".HistoryActivity"
@@ -75,6 +78,10 @@
 
         <activity
             android:name=".EditActivity"
+            android:exported="false"/>
+
+        <activity
+            android:name=".ProfileTest"
             android:exported="false"/>
     </application>
 

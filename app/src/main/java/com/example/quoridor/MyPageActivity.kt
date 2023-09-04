@@ -33,6 +33,7 @@ class MyPageActivity:AppCompatActivity() {
         setPieChart()
         val user = UserManager // UserManager 클래스에 맞게 수정
         binding.tvMyPageName.text = user.umname
+        binding.profileEmailTextView.text = user.umemail
         binding.btnMyPageLogout.setOnClickListener{
             user.umid = ""
             //user.setId("")
@@ -50,9 +51,7 @@ class MyPageActivity:AppCompatActivity() {
 
         service.adjacentRanking(
             SuccessfulHttpResult{
-                val myRanking = it.firstElementRank.split("/")[0].toInt()
-                Log.d(TAG,"adjacent")
-
+                val frontRanking = it.firstElementRank.split("/")[0].toInt()
 
                 var idx = -1 // Initialize idx with a default value
 
@@ -64,18 +63,17 @@ class MyPageActivity:AppCompatActivity() {
                 }
 
                 if (idx != -1) {
-                    Log.d(TAG,"in if")
                     setValues(
                         binding.mypageCustomRank1,
-                        myRanking - 1,
+                        frontRanking + idx - 1,
                         it.rankingUserList.getOrElse(idx - 1) { null })
                     setValues(
                         binding.mypageCustomRank2,
-                        myRanking,
+                        frontRanking + idx,
                         it.rankingUserList.getOrElse(idx) { null })
                     setValues(
                         binding.mypageCustomRank3,
-                        myRanking + 1,
+                        frontRanking + idx + 1,
                         it.rankingUserList.getOrElse(idx + 1) { null })
                 }
             }
@@ -105,8 +103,20 @@ class MyPageActivity:AppCompatActivity() {
     }
     private fun setPieChart() {
         chart!!.clearChart()
-        chart!!.addPieSlice(PieModel("Win", 60f, Color.parseColor("#FF5454")))
-        chart!!.addPieSlice(PieModel("Lose", 40f, Color.parseColor("#54A7FF")))
+        val winGames = UserManager.umwinGames
+        val totalGames = UserManager.umtotalGames
+
+        val winningRate = if (winGames != null && totalGames != null && totalGames != 0) {
+            winGames.toFloat() / totalGames.toFloat() * 100
+        } else {
+            (0.0).toFloat()
+        }
+
+
+
+        Log.d(TAG,""+winningRate)
+        chart!!.addPieSlice(PieModel("Win", winningRate, Color.parseColor("#FF5454")))
+        chart!!.addPieSlice(PieModel("Lose", 100-winningRate, Color.parseColor("#54A7FF")))
         chart!!.startAnimation()
     }
 }
