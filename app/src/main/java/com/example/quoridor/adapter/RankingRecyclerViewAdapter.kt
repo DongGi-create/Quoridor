@@ -1,51 +1,73 @@
 package com.example.quoridor.adapter
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.quoridor.R
 import com.example.quoridor.communication.retrofit.HttpDTO
 import com.example.quoridor.databinding.ItemRankingRecyclerViewBinding
+import com.example.quoridor.databinding.ItemRecyclerViewLoadMoreFooterBinding
 
-class RankingRecyclerViewAdapter(val itemList: MutableList<HttpDTO.Response.RankingUser>): RecyclerView.Adapter<RankingRecyclerViewAdapter.ViewHolder>() {
+class RankingRecyclerViewAdapter(
+    val itemList: MutableList<HttpDTO.Response.RankingUser>,
+    val footerClickListener: () -> Unit
+): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
-    inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val binding by lazy {
-            ItemRankingRecyclerViewBinding.bind(itemView)
+    inner class ViewHolder(val binding: ItemRankingRecyclerViewBinding) : RecyclerView.ViewHolder(binding.root) {
+
+        fun bind(data: HttpDTO.Response.RankingUser) {
+            val name = data.name
+            val rating = data.score
+
+            binding.nameTextView.text = name
+            binding.ratingTextView.text = rating.toString()
+            val ranking = (adapterPosition+1).toString()
+            binding.rankingTextView.text = ranking
+
+            binding.ratingImageView.setImageResource(
+                when (rating) {
+                    in 0 until 1000 -> R.drawable.baseline_workspace_premium_24_purple
+                    in 1000 until 1200 -> R.drawable.baseline_workspace_premium_24_yellow
+                    in 1200 until 1500 -> R.drawable.baseline_workspace_premium_24_blue
+                    else -> R.drawable.baseline_workspace_premium_24_green
+                }
+            )
         }
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val view = LayoutInflater
-            .from(parent.context)
-            .inflate(R.layout.item_ranking_recycler_view, parent, false)
-        return ViewHolder(view)
+    inner class Footer(val binding: ItemRecyclerViewLoadMoreFooterBinding) : RecyclerView.ViewHolder(binding.root) {
+
     }
 
-    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val data = itemList[position]
+    override fun getItemViewType(position: Int): Int {
+        return if (position == itemList.size) R.layout.item_recycler_view_load__more_footer
+        else R.layout.item_ranking_recycler_view
+    }
 
-        val name = data.name
-        val rating = data.score
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
+        val view = LayoutInflater.from(parent.context).inflate(viewType, parent, false)
 
-        holder.binding.nameTextView.text = name
-        holder.binding.ratingTextView.text = rating.toString()
-        holder.binding.rankingTextView.text = "${position+1}"
-
-        val ratingInt = rating
-        holder.binding.ratingImageView.setImageResource(
-            when(ratingInt) {
-                in 0 until 1000 -> R.drawable.baseline_workspace_premium_24_purple
-                in 1000 until 1200 -> R.drawable.baseline_workspace_premium_24_yellow
-                in 1200 until 1500 -> R.drawable.baseline_workspace_premium_24_blue
-                else -> R.drawable.baseline_workspace_premium_24_green
+        return if (viewType == R.layout.item_ranking_recycler_view){
+            ViewHolder(ItemRankingRecyclerViewBinding.bind(view))
+        } else {
+            val holder = Footer(ItemRecyclerViewLoadMoreFooterBinding.bind(view))
+            holder.binding.loadMoreButton.setOnClickListener {
+                footerClickListener()
             }
-        )
+            holder
+        }
+    }
 
+    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+        if (holder !is Footer) {
+            (holder as RankingRecyclerViewAdapter.ViewHolder).apply {
+                val item = itemList[position]
+                bind(item)
+            }
+        }
     }
 
     override fun getItemCount(): Int {
-        return itemList.count()
+        return itemList.count() + 1
     }
 }

@@ -2,13 +2,12 @@ package com.example.quoridor.adapter
 
 import android.util.Log
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.quoridor.R
 import com.example.quoridor.communication.retrofit.HttpDTO
 import com.example.quoridor.databinding.ItemHistoryRecyclerViewBinding
-import com.example.quoridor.databinding.ItemHistoryRecyclerViewFooterBinding
+import com.example.quoridor.databinding.ItemRecyclerViewLoadMoreFooterBinding
 
 class HistoryRecyclerViewAdapter(
     val itemList: MutableList<HttpDTO.Response.CompHistory>,
@@ -30,12 +29,12 @@ class HistoryRecyclerViewAdapter(
         }
     }
 
-    inner class Footer(val binding: ItemHistoryRecyclerViewFooterBinding) : RecyclerView.ViewHolder(binding.root) {
+    inner class Footer(val binding: ItemRecyclerViewLoadMoreFooterBinding) : RecyclerView.ViewHolder(binding.root) {
 
     }
 
     override fun getItemViewType(position: Int): Int {
-        return if (position == itemList.size) R.layout.item_history_recycler_view_footer
+        return if (position == itemList.size) R.layout.item_recycler_view_load__more_footer
                 else R.layout.item_history_recycler_view
     }
 
@@ -45,7 +44,7 @@ class HistoryRecyclerViewAdapter(
         return if (viewType == R.layout.item_history_recycler_view){
             ViewHolder(ItemHistoryRecyclerViewBinding.bind(view))
         } else {
-            val holder = Footer(ItemHistoryRecyclerViewFooterBinding.bind(view))
+            val holder = Footer(ItemRecyclerViewLoadMoreFooterBinding.bind(view))
             holder.binding.loadMoreButton.setOnClickListener {
                 footerClickListener()
             }
@@ -59,7 +58,6 @@ class HistoryRecyclerViewAdapter(
                 val item = itemList[position]
                 bind(item)
                 binding.root.setOnClickListener {
-                    Log.d("Dirtfy Test - rv", "$position")
                     itemClickListener(item)
                 }
             }
