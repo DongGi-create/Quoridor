@@ -153,36 +153,32 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent">
 
-                    <com.example.quoridor.customView.rankingItemView
-                        android:id="@+id/mypage_customranking_up"
+                    <com.example.quoridor.customView.RankingItemView
+                        android:id="@+id/mypage_custom_rank1"
                         android:layout_width="match_parent"
                         android:layout_height="50dp"
-                        app:medalId = "@drawable/baseline_workspace_premium_24_blue"
-                        app:rank = "200"
-                        app:name = "Dirtfy"
-                        app:rating = "2000"
+                        app:attrMedal = "@drawable/baseline_workspace_premium_24_blue"
+                        app:attrRank = "200"
+                        app:attrName = "Dirtfy"
+                        app:attrRating = "2000"
                         tools:text="test"/>
-                    <com.example.quoridor.customView.rankingItemView
-                        android:id="@+id/mypage_customranking_mine"
+                    <com.example.quoridor.customView.RankingItemView
+                        android:id="@+id/mypage_custom_rank2"
                         android:layout_width="match_parent"
                         android:layout_height="50dp"
-                        app:medalId = "@drawable/baseline_workspace_premium_24_blue"
-                        app:rank = "200"
-                        app:name = "Dirtfy"
-                        app:rating = "2000"
+                        app:attrMedal = "@drawable/baseline_workspace_premium_24_blue"
+                        app:attrRank = "200"
+                        app:attrName = "Dirtfy"
+                        app:attrRating = "2000"
                         tools:text="test"/>
-                    <com.example.quoridor.customView.rankingItemView
-                        android:id="@+id/mypage_customranking_down"
+                    <com.example.quoridor.customView.RankingItemView
+                        android:id="@+id/mypage_custom_rank3"
                         android:layout_width="match_parent"
                         android:layout_height="50dp"
-                        app:medalId = "@drawable/baseline_workspace_premium_24_blue"
-                        app:rank = "200"
-                        app:name = "Dirtfy"
-                        app:rating = "2000"
-                        tools:text="test"/>
-
-
-
+                        app:attrMedal = "@drawable/baseline_workspace_premium_24_blue"
+                        app:attrRank = "200"
+                        app:attrName = "Dirtfy"
+                        app:attrRating = "2000"/>
                 </LinearLayout>
 
             </androidx.constraintlayout.widget.ConstraintLayout>

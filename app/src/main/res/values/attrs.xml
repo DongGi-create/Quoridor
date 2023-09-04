@@ -16,10 +16,10 @@
     </declare-styleable>
 
     <declare-styleable name="RankingView">
-        <attr name="medalId" format="reference"/>
-        <attr name="rank" format="string|reference"/>
-        <attr name="name" format="string|reference"/>
-        <attr name="rating" format="string|reference"/>
+        <attr name="attrMedal" format="reference"/>
+        <attr name="attrRank" format="string|reference"/>
+        <attr name="attrName" format="string|reference"/>
+        <attr name="attrRating" format="string|reference"/>
     </declare-styleable>
 
 </resources>

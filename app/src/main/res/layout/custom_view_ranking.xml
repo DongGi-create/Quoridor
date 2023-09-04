@@ -9,39 +9,39 @@
 
 
     <LinearLayout
-        android:id="@+id/custom_item_layout"
+        android:id="@+id/custom_linear_ranking"
         android:layout_width="0dp"
         android:layout_height="match_parent"
         app:layout_constraintHorizontal_weight="6"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/custom_name_text_view"
+        app:layout_constraintEnd_toStartOf="@id/custom_tv_name"
         android:orientation="horizontal">
 
         <ImageView
+            android:id="@+id/custom_iv_rating"
             android:layout_margin="5dp"
-            android:id="@+id/custom_rating_image_view"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="5"
             tools:src="@drawable/baseline_workspace_premium_24_blue"/>
 
         <TextView
-            android:id="@+id/custom_ranking_text_view"
+            android:id="@+id/custom_tv_rank"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="3"
             android:textColor="@color/D_text"
             android:gravity="center"
             android:textSize="20sp"
-            app:layout_constraintTop_toBottomOf="@id/custom_rating_image_view"
-            app:layout_constraintLeft_toLeftOf="@id/custom_rating_image_view"
-            app:layout_constraintRight_toRightOf="@id/custom_rating_image_view"
+            app:layout_constraintTop_toBottomOf="@id/custom_iv_rating"
+            app:layout_constraintLeft_toLeftOf="@id/custom_iv_rating"
+            app:layout_constraintRight_toRightOf="@id/custom_iv_rating"
             tools:text="9999"/>
     </LinearLayout>
     <TextView
-        android:id="@+id/custom_name_text_view"
+        android:id="@+id/custom_tv_name"
         android:layout_width="0dp"
         android:layout_height="match_parent"
         app:layout_constraintHorizontal_weight="6"
@@ -51,12 +51,12 @@
         android:gravity="center_vertical|left"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@id/custom_item_layout"
-        app:layout_constraintEnd_toStartOf="@id/custom_rating_text_view"
+        app:layout_constraintStart_toEndOf="@id/custom_linear_ranking"
+        app:layout_constraintEnd_toStartOf="@id/custom_tv_rating"
         tools:text="name"/>
 
     <TextView
-        android:id="@+id/custom_rating_text_view"
+        android:id="@+id/custom_tv_rating"
         android:layout_width="0dp"
         android:layout_height="match_parent"
         app:layout_constraintHorizontal_weight="6"
@@ -67,7 +67,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/custom_name_text_view"
+        app:layout_constraintStart_toEndOf="@id/custom_tv_name"
         tools:text="1000"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

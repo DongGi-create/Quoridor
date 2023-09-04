@@ -50,6 +50,10 @@ class TestActivity:  AppCompatActivity() {
         binding.history.setOnClickListener {
             goto(HistoryActivity::class.java)
         }
+
+        binding.mypage.setOnClickListener{
+            goto(MyPageActivity::class.java)
+        }
     }
 
     private fun <T> goto(activityClass: Class<T>) {
