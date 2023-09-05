@@ -6,11 +6,14 @@ import android.graphics.Bitmap
 import android.net.Uri
 import android.util.Log
 import android.widget.ImageView
+import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.viewbinding.ViewBinding
 import com.bumptech.glide.Glide
+import com.example.quoridor.communication.retrofit.HttpResult
+import com.example.quoridor.communication.retrofit.HttpService
 import okhttp3.MediaType
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
@@ -21,6 +24,8 @@ import okio.BufferedSink
 
 class ActivityResultHandler(private val activity: AppCompatActivity, private val v:ImageView) {
     var filePath: MultipartBody.Part? = null
+
+    private val service = HttpService()
 
     private val activityUriResult: ActivityResultLauncher<Intent> =
         activity.registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
@@ -88,5 +93,46 @@ class ActivityResultHandler(private val activity: AppCompatActivity, private val
     fun launchBitmapActivity(intent: Intent) {
         Log.d("minseok","handler launch")
         activityBitmapResult.launch(intent)
+    }
+
+    fun uploadImageToServer(imagePart: MultipartBody.Part?){
+        Log.d("minseok","upload "+imagePart.toString())
+        service.uploadImage(imagePart,object: HttpResult<String> {
+            override fun success(data: String) {
+                Log.d("minseok",data)
+            }
+            override fun appFail() {
+                Log.d("minseok","app fail")
+            }
+            override fun fail(throwable: Throwable) {
+                Log.d("minseok","fail")
+            }
+            override fun finally() {
+            }
+        })
+    }
+
+    fun editProfile(profileLink: String?){
+        if (filePath != null) {
+            uploadImageToServer(filePath)
+        } else {
+            Log.d("minseok","no file")
+            if (profileLink!=null) {
+                // deleteImage
+                service.delImage(object: HttpResult<String>{
+                    override fun success(data: String) {
+                        Log.d("minseok","deleteImage success!")
+                    }
+                    override fun appFail() {
+                        Log.d("minseok","app fail")
+                    }
+                    override fun fail(throwable: Throwable) {
+                        Log.d("minseok","fail")
+                    }
+                    override fun finally() {
+                    }
+                })
+            }
+        }
     }
 }

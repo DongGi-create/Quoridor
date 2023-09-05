@@ -15,15 +15,21 @@ import com.bumptech.glide.Glide
 import com.example.quoridor.communication.retrofit.HttpDTO
 import com.example.quoridor.communication.retrofit.HttpResult
 import com.example.quoridor.communication.retrofit.HttpService
+import com.example.quoridor.communication.socket.WebSocketTest
 import com.example.quoridor.databinding.ActivityEditBinding
 import com.example.quoridor.dialog.CustomDialogInterface
 import com.example.quoridor.dialog.EditProfileImageDialog
 import com.example.quoridor.login.LoginActivity
 import com.example.quoridor.login.UserManager
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.CoroutineStart
+import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.supervisorScope
+import kotlinx.coroutines.withContext
 
 class EditActivity:AppCompatActivity() {
     private val binding:ActivityEditBinding by lazy{
@@ -106,29 +112,31 @@ class EditActivity:AppCompatActivity() {
 
             service.userUpdate(pw, email, name, object:HttpResult<HttpDTO.Response.User>{
                 override fun success(data: HttpDTO.Response.User) {
-                    popToast("Edit success!")
+                    Log.d(TAG,"Edit success!")
                     UserManager.setUser(data)
-                    val intent = Intent(this@EditActivity, MyPageActivity::class.java)
-                    startActivity(intent)
-                }
 
+                }
                 override fun appFail() {
-                    popToast("app fail")
+                    Log.d(TAG,"app fail")
                 }
-
                 override fun fail(throwable: Throwable) {
-                    popToast("fail")
+                    Log.d(TAG,"fail")
                 }
-
                 override fun finally() {
-
                 }
             })
+            resultHandler.editProfile(profileLink)
+
+
+            //userupdate랑 프로필 수정은 동시에 가능
+
+            val mainActivityIt = Intent(this@EditActivity,MainActivity::class.java)
+            startActivity(mainActivityIt)
         }
+
     }
+
     private fun popToast(content: String) {
         Toast.makeText(applicationContext, content, Toast.LENGTH_SHORT).show()
     }
-
-
 }

@@ -2,7 +2,9 @@ package com.example.quoridor
 
 import android.content.Intent
 import android.os.Bundle
+import android.provider.MediaStore
 import android.text.method.PasswordTransformationMethod
+import android.util.Log
 import android.view.MotionEvent
 import android.view.View
 import android.widget.Toast
@@ -10,11 +12,23 @@ import androidx.appcompat.app.AppCompatActivity
 import com.example.quoridor.communication.retrofit.HttpDTO
 import com.example.quoridor.communication.retrofit.HttpResult
 import com.example.quoridor.communication.retrofit.HttpService
+import com.example.quoridor.communication.retrofit.util.SuccessfulHttpResult
+import com.example.quoridor.communication.retrofit.util.ToastHttpResult
 import com.example.quoridor.databinding.ActivitySignupBinding
+import com.example.quoridor.dialog.CustomDialogInterface
+import com.example.quoridor.dialog.EditProfileImageDialog
 import com.example.quoridor.login.LoginActivity
 import com.example.quoridor.util.Func.getAny
 import com.example.quoridor.util.Func.getUser
 import com.google.api.Http
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.CoroutineStart
+import kotlinx.coroutines.Deferred
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.async
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import okhttp3.MediaType.Companion.toMediaType
 
 class SignUpActivity :AppCompatActivity(){
@@ -27,7 +41,7 @@ class SignUpActivity :AppCompatActivity(){
         getString(R.string.Minseok_test_tag)
     }
 
-
+    private lateinit var resultHandler: ActivityResultHandler
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -40,9 +54,33 @@ class SignUpActivity :AppCompatActivity(){
                 isEnabled = false
             }
         }
+        resultHandler = ActivityResultHandler(this,binding.signupIvProfile)
 
         binding.signupIvProfile.setOnClickListener{
+            Log.d("minseok","CLICKED")
+            val dialog = EditProfileImageDialog(this)
 
+            dialog.setClickListener(object: CustomDialogInterface {
+                override fun onCameraClicked() {
+                    Log.d(TAG,"camera")
+                    resultHandler.launchBitmapActivity(Intent(MediaStore.ACTION_IMAGE_CAPTURE))
+                    dialog.dismiss()
+                }
+                override fun onAlbumClicked() {
+                    Log.d(TAG,"album")
+                    val its = Intent(Intent.ACTION_PICK)
+                    its.type = "image/*"
+                    resultHandler.launchUriActivity(its)
+                    dialog.dismiss()
+                }
+                override fun onDelPhotoClicked() {
+                    Log.d(TAG,"del photo")
+                    binding.signupIvProfile.setImageResource(R.drawable.ic_identity)
+                    resultHandler.filePath = null
+                    dialog.dismiss()
+                }
+            })
+            dialog.show()
         }
 
         binding.signupEtPw.transformationMethod = PasswordTransformationMethod()
@@ -64,27 +102,32 @@ class SignUpActivity :AppCompatActivity(){
             val email = binding.signupEtEmail.text.toString()
             val name = binding.signupEtName.text.toString()
 
+
             httpService.signUp(id,pw,email,name, object: HttpResult<HttpDTO.Response.User> {
                 override fun success(data: HttpDTO.Response.User) {
-                    popToast("SignUp success!")
-                    val intent = Intent(this@SignUpActivity, LoginActivity::class.java)
-                    startActivity(intent)
+                    Log.d(TAG,"SignUp success!")
                 }
 
                 override fun appFail() {
-                    popToast("app fail")
+                    Log.d(TAG,"app fail")
                 }
 
                 override fun fail(throwable: Throwable) {
-                    popToast("fail")
+                    Log.d(TAG,"fail")
                 }
-
                 override fun finally() {
-
                 }
             })
+
+            httpService.login(id, pw, ToastHttpResult(applicationContext, "login", TAG))
+
+            resultHandler.editProfile(null)
+            
+
         }
     }
+
+
     private fun popToast(content: String) {
         Toast.makeText(applicationContext, content, Toast.LENGTH_SHORT).show()
     }
