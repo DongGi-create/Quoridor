@@ -15,6 +15,7 @@ import retrofit2.converter.scalars.ScalarsConverterFactory
 import retrofit2.http.Multipart
 import retrofit2.http.POST
 import retrofit2.http.Part
+import java.util.Calendar
 
 class HttpService {
     companion object {
@@ -75,6 +76,17 @@ class HttpService {
         recentGameId: Long,
         httpResult: HttpResult<List<HttpDTO.Response.CompHistory>>
     ) {
+        service.historyListRequest(recentGameId).enqueue(makeCallBack(httpResult))
+    }
+    fun recentHistories(
+        httpResult: HttpResult<List<HttpDTO.Response.CompHistory>>
+    ) {
+        val cal = Calendar.getInstance()
+        cal.add(Calendar.DATE, 1)
+        val year = cal.get(Calendar.YEAR)
+        val month = cal.get(Calendar.MONTH)+1
+        val day = cal.get(Calendar.DATE)
+        val recentGameId = ((year*10000 + month*100 + day)*(10e+11)).toLong()
         service.historyListRequest(recentGameId).enqueue(makeCallBack(httpResult))
     }
 

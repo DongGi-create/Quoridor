@@ -193,11 +193,12 @@
 
             <TextView
                 android:id="@+id/history_title_text_view"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="History"
                 android:textColor="@color/D_text"
                 android:textSize="25sp"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"/>
 
             <ImageView
@@ -222,7 +223,7 @@
                     android:id="@+id/chart_layout"
                     android:layout_width="0dp"
                     android:layout_height="0dp"
-                    app:layout_constraintHorizontal_weight="2"
+                    app:layout_constraintHorizontal_weight="3"
                     app:layout_constraintTop_toTopOf="@id/text_layout"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toStartOf="@id/text_layout"
@@ -235,50 +236,117 @@
                         app:egBarWidth="20dp"
                         app:egEnableScroll="true"
                         app:egFixedBarWidth="true"
-                        app:egLegendHeight="25dp"
+                        app:egLegendHeight="0sp"
                         app:egShowDecimal="true"/>
 
                 </LinearLayout>
 
-                <GridLayout
+                <org.eazegraph.lib.charts.ValueLineChart
                     android:id="@+id/text_layout"
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:rowCount="2"
-                    android:columnCount="3"
-                    app:layout_constraintHorizontal_weight="3"
+                    android:layout_height="100dp"
+                    app:egUseCubic="true"
+                    app:egIndicatorTopPadding="5dp"
+                    app:egIndicatorTextUnit="%"
+                    app:egCurveSmoothness="0.3"
+                    app:egLineStroke="4dp"
+                    app:egIndicatorLineColor="@color/D_red"
+                    app:egIndicatorTextColor="@color/D_text"
+                    app:egLegendColor="@color/D_text"
+                    app:egLegendHeight="0sp"
+                    app:layout_constraintStart_toEndOf="@id/chart_layout"
+                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@id/chart_layout">
+                    app:layout_constraintHorizontal_weight="5"/>
 
-                    <ImageView
-                        android:layout_width="50dp"
-                        android:layout_height="50dp"
-                        android:src="@drawable/hobanwoo_blue"/>
-                    <ImageView
-                        android:layout_width="50dp"
-                        android:layout_height="50dp"
-                        android:src="@drawable/hobanwoo_blue"/>
-                    <ImageView
-                        android:layout_width="50dp"
-                        android:layout_height="50dp"
-                        android:src="@drawable/hobanwoo_blue"/>
-                    <ImageView
-                        android:layout_width="50dp"
-                        android:layout_height="50dp"
-                        android:src="@drawable/hobanwoo_blue"/>
-                    <ImageView
-                        android:layout_width="50dp"
-                        android:layout_height="50dp"
-                        android:src="@drawable/hobanwoo_blue"/>
-                    <ImageView
-                        android:layout_width="50dp"
-                        android:layout_height="50dp"
-                        android:src="@drawable/hobanwoo_blue"/>
+<!--                <GridLayout-->
+<!--                    android:id="@+id/text_layout"-->
+<!--                    android:layout_width="0dp"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:orientation="horizontal"-->
+<!--                    android:rowCount="3"-->
+<!--                    android:columnCount="3"-->
+<!--                    android:useDefaultMargins="true"-->
+<!--                    app:layout_constraintHorizontal_weight="3"-->
+<!--                    app:layout_constraintTop_toTopOf="parent"-->
+<!--                    app:layout_constraintBottom_toBottomOf="parent"-->
+<!--                    app:layout_constraintEnd_toEndOf="parent"-->
+<!--                    app:layout_constraintStart_toEndOf="@id/chart_layout">-->
 
-                </GridLayout>
+<!--                    <View-->
+<!--                        android:layout_width="0dp"-->
+<!--                        android:layout_height="50dp"-->
+<!--                        android:layout_columnWeight="1"-->
+<!--                        android:layout_rowWeight="1"/>-->
+<!--                    <TextView-->
+<!--                        android:layout_width="0dp"-->
+<!--                        android:layout_height="0dp"-->
+<!--                        android:text="Win"-->
+<!--                        android:textColor="@color/D_text"-->
+<!--                        android:gravity="center"-->
+<!--                        android:textSize="25sp"-->
+<!--                        android:layout_rowWeight="1"-->
+<!--                        android:layout_columnWeight="1"/>-->
+<!--                    <TextView-->
+<!--                        android:layout_width="0dp"-->
+<!--                        android:layout_height="0dp"-->
+<!--                        android:text="Lose"-->
+<!--                        android:textColor="@color/D_text"-->
+<!--                        android:gravity="center"-->
+<!--                        android:textSize="25sp"-->
+<!--                        android:layout_rowWeight="1"-->
+<!--                        android:layout_columnWeight="1"/>-->
+<!--                    <ImageView-->
+<!--                        android:layout_width="0dp"-->
+<!--                        android:layout_height="50dp"-->
+<!--                        android:src="@drawable/hobanwoo_red"-->
+<!--                        android:layout_rowWeight="1"-->
+<!--                        android:layout_columnWeight="1"/>-->
+<!--                    <TextView-->
+<!--                        android:layout_width="0dp"-->
+<!--                        android:layout_height="0dp"-->
+<!--                        android:text="10"-->
+<!--                        android:textColor="@color/D_text"-->
+<!--                        android:gravity="center"-->
+<!--                        android:textSize="25sp"-->
+<!--                        android:layout_rowWeight="1"-->
+<!--                        android:layout_columnWeight="1"/>-->
+<!--                    <TextView-->
+<!--                        android:layout_width="0dp"-->
+<!--                        android:layout_height="0dp"-->
+<!--                        android:text="1000"-->
+<!--                        android:textColor="@color/D_text"-->
+<!--                        android:gravity="center"-->
+<!--                        android:textSize="25sp"-->
+<!--                        android:layout_rowWeight="1"-->
+<!--                        android:layout_columnWeight="1"/>-->
+<!--                    <ImageView-->
+<!--                        android:layout_width="0dp"-->
+<!--                        android:layout_height="50dp"-->
+<!--                        android:src="@drawable/hobanwoo_blue"-->
+<!--                        android:layout_rowWeight="1"-->
+<!--                        android:layout_columnWeight="1"/>-->
+<!--                    <TextView-->
+<!--                        android:layout_width="0dp"-->
+<!--                        android:layout_height="0dp"-->
+<!--                        android:text="100"-->
+<!--                        android:textColor="@color/D_text"-->
+<!--                        android:gravity="center"-->
+<!--                        android:textSize="25sp"-->
+<!--                        android:layout_rowWeight="1"-->
+<!--                        android:layout_columnWeight="1"/>-->
+<!--                    <TextView-->
+<!--                        android:layout_width="0dp"-->
+<!--                        android:layout_height="0dp"-->
+<!--                        android:text="1"-->
+<!--                        android:textColor="@color/D_text"-->
+<!--                        android:gravity="center"-->
+<!--                        android:textSize="25sp"-->
+<!--                        android:layout_rowWeight="1"-->
+<!--                        android:layout_columnWeight="1"/>-->
+
+<!--                </GridLayout>-->
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>
 

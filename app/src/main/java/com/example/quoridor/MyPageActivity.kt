@@ -13,6 +13,8 @@ import com.example.quoridor.databinding.ActivityMypageBinding
 import com.example.quoridor.login.UserManager
 import org.eazegraph.lib.charts.PieChart
 import org.eazegraph.lib.models.PieModel
+import org.eazegraph.lib.models.ValueLinePoint
+import org.eazegraph.lib.models.ValueLineSeries
 
 class MyPageActivity:AppCompatActivity() {
     val binding:ActivityMypageBinding by lazy{
@@ -82,6 +84,30 @@ class MyPageActivity:AppCompatActivity() {
         binding.mypageCustomrankingDown.rankTv.text = "200"
         binding.mypageCustomrankingDown.nameTv.text="d"
         binding.mypageCustomrankingDown.ratingTv.text = "2000"*/
+
+        service.recentHistories(SuccessfulHttpResult {
+            val valueLineSeries = ValueLineSeries()
+
+            var i = 0
+            var winCnt = 0
+            for (history in it) {
+                if (history.win) winCnt++
+                i++
+                if (i == 5) {
+                    valueLineSeries.addPoint(ValueLinePoint(winCnt/5f))
+                    winCnt = 0
+                    i = 0
+                }
+            }
+
+            valueLineSeries.apply {
+                color = getColor(R.color.D_blue)
+            }
+            binding.textLayout.apply {
+                addSeries(valueLineSeries)
+                startAnimation()
+            }
+        })
     }
 
     private fun setValues(v: RankingItemView, rank:Int, rankingUser: HttpDTO.Response.RankingUser?){
@@ -115,8 +141,8 @@ class MyPageActivity:AppCompatActivity() {
 
 
         Log.d(TAG,""+winningRate)
-        chart!!.addPieSlice(PieModel("Win", winningRate, Color.parseColor("#FF5454")))
-        chart!!.addPieSlice(PieModel("Lose", 100-winningRate, Color.parseColor("#54A7FF")))
+        chart!!.addPieSlice(PieModel("Win", winningRate, getColor(R.color.D_blue)))
+        chart!!.addPieSlice(PieModel("Lose", 100-winningRate, getColor(R.color.D_red)))
         chart!!.startAnimation()
     }
 }
