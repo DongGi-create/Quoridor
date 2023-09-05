@@ -5,7 +5,9 @@ import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
+import com.bumptech.glide.Glide
 import com.example.quoridor.communication.retrofit.HttpDTO
+import com.example.quoridor.communication.retrofit.HttpResult
 import com.example.quoridor.communication.retrofit.HttpService
 import com.example.quoridor.communication.retrofit.util.SuccessfulHttpResult
 import com.example.quoridor.customView.RankingItemView
@@ -26,7 +28,7 @@ class MyPageActivity:AppCompatActivity() {
     }
 
     private val service = HttpService()
-
+    private var profileLink:String? = null
     private var chart: PieChart? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -50,6 +52,33 @@ class MyPageActivity:AppCompatActivity() {
         binding.mypageIvHistoryDetail.setOnClickListener{
             startActivity(Intent(this@MyPageActivity, HistoryActivity::class.java))
         }
+
+        binding.mypageIvProfileDetail.setOnClickListener{
+            val it = Intent(this@MyPageActivity, EditActivity::class.java)
+            it.putExtra("profileLinkKey", profileLink)
+            startActivity(it)
+        }
+
+        service.getImage(UserManager.umuid!!,object: HttpResult<String> {
+            override fun success(data: String) {
+                Log.d(TAG,"getImage success!")
+                if(data!="null"){
+                    profileLink = data
+                    Glide.with(this@MyPageActivity)
+                        .load(data) //이미지
+                        .into(binding.mypageIvProfile) //보여줄 위치
+                }
+                else binding.mypageIvProfile.setImageResource(R.drawable.ic_identity)
+            }
+            override fun appFail() {
+                Log.d(TAG,"app fail")
+            }
+            override fun fail(throwable: Throwable) {
+                Log.d(TAG,throwable.message+"")
+            }
+            override fun finally() {
+            }
+        })
 
         service.adjacentRanking(
             SuccessfulHttpResult{
@@ -137,8 +166,6 @@ class MyPageActivity:AppCompatActivity() {
         } else {
             (0.0).toFloat()
         }
-
-
 
         Log.d(TAG,""+winningRate)
         chart!!.addPieSlice(PieModel("Win", winningRate, getColor(R.color.D_blue)))
