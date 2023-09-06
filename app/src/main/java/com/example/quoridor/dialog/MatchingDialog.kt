@@ -1,4 +1,4 @@
-package com.example.quoridor
+package com.example.quoridor.dialog
 
 import android.app.Dialog
 import android.content.Context
@@ -10,6 +10,8 @@ import android.view.Window
 import android.widget.ImageView
 import android.widget.ProgressBar
 import android.widget.TextView
+import com.example.quoridor.GameForPvPActivity
+import com.example.quoridor.R
 import com.example.quoridor.communication.retrofit.HttpDTO
 import com.example.quoridor.communication.retrofit.HttpService
 import com.example.quoridor.communication.retrofit.HttpSyncService

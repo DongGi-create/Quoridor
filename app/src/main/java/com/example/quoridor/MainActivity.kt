@@ -9,6 +9,7 @@ import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import com.example.quoridor.databinding.ActivityMainBinding
+import com.example.quoridor.dialog.MatchingDialog
 import com.example.quoridor.login.LoginActivity
 import com.example.quoridor.login.SharedLoginModel
 import com.example.quoridor.login.UserManager
