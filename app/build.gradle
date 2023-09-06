@@ -49,6 +49,7 @@ dependencies {
     implementation 'com.google.firebase:firebase-firestore:24.4.1'
     implementation 'com.airbnb.android:lottie:6.1.0'
     implementation 'com.github.bumptech.glide:glide:4.14.1'
+    implementation 'androidx.core:core-ktx:1.10.1'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.14.1'
 
     // Import the BoM for the Firebase platform
