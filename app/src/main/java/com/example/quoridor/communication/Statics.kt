@@ -2,6 +2,9 @@ package com.example.quoridor.communication
 
 import okhttp3.JavaNetCookieJar
 import okhttp3.OkHttpClient
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
+import retrofit2.converter.scalars.ScalarsConverterFactory
 import java.net.CookieManager
 import java.util.concurrent.TimeUnit
 
@@ -22,5 +25,12 @@ object Statics {
         .writeTimeout(30, TimeUnit.SECONDS)
         .pingInterval(60, TimeUnit.SECONDS)
         .cookieJar(JavaNetCookieJar(CookieManager()))
+        .build()
+
+    val retrofit: Retrofit = Retrofit.Builder()
+        .client(client)
+        .baseUrl(HTTP_BASE_URL)
+        .addConverterFactory(ScalarsConverterFactory.create())
+        .addConverterFactory(GsonConverterFactory.create())
         .build()
 }

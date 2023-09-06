@@ -2,7 +2,6 @@ package com.example.quoridor.communication.retrofit.util
 
 import android.util.Log
 import com.example.quoridor.communication.retrofit.HttpResult
-import com.example.quoridor.communication.retrofit.HttpSyncService
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.CoroutineStart
@@ -16,7 +15,6 @@ import kotlinx.coroutines.supervisorScope
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import com.example.quoridor.MatchingDialog
 
 object RetrofitFunc {
 

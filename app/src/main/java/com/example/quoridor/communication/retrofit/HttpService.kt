@@ -1,26 +1,16 @@
 package com.example.quoridor.communication.retrofit
 
 import android.util.Log
-import com.example.quoridor.communication.Statics
+import com.example.quoridor.communication.Statics.retrofit
 import okhttp3.MultipartBody
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
-import retrofit2.converter.scalars.ScalarsConverterFactory
-
 import java.util.Calendar
 
 class HttpService {
     companion object {
-        private val retrofit = Retrofit.Builder()
-            .client(Statics.client)
-            .baseUrl(Statics.HTTP_BASE_URL)
-            .addConverterFactory(ScalarsConverterFactory.create())
-            .addConverterFactory(GsonConverterFactory.create())
-            .build()
-        private var service: ServiceInterface = retrofit.create(ServiceInterface::class.java)
+        private val service: ServiceInterface = retrofit.create(ServiceInterface::class.java)
 
         private val TAG = "Dirtfy Test - HttpService"
 
