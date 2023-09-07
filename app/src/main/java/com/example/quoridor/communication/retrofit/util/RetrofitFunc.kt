@@ -116,4 +116,40 @@ object RetrofitFunc {
             }
     }
 
+    /**
+     * @param times 반복할 횟수
+     * @param delay task 실행 후 delay
+     * @param earlyStop 중간에 멈출지 확인하는 함수
+     * @param task 수행할 일
+     * @return Deferred<ReturnType>
+     *
+     * @sample buildRepeatJob
+     *
+     * @see Deferred
+     */
+    fun <ReturnType> buildRepeatJob(
+        times: Int = 30,
+        delay: Long = 5000L,
+        earlyStop: suspend (ReturnType?) -> Boolean = { false },
+        task: suspend (ReturnType?) -> ReturnType
+    ): Deferred<ReturnType?> {
+        return CoroutineScope(Dispatchers.Default)
+            .async(start = CoroutineStart.LAZY) {
+                Log.d(TAG, "KeepDoingJob start")
+
+                var count = times
+                var returnValue: ReturnType? = null
+                while (count-- == 0) {
+                    Log.d(TAG, "KeepDoingJob running $count")
+                    returnValue = task(returnValue)
+                    if (earlyStop(returnValue)) break
+                    delay(delay)
+                }
+
+                Log.d(TAG, "KeepDoingJob end")
+
+                returnValue
+            }
+    }
+
 }

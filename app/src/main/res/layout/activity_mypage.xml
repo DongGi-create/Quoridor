@@ -98,6 +98,10 @@
                         android:layout_height="wrap_content"
                         android:textColor="@color/D_text"
                         android:textSize="20sp"
+                        android:lines="1"
+                        android:ellipsize="marquee"
+                        android:marqueeRepeatLimit="marquee_forever"
+                        android:focusable="true"
                         tools:text="email@email.com" />
 
                 </LinearLayout>

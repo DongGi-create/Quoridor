@@ -14,6 +14,7 @@ import com.example.quoridor.GameForPvPActivity
 import com.example.quoridor.R
 import com.example.quoridor.communication.retrofit.HttpDTO
 import com.example.quoridor.communication.retrofit.HttpService
+import com.example.quoridor.communication.retrofit.HttpSyncService
 import com.example.quoridor.util.Func
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.CoroutineStart
@@ -23,6 +24,7 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import java.util.concurrent.TimeUnit
 import com.example.quoridor.communication.retrofit.util.RetrofitFunc
+import com.example.quoridor.communication.retrofit.util.RetrofitFunc.buildRepeatJob
 import com.example.quoridor.communication.retrofit.util.ToastHttpResult
 import com.example.quoridor.game.types.GameType
 import com.example.quoridor.util.Func.startGameActivity
@@ -143,4 +145,46 @@ class MatchingDialog(context:Context): Dialog(context) {
                 }
             }
     }
+
+
+    /// samples
+    fun isMatched(response: HttpDTO.Response.Match?): Boolean {
+        return !(response?.gameId == null || response.turn == null)
+    }
+    fun matching(gameType: Int) {
+        CoroutineScope(Dispatchers.Default).launch {
+            val matchingResult = buildRepeatJob(
+                -1,
+                5000L,
+                this@MatchingDialog::isMatched
+            ) {
+                var matchResponse: HttpDTO.Response.Match? = null
+
+                HttpSyncService.execute {
+                    matchResponse = match(gameType)
+                }.join()
+
+                matchResponse
+            }.await()
+
+            if (isMatched(matchingResult)) {
+                Func.popToast(context, "매칭성공! GameID: $matchingResult")
+                dismiss()
+                val intent = Intent(context, GameForPvPActivity::class.java)
+                context.startGameActivity(intent, GameType.BLITZ, matchingResult!!)
+            }
+            else {
+                Func.popToast(context, "매칭 실패")
+            }
+        }
+    }
+
+    fun sample0() {
+        HttpSyncService.execute {
+            HttpSyncService.login("test", "test")
+            HttpSyncService.signUp("test", "test", "test", "test")
+            HttpSyncService.getImage(0)
+        }
+    }
+
 }
