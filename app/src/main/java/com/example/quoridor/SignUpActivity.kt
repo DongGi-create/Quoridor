@@ -1,6 +1,7 @@
 package com.example.quoridor
 
 import android.content.Intent
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.provider.MediaStore
 import android.text.method.PasswordTransformationMethod
@@ -66,6 +67,7 @@ class SignUpActivity :AppCompatActivity(){
             Log.d("minseok","CLICKED")
             val dialog = EditProfileImageDialog(this)
 
+            dialog.window?.setBackgroundDrawable(ColorDrawable(getColor(R.color.D_transparent)))
             dialog.setClickListener(object: CustomDialogInterface {
                 override fun onCameraClicked() {
                     Log.d(TAG,"camera")

@@ -25,8 +25,7 @@ import okio.BufferedSink
 
 class ActivityResultHandler(private val activity: AppCompatActivity, private val v:ImageView) {
     var filePath: MultipartBody.Part? = null
-
-    private val service = HttpService()
+    var deleted:Boolean = false
 
     private val activityUriResult: ActivityResultLauncher<Intent> =
         activity.registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
@@ -68,6 +67,7 @@ class ActivityResultHandler(private val activity: AppCompatActivity, private val
         val bitmapMultipartBody: MultipartBody.Part? =
             if (bitmapRequestBody == null) null
             else MultipartBody.Part.createFormData("file", "DDYM.jpeg", bitmapRequestBody)
+        deleted = false
         filePath = bitmapMultipartBody
         Log.d("minseok",filePath.toString()+" bmpToMultipart")
     }
@@ -81,6 +81,7 @@ class ActivityResultHandler(private val activity: AppCompatActivity, private val
             inputStream?.close() // 스트림 닫기
             MultipartBody.Part.createFormData("file", "DDYM.jpeg", requestBody!!)
         }
+        deleted = false
         filePath = imagePart
         Log.d("minseok",filePath.toString()+" uriToMultipart")
     }
@@ -118,14 +119,17 @@ class ActivityResultHandler(private val activity: AppCompatActivity, private val
 
     fun editProfile(profileLink: String?){
         if (filePath != null) {
+            Log.d("minseok",filePath.toString())
             uploadImageToServer(filePath)
         } else {
             Log.d("minseok","no file")
-            if (profileLink!=null) {
-                // deleteImage
+            if (profileLink!=null && deleted) {
+                Log.d("minseok","profileLink exist")
                 HttpSyncService.execute {
                     delImage()
                 }
+                // deleteImage
+
                 /*service.delImage(object: HttpResult<String>{
                     override fun success(data: String) {
                         Log.d("minseok","deleteImage success!")

@@ -1,36 +1,24 @@
 package com.example.quoridor
 
 import android.content.Intent
+import android.graphics.drawable.BitmapDrawable
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.provider.MediaStore
-import android.text.InputType
 import android.text.method.PasswordTransformationMethod
 import android.util.Log
-import android.view.HapticFeedbackConstants
 import android.view.MotionEvent
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.bumptech.glide.Glide
-import com.example.quoridor.communication.retrofit.HttpDTO
-import com.example.quoridor.communication.retrofit.HttpResult
 import com.example.quoridor.communication.retrofit.HttpService
 import com.example.quoridor.communication.retrofit.HttpSyncService
-import com.example.quoridor.communication.socket.WebSocketTest
 import com.example.quoridor.databinding.ActivityEditBinding
 import com.example.quoridor.dialog.CustomDialogInterface
 import com.example.quoridor.dialog.EditProfileImageDialog
-import com.example.quoridor.login.LoginActivity
 import com.example.quoridor.login.UserManager
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.CoroutineStart
-import kotlinx.coroutines.Deferred
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.async
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.supervisorScope
-import kotlinx.coroutines.withContext
+
 
 class EditActivity:AppCompatActivity() {
     private val binding:ActivityEditBinding by lazy{
@@ -57,14 +45,21 @@ class EditActivity:AppCompatActivity() {
         email = UserManager.umemail
         name = UserManager.umname
         val intent = intent
+
         profileLink = intent.getStringExtra("profileLinkKey")
 
+        Log.d(TAG, "프로필 사진$profileLink")
         resultHandler = ActivityResultHandler(this,binding.editIvProfile)
+
+        /*if(profileLink != null) {
+            resultHandler.filePath = "이미지 존재"
+        }*/
 
         binding.editIconCamera.setOnClickListener{
             Log.d("minseok","CLICKED")
             val dialog = EditProfileImageDialog(this)
 
+            dialog.window?.setBackgroundDrawable(ColorDrawable(getColor(R.color.D_transparent)))
             dialog.setClickListener(object: CustomDialogInterface {
                 override fun onCameraClicked() {
                     Log.d(TAG,"camera")
@@ -82,6 +77,7 @@ class EditActivity:AppCompatActivity() {
                     Log.d(TAG,"del photo")
                     binding.editIvProfile.setImageResource(R.drawable.ic_identity)
                     resultHandler.filePath = null
+                    resultHandler.deleted = true
                     dialog.dismiss()
                 }
             })
