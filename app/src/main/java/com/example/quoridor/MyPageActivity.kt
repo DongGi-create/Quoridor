@@ -144,6 +144,13 @@ class MyPageActivity:AppCompatActivity() {
         })
     }
 
+    @Deprecated("Deprecated in Java")
+    override fun onBackPressed() {
+        super.onBackPressed()
+        val intent = Intent(this@MyPageActivity,MainActivity::class.java)
+        startActivity(intent)
+    }
+
     private fun setValues(v: RankingItemView, rank:Int, rankingUser: HttpDTO.Response.RankingUser?){
         Log.d(TAG,"set values")
         if(rankingUser == null) return

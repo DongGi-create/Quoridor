@@ -1,6 +1,7 @@
 package com.example.quoridor
 
 import android.app.Dialog
+import android.app.PendingIntent.OnFinished
 import android.content.Intent
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
@@ -37,6 +38,7 @@ class MainActivity : AppCompatActivity() {
 
         binding.mainIvLoginMyPage.setOnClickListener{
             startActivity(loginmypageIntent)
+            this.finish()
         }
 
         binding.mainIvRanking.setOnClickListener{

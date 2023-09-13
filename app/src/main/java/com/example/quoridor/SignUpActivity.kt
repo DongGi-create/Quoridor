@@ -142,6 +142,11 @@ class SignUpActivity :AppCompatActivity(){
         }
     }
 
+    @Deprecated("Deprecated in Java")
+    override fun onBackPressed() {
+        super.onBackPressed()
+        startActivity(Intent(this,LoginActivity::class.java))
+    }
 
     private fun popToast(content: String) {
         Toast.makeText(applicationContext, content, Toast.LENGTH_SHORT).show()

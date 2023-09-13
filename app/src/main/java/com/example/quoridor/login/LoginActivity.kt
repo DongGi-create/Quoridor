@@ -79,6 +79,7 @@ class LoginActivity : AppCompatActivity() {
         binding.loginTvRegister.setOnClickListener{
             val intent = Intent(this,SignUpActivity::class.java)
             startActivity(intent)
+            this.finish()
         }
 
         binding.kakaoLoginImageView.setOnClickListener {
@@ -89,6 +90,12 @@ class LoginActivity : AppCompatActivity() {
     }
     private fun popToast(content: String) {
         Toast.makeText(applicationContext, content, Toast.LENGTH_SHORT).show()
+    }
+
+    @Deprecated("Deprecated in Java")
+    override fun onBackPressed() {
+        super.onBackPressed()
+        startActivity(Intent(this, MainActivity::class.java))
     }
 }
 

@@ -1,5 +1,6 @@
 package com.example.quoridor
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.ColorDrawable
@@ -9,6 +10,8 @@ import android.text.method.PasswordTransformationMethod
 import android.util.Log
 import android.view.MotionEvent
 import android.view.View
+import android.widget.EditText
+import android.widget.ImageView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.bumptech.glide.Glide
@@ -28,6 +31,8 @@ class EditActivity:AppCompatActivity() {
     private val TAG: String by lazy{
         getString(R.string.Minseok_test_tag)
     }
+    // PasswordTransformationMethod를 하나의 변수에 저장
+    private val passwordTransformationMethod = PasswordTransformationMethod()
 
     private lateinit var resultHandler: ActivityResultHandler
 
@@ -89,7 +94,7 @@ class EditActivity:AppCompatActivity() {
         binding.editEtName.setText(name)
         binding.editTvId.text = id
         binding.editEtEmail.setText(email)
-        binding.editEtPw.transformationMethod = PasswordTransformationMethod()
+        /*binding.editEtPw.transformationMethod = PasswordTransformationMethod()
         (binding.editIvSee as View).setOnTouchListener(object: View.OnTouchListener{
             override fun onTouch(v: View?, event: MotionEvent?): Boolean {
                 if(event?.action == MotionEvent.ACTION_DOWN){
@@ -102,34 +107,64 @@ class EditActivity:AppCompatActivity() {
             }
         })
 
-        binding.editBtnSignup.setOnClickListener{
-            pw = if (binding.editEtPw.text.toString() == pw) null else binding.editEtPw.text.toString()
-            email = if (binding.editEtEmail.text.toString() == email) null else binding.editEtEmail.text.toString()
-            name = if (binding.editEtName.text.toString() == name) null else binding.editEtName.text.toString()
+        binding.editEtPwCheck.transformationMethod = PasswordTransformationMethod()
 
-            HttpSyncService.execute {
-                userUpdate(pw, email, name)
-                resultHandler.editProfile(profileLink)
+        (binding.editIvSeeCheck as View).setOnTouchListener(object: View.OnTouchListener{
+            override fun onTouch(v: View?, event: MotionEvent?): Boolean {
+                if(event?.action == MotionEvent.ACTION_DOWN){
+                    binding.editEtPw.transformationMethod = null
+                }
+                else if(event?.action == MotionEvent.ACTION_UP){
+                    binding.editEtPw.transformationMethod = PasswordTransformationMethod()
+                }
+                return true
             }
-            /*service.userUpdate(pw, email, name, object:HttpResult<HttpDTO.Response.User>{
-                override fun success(data: HttpDTO.Response.User) {
-                    Log.d(TAG,"Edit success!")
-                    UserManager.setUser(data)
+        })*/
 
-                }
-                override fun appFail() {
-                    Log.d(TAG,"app fail")
-                }
-                override fun fail(throwable: Throwable) {
-                    Log.d(TAG,"fail")
-                }
-                override fun finally() {
-                }
-            })*/
+        // EditText 및 ImageView에 대한 터치 이벤트 처리
+        setTouchPasswordVisibility(binding.editEtPw, binding.editIvSee)
+        setTouchPasswordVisibility(binding.editEtPwCheck, binding.editIvSeeCheck)
 
-            //userupdate랑 프로필 수정은 동시에 가능
-            val mainActivityIt = Intent(this@EditActivity,MainActivity::class.java)
-            startActivity(mainActivityIt)
+        binding.editBtnSignup.setOnClickListener{
+            if (binding.editEtPw.text.toString() == pw) {
+                var newpw:String? = binding.editEtPwCheck.text.toString()
+                if(newpw == ""){
+                    popToast("비밀번호를 쳐주세요")
+                }
+                else{
+                    newpw = if (binding.editEtPwCheck.text.toString() == pw) null else binding.editEtPwCheck.text.toString()
+                    email = if (binding.editEtEmail.text.toString() == email) null else binding.editEtEmail.text.toString()
+                    name = if (binding.editEtName.text.toString() == name) null else binding.editEtName.text.toString()
+
+                    HttpSyncService.execute {
+                        UserManager.setUser(userUpdate(newpw, email, name)!!)
+                        Log.d(TAG,"changed$newpw")
+                        resultHandler.editProfile(profileLink)
+                    }
+                    /*service.userUpdate(pw, email, name, object:HttpResult<HttpDTO.Response.User>{
+                        override fun success(data: HttpDTO.Response.User) {
+                            Log.d(TAG,"Edit success!")
+                            UserManager.setUser(data)
+
+                        }
+                        override fun appFail() {
+                            Log.d(TAG,"app fail")
+                        }
+                        override fun fail(throwable: Throwable) {
+                            Log.d(TAG,"fail")
+                        }
+                        override fun finally() {
+                        }
+                    })*/
+                    //userupdate랑 프로필 수정은 동시에 가능
+                    val mainActivityIt = Intent(this@EditActivity,MainActivity::class.java)
+                    startActivity(mainActivityIt)
+                }
+            }
+            else{
+                popToast("비밀번호가 달라요..")
+            }
+
         }
 
     }
@@ -137,4 +172,16 @@ class EditActivity:AppCompatActivity() {
     private fun popToast(content: String) {
         Toast.makeText(applicationContext, content, Toast.LENGTH_SHORT).show()
     }
+
+    @SuppressLint("ClickableViewAccessibility")
+    private fun setTouchPasswordVisibility(editText: EditText, imageView: ImageView) {
+        (imageView as View).setOnTouchListener { _, event ->
+            when (event?.action) {
+                MotionEvent.ACTION_DOWN -> editText.transformationMethod = null
+                MotionEvent.ACTION_UP -> editText.transformationMethod = passwordTransformationMethod
+            }
+            true
+        }
+    }
+
 }
