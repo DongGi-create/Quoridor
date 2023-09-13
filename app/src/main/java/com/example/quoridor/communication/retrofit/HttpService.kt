@@ -47,12 +47,12 @@ class HttpService {
 
     fun match(
         gameType: Int,
-        httpResult: HttpResult<HttpDTO.Response.Match>
+        httpResult: HttpResult<String?>
     ) {
         val body = HttpDTO.Request.Match(gameType)
         service.matchRequest(body).enqueue(makeCallBack(httpResult))
     }
-    fun makeMatchCall(data: HttpDTO.Request.Match): Call<HttpDTO.Response.Match> {
+    fun makeMatchCall(data: HttpDTO.Request.Match): Call<String?> {
         return service.matchRequest(data)
     }
 

@@ -28,6 +28,7 @@ import com.example.quoridor.communication.retrofit.util.RetrofitFunc.buildRepeat
 import com.example.quoridor.communication.retrofit.util.ToastHttpResult
 import com.example.quoridor.game.types.GameType
 import com.example.quoridor.util.Func.startGameActivity
+import kotlinx.coroutines.withContext
 
 class MatchingDialog(context:Context): Dialog(context) {
     private var minuteMills = (5 * 60000).toLong()
@@ -37,6 +38,8 @@ class MatchingDialog(context:Context): Dialog(context) {
     private lateinit var countDownTimer: CountDownTimer
     private lateinit var keepTryingJob: Deferred<HttpDTO.Response.Match?>
     private lateinit var gameStartJob: Job
+
+    private lateinit var matchingJob: Job
 
     private val TAG: String by lazy {
         context.getString(R.string.Dirtfy_test_tag)//context안에 있다
@@ -58,7 +61,7 @@ class MatchingDialog(context:Context): Dialog(context) {
     override fun show() {
         setProgressBarValues()
         super.show()
-        startMatching()
+        startMatching(0)
         startCountDownTimer()
     }
 
@@ -97,63 +100,75 @@ class MatchingDialog(context:Context): Dialog(context) {
         )
     }
 
-    fun startMatching(){
-        if (!this@MatchingDialog::keepTryingJob.isInitialized || !keepTryingJob.isActive) {
-            val matchData = HttpDTO.Request.Match(3)
+//    fun startMatching(){
+//        if (!this@MatchingDialog::keepTryingJob.isInitialized || !keepTryingJob.isActive) {
+//            val matchData = HttpDTO.Request.Match(3)
+//
+//            keepTryingJob = RetrofitFunc.buildKeepTryingJob(
+//                matchData,
+//                httpService::makeMatchCall,
+//                ToastHttpResult(context, "matching", TAG),
+//                {
+//                    !(it != null && it.gameId == null || it.turn == null)
+//                })
+//
+//            gameStartJob = buildGameStartJob(keepTryingJob)
+//
+//            gameStartJob.start()
+//            keepTryingJob.start()
+//        }
+//    }
 
-            keepTryingJob = RetrofitFunc.buildKeepTryingJob(
-                matchData,
-                httpService::makeMatchCall,
-                ToastHttpResult(context, "matching", TAG),
-                {
-                    !(it.gameId == null || it.turn == null)
-                })
-
-            gameStartJob = buildGameStartJob(keepTryingJob)
-
-            gameStartJob.start()
-            keepTryingJob.start()
-        }
-    }
-
-    override fun onStop() {
-        super.onStop()
+    override fun dismiss() {
         countDownTimer.cancel()
-        if (this@MatchingDialog::keepTryingJob.isInitialized && keepTryingJob.isActive) {
-            keepTryingJob.cancel()
+        if (this@MatchingDialog::matchingJob.isInitialized && matchingJob.isActive) {
+            matchingJob.cancel()
         }
-        if (this@MatchingDialog::gameStartJob.isInitialized && gameStartJob.isActive) {
-            gameStartJob.cancel()
-        }
-    }
-    private fun buildGameStartJob(keepTryingJob: Deferred<HttpDTO.Response.Match?>): Job {
-        return CoroutineScope(Dispatchers.Main)
-            .launch(start = CoroutineStart.LAZY) {
-                Log.d(TAG, "gameStartJob start")
-                val matchData = keepTryingJob.await()!!
-                Log.d(TAG, "gameStartJob awaited $matchData")
-                Log.d(TAG, "gameStartJob end")
-
-                if (matchData.gameId == null) {
-                    Func.popToast(context, "매칭 실패")
-                }
-                else {
-                    Func.popToast(context, "매칭성공! GameID: $matchData")//await는 비동기로만 받을 수 있다
-                    dismiss()
-                    val intent = Intent(context, GameForPvPActivity::class.java)
-                    context.startGameActivity(intent, GameType.BLITZ, matchData)
-                }
-            }
+        super.dismiss()
     }
 
+//    override fun onStop() {
+//        super.onStop()
+//        if (this@MatchingDialog::keepTryingJob.isInitialized && keepTryingJob.isActive) {
+//            keepTryingJob.cancel()
+//        }
+//        if (this@MatchingDialog::gameStartJob.isInitialized && gameStartJob.isActive) {
+//            gameStartJob.cancel()
+//        }
+//    }
+//    private fun buildGameStartJob(keepTryingJob: Deferred<HttpDTO.Response.Match?>): Job {
+//        return CoroutineScope(Dispatchers.Main)
+//            .launch(start = CoroutineStart.LAZY) {
+//                Log.d(TAG, "gameStartJob start")
+//                val matchData = keepTryingJob.await()!!
+//                Log.d(TAG, "gameStartJob awaited $matchData")
+//                Log.d(TAG, "gameStartJob end")
+//
+//                if (matchData.gameId == null) {
+//                    Func.popToast(context, "매칭 실패")
+//                }
+//                else {
+//                    Func.popToast(context, "매칭성공! GameID: $matchData")//await는 비동기로만 받을 수 있다
+//                    dismiss()
+//                    val intent = Intent(context, GameForPvPActivity::class.java)
+//                    context.startGameActivity(intent, GameType.BLITZ, matchData)
+//                }
+//            }
+//    }
 
-    /// samples
-    fun isMatched(response: HttpDTO.Response.Match?): Boolean {
-        return !(response?.gameId == null || response.turn == null)
+    private fun isMatched(response: HttpDTO.Response.Match?): Boolean {
+        return response != null && !(response.gameId == null || response.turn == null)
     }
+    private fun startMatching(gameType: Int) {
+        matchingJob = CoroutineScope(Dispatchers.Default).launch {
+            var result: String? = null
+            HttpSyncService.execute {
+                result = match(gameType)
+            }.join()
 
-    fun matching(gameType: Int) {
-        CoroutineScope(Dispatchers.Default).launch {
+            if (result != "OK")
+                cancel()
+
             val matchingResult = buildRepeatJob(
                 -1,
                 5000L,
@@ -162,29 +177,22 @@ class MatchingDialog(context:Context): Dialog(context) {
                 var matchResponse: HttpDTO.Response.Match? = null
 
                 HttpSyncService.execute {
-                    matchResponse = match(gameType)
+                    matchResponse = matchCheck()
                 }.join()
 
                 matchResponse
             }.await()
 
-            if (isMatched(matchingResult)) {
-                Func.popToast(context, "매칭성공! GameID: $matchingResult")
-                dismiss()
-                val intent = Intent(context, GameForPvPActivity::class.java)
-                context.startGameActivity(intent, GameType.BLITZ, matchingResult!!)
+            withContext(Dispatchers.Main) {
+                if (isMatched(matchingResult)) {
+                    Func.popToast(context, "매칭성공! GameID: $matchingResult")
+                    dismiss()
+                    val intent = Intent(context, GameForPvPActivity::class.java)
+                    context.startGameActivity(intent, GameType.BLITZ, matchingResult!!)
+                } else {
+                    Func.popToast(context, "매칭 실패")
+                }
             }
-            else {
-                Func.popToast(context, "매칭 실패")
-            }
-        }
-    }
-
-    fun sample0() {
-        HttpSyncService.execute {
-            HttpSyncService.login("test", "test")
-            HttpSyncService.signUp("test", "test", "test", "test")
-            HttpSyncService.getImage(0)
         }
     }
 

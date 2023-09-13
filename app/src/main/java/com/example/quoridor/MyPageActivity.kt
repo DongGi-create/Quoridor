@@ -9,6 +9,7 @@ import com.bumptech.glide.Glide
 import com.example.quoridor.communication.retrofit.HttpDTO
 import com.example.quoridor.communication.retrofit.HttpResult
 import com.example.quoridor.communication.retrofit.HttpService
+import com.example.quoridor.communication.retrofit.HttpSyncService
 import com.example.quoridor.communication.retrofit.util.SuccessfulHttpResult
 import com.example.quoridor.customView.RankingItemView
 import com.example.quoridor.databinding.ActivityMypageBinding
@@ -44,6 +45,10 @@ class MyPageActivity:AppCompatActivity() {
             val intent = Intent(this@MyPageActivity,MainActivity::class.java)
             startActivity(intent)
             //세션 끊기 넣기
+            //김동기 왜 안넣음?
+            HttpSyncService.execute {
+                logout()
+            }
         }
 
         binding.mypageIvRankingDetail.setOnClickListener{

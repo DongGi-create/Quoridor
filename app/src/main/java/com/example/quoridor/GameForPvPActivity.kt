@@ -141,8 +141,8 @@ class GameForPvPActivity: GameActivity() {
         matchData = intent.getMatchData()
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
+    override fun onStop() {
+        super.onStop()
         webSocketService.send(makeMessage())
         webSocketService.close()
     }
@@ -318,7 +318,11 @@ class GameForPvPActivity: GameActivity() {
                             gameEnd(winner)
                         }
                         val rating = action.remainTime
+                        val totalGames = action.row
+                        val totalWinGames = action.col
                         UserManager.umscore = rating.toInt()
+                        UserManager.umtotalGames = totalGames
+                        UserManager.umwinGames = totalWinGames
                     }
                 }
             }

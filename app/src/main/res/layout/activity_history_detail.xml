@@ -36,4 +36,22 @@
         android:layout_height="wrap_content"
         tools:text="score1"/>
 
+    <TextView
+        android:id="@+id/stamp_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:text="stamp"/>
+
+    <TextView
+        android:id="@+id/moves_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:text="moves"/>
+
+    <TextView
+        android:id="@+id/winnerId_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:text="winnerId"/>
+
 </LinearLayout>

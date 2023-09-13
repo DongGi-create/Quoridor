@@ -23,6 +23,11 @@ object HttpSyncService {
         return extractBody(service.login(body).execute())
     }
 
+    suspend fun logout(
+    ): String? {
+        return extractBody(service.logout().execute())
+    }
+
     suspend fun signUp(
         loginId: String,
         password: String,
@@ -44,9 +49,14 @@ object HttpSyncService {
 
     suspend fun match(
         gameType: Int
-    ): HttpDTO.Response.Match? {
+    ): String? {
         val body = HttpDTO.Request.Match(gameType)
         return extractBody(service.matchRequest(body).execute())
+    }
+
+    suspend fun matchCheck(
+    ): HttpDTO.Response.Match? {
+        return extractBody(service.matchCheckRequest().execute())
     }
 
     suspend fun histories(

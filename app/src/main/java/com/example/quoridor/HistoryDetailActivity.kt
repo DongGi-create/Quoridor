@@ -52,6 +52,9 @@ class HistoryDetailActivity: AppCompatActivity() {
                     uid1TextView.text = it.uid1.toString()
                     score0TextView.text = it.score0.toString()
                     score1TextView.text = it.score1.toString()
+                    stampTextView.text = it.stamp.toString()
+                    movesTextView.text = it.moves
+                    winnerIdTextView.text = it.winnerId.toString()
                 }
             }
         }

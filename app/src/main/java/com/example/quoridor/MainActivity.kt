@@ -74,10 +74,10 @@ class MainActivity : AppCompatActivity() {
         }
 
         binding.mainIcAi.setOnClickListener{
-            dialog()
+            comingSoonDialog()
         }
         binding.mainIcPuzzle.setOnClickListener{
-            dialog()
+            comingSoonDialog()
         }
 
         binding.mainBtnTest.setOnClickListener {
@@ -91,19 +91,15 @@ class MainActivity : AppCompatActivity() {
 
 
 
-    private fun dialog(){
+    private fun comingSoonDialog(){
         val dialog = Dialog(this)
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         dialog.window?.setBackgroundDrawable(ColorDrawable(getColor(R.color.D_transparent)))
-        dialog.setContentView(R.layout.dialog_game_quit)
+        dialog.setContentView(R.layout.dialog_coming_soon)
 
-        val yesBtn = dialog.findViewById<Button>(R.id.yes_btn)
-        val noBtn = dialog.findViewById<Button>(R.id.no_btn)
+        val yesBtn = dialog.findViewById<Button>(R.id.ok_btn)
 
         yesBtn.setOnClickListener {
-            dialog.dismiss()
-        }
-        noBtn.setOnClickListener {
             dialog.dismiss()
         }
 

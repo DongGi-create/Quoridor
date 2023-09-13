@@ -131,7 +131,7 @@ object RetrofitFunc {
         times: Int = 30,
         delay: Long = 5000L,
         earlyStop: suspend (ReturnType?) -> Boolean = { false },
-        task: suspend (ReturnType?) -> ReturnType
+        task: suspend (ReturnType?) -> ReturnType?
     ): Deferred<ReturnType?> {
         return CoroutineScope(Dispatchers.Default)
             .async(start = CoroutineStart.LAZY) {
@@ -139,7 +139,7 @@ object RetrofitFunc {
 
                 var count = times
                 var returnValue: ReturnType? = null
-                while (count-- == 0) {
+                while (count-- != 0) {
                     Log.d(TAG, "KeepDoingJob running $count")
                     returnValue = task(returnValue)
                     if (earlyStop(returnValue)) break

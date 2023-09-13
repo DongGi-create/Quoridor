@@ -16,9 +16,7 @@ class UserManager {
             private set
         var umscore: Int? = null
         var umtotalGames: Int? = null
-            private set
         var umwinGames: Int? = null
-            private set
         fun setUser(user: HttpDTO.Response.User){
             umuid = user.uid
             umid = user.loginId

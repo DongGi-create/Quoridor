@@ -34,8 +34,12 @@ interface ServiceInterface {
     fun signUp(@Body data: HttpDTO.Request.Signup): Call<HttpDTO.Response.User>
 
     @Headers(DEFAULT_HEADER)
-    @POST("match")
-    fun matchRequest(@Body data: HttpDTO.Request.Match): Call<HttpDTO.Response.Match>
+    @POST("matched_users")
+    fun matchRequest(@Body data: HttpDTO.Request.Match): Call<String?>
+
+    @Headers(DEFAULT_HEADER)
+    @GET("matched_users")
+    fun matchCheckRequest(): Call<HttpDTO.Response.Match?>
 
     @Headers(DEFAULT_HEADER)
     @POST("users/update")
@@ -43,7 +47,7 @@ interface ServiceInterface {
 
     @Headers(DEFAULT_HEADER)
     @GET("users/logout")
-    fun logout(): Call<String>
+    fun logout(): Call<String?>
 
     @Headers(DEFAULT_HEADER)
     @GET("histories")
