@@ -44,8 +44,9 @@ class MyPageActivity:AppCompatActivity() {
             //user.setId("")
             val intent = Intent(this@MyPageActivity,MainActivity::class.java)
             startActivity(intent)
+            this@MyPageActivity.finish()
             //세션 끊기 넣기
-            //김동기 왜 안넣음?
+
             HttpSyncService.execute {
                 logout()
             }
@@ -62,6 +63,7 @@ class MyPageActivity:AppCompatActivity() {
             val it = Intent(this@MyPageActivity, EditActivity::class.java)
             it.putExtra("profileLinkKey", profileLink)
             startActivity(it)
+            this@MyPageActivity.finish()
         }
 
         service.getImage(UserManager.umuid!!,object: HttpResult<String> {

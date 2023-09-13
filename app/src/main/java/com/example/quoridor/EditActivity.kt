@@ -159,6 +159,7 @@ class EditActivity:AppCompatActivity() {
                     //userupdate랑 프로필 수정은 동시에 가능
                     val mainActivityIt = Intent(this@EditActivity,MainActivity::class.java)
                     startActivity(mainActivityIt)
+                    this.finish()
                 }
             }
             else{

@@ -46,6 +46,7 @@ class LoginActivity : AppCompatActivity() {
                     sharedLoginModel.setLoginSuccess(true)
                     val intent = Intent(this@LoginActivity,MainActivity::class.java)
                     startActivity(intent)
+                    this@LoginActivity.finish()
                 }
 
                 override fun appFail() {
