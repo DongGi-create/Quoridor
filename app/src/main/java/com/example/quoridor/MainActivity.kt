@@ -4,6 +4,7 @@ import android.app.Dialog
 import android.content.Intent
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
+import android.util.Log
 import android.view.Window
 import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
@@ -48,6 +49,7 @@ class MainActivity : AppCompatActivity() {
         // 여기서 UserManager 정보 가져오기
         /*val user = UserManager.getInstance() // UserManager 클래스에 맞게 수정*/
         val user = UserManager
+        Log.d("Dirtfy Test", user.umid!!)
         if (user.umid!="") {
             sharedLoginModel.setLoginSuccess(true)
         }

@@ -59,6 +59,11 @@ object HttpSyncService {
         return extractBody(service.matchCheckRequest().execute())
     }
 
+    suspend fun exitMatching(
+    ): HttpDTO.Response.Match? {
+        return extractBody(service.exitMatching().execute())
+    }
+
     suspend fun histories(
         gameId: Long
     ): List<HttpDTO.Response.CompHistory>? {

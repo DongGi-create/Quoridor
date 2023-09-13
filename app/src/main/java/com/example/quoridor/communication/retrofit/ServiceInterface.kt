@@ -3,6 +3,7 @@ package com.example.quoridor.communication.retrofit
 import okhttp3.MultipartBody
 import retrofit2.Call
 import retrofit2.http.Body
+import retrofit2.http.DELETE
 import retrofit2.http.GET
 import retrofit2.http.Headers
 import retrofit2.http.Multipart
@@ -40,6 +41,10 @@ interface ServiceInterface {
     @Headers(DEFAULT_HEADER)
     @GET("matched_users")
     fun matchCheckRequest(): Call<HttpDTO.Response.Match?>
+
+    @Headers(DEFAULT_HEADER)
+    @DELETE("matched_users")
+    fun exitMatching(): Call<HttpDTO.Response.Match?>
 
     @Headers(DEFAULT_HEADER)
     @POST("users/update")

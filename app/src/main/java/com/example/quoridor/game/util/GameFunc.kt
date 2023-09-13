@@ -33,7 +33,8 @@ object GameFunc {
     }
 
     fun calcRating(myRating: Int, opponentRating: Int, gameResult: GameResultType): Int {
-        return (myRating + K * (gameResult.ordinal/2.0 - calcW(myRating, opponentRating))).toInt()
+        val rating = (myRating + K * (gameResult.ordinal/2.0 - calcW(myRating, opponentRating))).toInt()
+        return if (rating < 0) 0 else rating
     }
 
     fun Intent.putGameType(gameType: GameType) {

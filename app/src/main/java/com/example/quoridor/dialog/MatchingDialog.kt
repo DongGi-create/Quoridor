@@ -54,7 +54,18 @@ class MatchingDialog(context:Context): Dialog(context) {
 
         val closeBtn = findViewById<ImageView>(R.id.waiting_iv_close)
         closeBtn.setOnClickListener {
-            dismiss()
+            HttpSyncService.execute {
+                val result = exitMatching()
+
+                dismiss()
+
+                if (result != null) {
+                    Func.popToast(context, "매칭성공! GameID: $result")
+                    val intent = Intent(context, GameForPvPActivity::class.java)
+                    context.startGameActivity(intent, GameType.BLITZ, result)
+                }
+            }
+
         }
     }
 
