@@ -151,6 +151,7 @@ class MatchingDialog(context:Context): Dialog(context) {
     fun isMatched(response: HttpDTO.Response.Match?): Boolean {
         return !(response?.gameId == null || response.turn == null)
     }
+
     fun matching(gameType: Int) {
         CoroutineScope(Dispatchers.Default).launch {
             val matchingResult = buildRepeatJob(

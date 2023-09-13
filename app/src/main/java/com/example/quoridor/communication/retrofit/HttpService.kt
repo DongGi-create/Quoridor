@@ -11,7 +11,6 @@ import java.util.Calendar
 class HttpService {
     companion object {
         private val service: ServiceInterface = retrofit.create(ServiceInterface::class.java)
-
         private val TAG = "Dirtfy Test - HttpService"
 
     }

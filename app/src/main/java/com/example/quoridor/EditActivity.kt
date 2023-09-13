@@ -15,6 +15,7 @@ import com.bumptech.glide.Glide
 import com.example.quoridor.communication.retrofit.HttpDTO
 import com.example.quoridor.communication.retrofit.HttpResult
 import com.example.quoridor.communication.retrofit.HttpService
+import com.example.quoridor.communication.retrofit.HttpSyncService
 import com.example.quoridor.communication.socket.WebSocketTest
 import com.example.quoridor.databinding.ActivityEditBinding
 import com.example.quoridor.dialog.CustomDialogInterface
@@ -110,7 +111,11 @@ class EditActivity:AppCompatActivity() {
             email = if (binding.editEtEmail.text.toString() == email) null else binding.editEtEmail.text.toString()
             name = if (binding.editEtName.text.toString() == name) null else binding.editEtName.text.toString()
 
-            service.userUpdate(pw, email, name, object:HttpResult<HttpDTO.Response.User>{
+            HttpSyncService.execute {
+                userUpdate(pw, email, name)
+                resultHandler.editProfile(profileLink)
+            }
+            /*service.userUpdate(pw, email, name, object:HttpResult<HttpDTO.Response.User>{
                 override fun success(data: HttpDTO.Response.User) {
                     Log.d(TAG,"Edit success!")
                     UserManager.setUser(data)
@@ -124,12 +129,9 @@ class EditActivity:AppCompatActivity() {
                 }
                 override fun finally() {
                 }
-            })
-            resultHandler.editProfile(profileLink)
-
+            })*/
 
             //userupdate랑 프로필 수정은 동시에 가능
-
             val mainActivityIt = Intent(this@EditActivity,MainActivity::class.java)
             startActivity(mainActivityIt)
         }

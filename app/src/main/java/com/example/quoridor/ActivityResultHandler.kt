@@ -14,6 +14,7 @@ import androidx.viewbinding.ViewBinding
 import com.bumptech.glide.Glide
 import com.example.quoridor.communication.retrofit.HttpResult
 import com.example.quoridor.communication.retrofit.HttpService
+import com.example.quoridor.communication.retrofit.HttpSyncService
 import okhttp3.MediaType
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
@@ -97,7 +98,10 @@ class ActivityResultHandler(private val activity: AppCompatActivity, private val
 
     fun uploadImageToServer(imagePart: MultipartBody.Part?){
         Log.d("minseok","upload "+imagePart.toString())
-        service.uploadImage(imagePart,object: HttpResult<String> {
+        HttpSyncService.execute {
+            uploadImage(imagePart)
+        }
+        /*service.uploadImage(imagePart,object: HttpResult<String> {
             override fun success(data: String) {
                 Log.d("minseok",data)
             }
@@ -109,7 +113,7 @@ class ActivityResultHandler(private val activity: AppCompatActivity, private val
             }
             override fun finally() {
             }
-        })
+        })*/
     }
 
     fun editProfile(profileLink: String?){
@@ -119,7 +123,10 @@ class ActivityResultHandler(private val activity: AppCompatActivity, private val
             Log.d("minseok","no file")
             if (profileLink!=null) {
                 // deleteImage
-                service.delImage(object: HttpResult<String>{
+                HttpSyncService.execute {
+                    delImage()
+                }
+                /*service.delImage(object: HttpResult<String>{
                     override fun success(data: String) {
                         Log.d("minseok","deleteImage success!")
                     }
@@ -131,7 +138,7 @@ class ActivityResultHandler(private val activity: AppCompatActivity, private val
                     }
                     override fun finally() {
                     }
-                })
+                })*/
             }
         }
     }

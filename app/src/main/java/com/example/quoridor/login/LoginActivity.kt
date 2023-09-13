@@ -32,7 +32,7 @@ class LoginActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
 
-        sharedLoginModel = ViewModelProvider(this).get(SharedLoginModel::class.java)
+        sharedLoginModel = ViewModelProvider(this)[SharedLoginModel::class.java]
         binding.loginBtnLogin.setOnClickListener{
             val id = binding.loginEtId.text.toString()
             val pw = binding.loginEtPw.text.toString()

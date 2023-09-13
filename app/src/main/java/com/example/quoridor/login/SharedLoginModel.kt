@@ -13,4 +13,7 @@ class SharedLoginModel : ViewModel(){
     fun setLoginSuccess(success: Boolean) {
         _loginSuccess.value = success
     }
+    fun postLoginSuccess(success: Boolean){
+        _loginSuccess.postValue(success)
+    }
 }
