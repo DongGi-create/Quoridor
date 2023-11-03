@@ -10,9 +10,7 @@ import okhttp3.MultipartBody
 import retrofit2.Response
 
 object HttpSyncService {
-
     private val service: ServiceInterface = retrofit.create(ServiceInterface::class.java)
-
     private val TAG = "Dirtfy Test - HttpSyncService"
 
     suspend fun login(

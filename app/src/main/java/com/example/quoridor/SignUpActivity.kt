@@ -21,7 +21,6 @@ import com.example.quoridor.databinding.ActivitySignupBinding
 import com.example.quoridor.dialog.CustomDialogInterface
 import com.example.quoridor.dialog.EditProfileImageDialog
 import com.example.quoridor.login.LoginActivity
-import com.example.quoridor.login.SharedLoginModel
 import com.example.quoridor.login.UserManager
 import com.example.quoridor.util.Func.getAny
 import com.example.quoridor.util.Func.getUser
@@ -47,13 +46,9 @@ class SignUpActivity :AppCompatActivity(){
     }
 
     private lateinit var resultHandler: ActivityResultHandler
-    private lateinit var sharedLoginModel: SharedLoginModel
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
-
-        sharedLoginModel = ViewModelProvider(this)[SharedLoginModel::class.java]
-
         val preSet = intent.getAny("user", HttpDTO.Response.User::class.java)
         if (preSet != null) {
             binding.signupEtEmail.apply {
@@ -112,8 +107,8 @@ class SignUpActivity :AppCompatActivity(){
 
             HttpSyncService.execute {
                 signUp(id,pw,email,name)
+                Log.d("minseok","a")
                 UserManager.setUser(login(id, pw)!!)
-                sharedLoginModel.postLoginSuccess(true)
                 resultHandler.editProfile(null)
                 val intent = Intent(this@SignUpActivity,MainActivity::class.java)
                 startActivity(intent)

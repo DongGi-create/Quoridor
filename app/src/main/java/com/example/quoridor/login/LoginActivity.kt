@@ -26,13 +26,9 @@ class LoginActivity : AppCompatActivity() {
     private val TAG: String by lazy {
         getString(R.string.Minseok_test_tag)
     }
-
-    private lateinit var sharedLoginModel: SharedLoginModel
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
-
-        sharedLoginModel = ViewModelProvider(this)[SharedLoginModel::class.java]
         binding.loginBtnLogin.setOnClickListener{
             val id = binding.loginEtId.text.toString()
             val pw = binding.loginEtPw.text.toString()
@@ -43,7 +39,6 @@ class LoginActivity : AppCompatActivity() {
                     /*val user = UserManager.getInstance()*/
                     val user = UserManager
                     user.setUser(data)
-                    sharedLoginModel.setLoginSuccess(true)
                     val intent = Intent(this@LoginActivity,MainActivity::class.java)
                     startActivity(intent)
                     this@LoginActivity.finish()

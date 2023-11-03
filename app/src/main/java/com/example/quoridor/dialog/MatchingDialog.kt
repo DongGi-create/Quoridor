@@ -38,7 +38,7 @@ class MatchingDialog(context:Context): Dialog(context) {
     private lateinit var countDownTimer: CountDownTimer
     private lateinit var keepTryingJob: Deferred<HttpDTO.Response.Match?>
     private lateinit var gameStartJob: Job
-
+    private lateinit var matchingResult:Deferred<HttpDTO.Response.Match?>
     private lateinit var matchingJob: Job
 
     private val TAG: String by lazy {
@@ -134,6 +134,7 @@ class MatchingDialog(context:Context): Dialog(context) {
         countDownTimer.cancel()
         if (this@MatchingDialog::matchingJob.isInitialized && matchingJob.isActive) {
             matchingJob.cancel()
+            matchingResult.cancel()
         }
         super.dismiss()
     }
@@ -180,7 +181,7 @@ class MatchingDialog(context:Context): Dialog(context) {
             if (result != "OK")
                 cancel()
 
-            val matchingResult = buildRepeatJob(
+            matchingResult = buildRepeatJob(
                 -1,
                 5000L,
                 this@MatchingDialog::isMatched
@@ -192,14 +193,15 @@ class MatchingDialog(context:Context): Dialog(context) {
                 }.join()
 
                 matchResponse
-            }.await()
+            }
+            val matchingResultAwait = matchingResult.await()
 
             withContext(Dispatchers.Main) {
-                if (isMatched(matchingResult)) {
+                if (isMatched(matchingResultAwait)) {
                     Func.popToast(context, "매칭성공! GameID: $matchingResult")
                     dismiss()
                     val intent = Intent(context, GameForPvPActivity::class.java)
-                    context.startGameActivity(intent, GameType.BLITZ, matchingResult!!)
+                    context.startGameActivity(intent, GameType.BLITZ, matchingResultAwait!!)
                 } else {
                     Func.popToast(context, "매칭 실패")
                 }
