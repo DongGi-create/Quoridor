@@ -35,12 +35,13 @@ class RankingViewModel: ViewModel() {
         )
     }
 
-    fun loadMoreRanking() {
+    fun loadMoreRanking(after: (List<HttpDTO.Response.RankingUser>) -> Unit) {
         httpService.underRanking(
             if((rankingList.value?.size ?: 0) == 0) defaultUid
             else rankingList.value?.last()?.uid?: defaultUid,
             SuccessfulHttpResult {
                 rankingList.addAll(it.rankingUserList.subList(1, it.rankingUserList.size))
+                after(it.rankingUserList.subList(1, it.rankingUserList.size))
             })
     }
 

@@ -1,6 +1,7 @@
 package com.example.quoridor
 
 import android.os.Bundle
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -28,7 +29,10 @@ class RankingActivity : AppCompatActivity() {
         viewModel.loadFirstRanking {
             binding.rankingRecyclerView.apply {
                 adapter = RankingRecyclerViewAdapter(viewModel.getList()) {
-                    viewModel.loadMoreRanking()
+                    viewModel.loadMoreRanking {
+                        if (it.isEmpty())
+                            Toast.makeText(this@RankingActivity, "loaded all", Toast.LENGTH_SHORT).show()
+                    }
                 }
                 layoutManager = LinearLayoutManager(
                     this@RankingActivity,

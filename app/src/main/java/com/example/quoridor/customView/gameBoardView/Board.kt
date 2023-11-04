@@ -26,4 +26,20 @@ data class Board(
         result = 31 * result + horizontalWalls.contentDeepHashCode()
         return result
     }
+
+    fun copy(): Board {
+        val board = Board()
+
+        board.playCoordinates[0] = this.playCoordinates[0].copy()
+        board.playCoordinates[1] = this.playCoordinates[1].copy()
+
+        for (r in 0 .. 7) {
+            for (c in 0 .. 7) {
+                board.horizontalWalls[r][c] = this.horizontalWalls[r][c]
+                board.verticalWalls[r][c] = this.verticalWalls[r][c]
+            }
+        }
+
+        return board
+    }
 }

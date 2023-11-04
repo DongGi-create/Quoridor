@@ -88,7 +88,8 @@
                         android:id="@+id/p0_rating_layout"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal">
+                        android:orientation="horizontal"
+                        android:gravity="center">
 
                         <TextView
                             android:id="@+id/p0_before_rating"
@@ -98,13 +99,19 @@
                             android:textColor="@color/D_text"
                             tools:text="1300"/>
 
-                        <TextView
+<!--                        <TextView-->
+<!--                            android:layout_width="wrap_content"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:textSize="15sp"-->
+<!--                            android:textColor="@color/D_text"-->
+<!--                            android:layout_marginHorizontal="5dp"-->
+<!--                            android:text="->"/>-->
+
+                        <ImageView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:textSize="15sp"
-                            android:textColor="@color/D_text"
-                            android:layout_marginHorizontal="5dp"
-                            tools:text="->"/>
+                            android:src="@drawable/baseline_east_24"
+                            android:layout_marginHorizontal="5dp"/>
 
                         <TextView
                             android:id="@+id/p0_after_rating"
@@ -137,7 +144,8 @@
                         android:id="@+id/p1_rating_layout"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal">
+                        android:orientation="horizontal"
+                        android:gravity="center">
 
                         <TextView
                             android:id="@+id/p1_before_rating"
@@ -147,13 +155,19 @@
                             android:textColor="@color/D_text"
                             tools:text="1300"/>
 
-                        <TextView
+<!--                        <TextView-->
+<!--                            android:layout_width="wrap_content"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:textSize="15sp"-->
+<!--                            android:textColor="@color/D_text"-->
+<!--                            android:layout_marginHorizontal="5dp"-->
+<!--                            android:text="->"/>-->
+
+                        <ImageView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:textSize="15sp"
-                            android:textColor="@color/D_text"
-                            android:layout_marginHorizontal="5dp"
-                            tools:text="->"/>
+                            android:src="@drawable/baseline_east_24"
+                            android:layout_marginHorizontal="5dp"/>
 
                         <TextView
                             android:id="@+id/p1_after_rating"

@@ -1,6 +1,7 @@
 package com.example.quoridor.game
 
 import android.app.Dialog
+import android.content.Intent
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.os.CountDownTimer
@@ -12,6 +13,7 @@ import android.widget.Button
 import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
+import com.example.quoridor.MainActivity
 import com.example.quoridor.R
 import com.example.quoridor.customView.gameBoardView.GameBoardView
 import com.example.quoridor.customView.gameBoardView.GameBoardViewPieceClickListener
@@ -98,6 +100,11 @@ abstract class GameActivity: AppCompatActivity() {
 //                gameEnd(viewModel.turn.value!!)
 //            }
 //        }
+    }
+
+    override fun finish() {
+        super.finish()
+        startActivity(Intent(this, MainActivity::class.java))
     }
 
     override fun onDestroy() {

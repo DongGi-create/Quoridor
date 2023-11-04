@@ -140,7 +140,7 @@ object HttpSyncService {
                 block()
                 Log.d(TAG, "execute block end")
             } catch (e : Exception) {
-                Log.d(TAG, "execute exception\n${e.message}")
+                Log.e(TAG, "execute exception\n${e.message}")
                 ifFail()
             }
         }

@@ -10,6 +10,8 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.example.quoridor.databinding.ActivityMainBinding
 import com.example.quoridor.dialog.MatchingDialog
+import com.example.quoridor.game.types.GameType
+import com.example.quoridor.game.util.GameFunc.putGameType
 import com.example.quoridor.login.LoginActivity
 import com.example.quoridor.login.UserManager
 
@@ -45,11 +47,40 @@ class MainActivity : AppCompatActivity() {
         }
 
         binding.mainIcLocal.setOnClickListener {
-            goto(GameForLocalActivity::class.java)
+            gameTypeSelectDialog(
+                {
+                    val intent = Intent(this@MainActivity, GameForLocalActivity::class.java)
+                    intent.putGameType(GameType.BLITZ)
+                    startActivity(intent)
+                },
+                {
+                    val intent = Intent(this@MainActivity, GameForLocalActivity::class.java)
+                    intent.putGameType(GameType.STANDARD)
+                    startActivity(intent)
+                },
+                {
+                    val intent = Intent(this@MainActivity, GameForLocalActivity::class.java)
+                    intent.putGameType(GameType.CLASSIC)
+                    startActivity(intent)
+                },
+                {
+                    this@MainActivity.finish()
+                }
+            )
         }
         binding.mainIcPvp.setOnClickListener{
-            pvpDialog = MatchingDialog(this)
-            pvpDialog.show()
+//            pvpDialog = MatchingDialog(this)
+//            pvpDialog.show()
+
+            gameTypeSelectDialog(
+                {},
+                {},
+                {},
+                {
+                    pvpDialog = MatchingDialog(this)
+                    pvpDialog.show()
+                }
+            )
 
         }
 
@@ -97,7 +128,6 @@ class MainActivity : AppCompatActivity() {
         }
         dialog.show()
     }
-}
 
 /*sharedLoginModel = ViewModelProvider(this).get(SharedLoginModel::class.java)
 
@@ -120,3 +150,68 @@ class MainActivity : AppCompatActivity() {
         else {
             sharedLoginModel.setLoginSuccess(false)
         }*/
+//        val user = UserManager
+//        if (user.umid!="") {
+//            loginmypageIntent = Intent(this,MyPageActivity::class.java)
+//            binding.mainIvLoginMyPage.setImageResource(R.drawable.ic_mypage)
+//        }else{
+//            loginmypageIntent = Intent(this,LoginActivity::class.java)
+//            binding.mainIvLoginMyPage.setImageResource(R.drawable.ic_login)
+//        }
+//    }
+
+    private fun gameTypeSelectDialog(
+        atType1: () -> Unit,
+        atType2: () -> Unit,
+        atType3: () -> Unit,
+        finally: () -> Unit = {}) {
+
+        val dialog = Dialog(this)
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialog.window?.setBackgroundDrawable(ColorDrawable(getColor(R.color.D_transparent)))
+        dialog.setContentView(R.layout.dialog_game_type_select)
+
+        val type1 = dialog.findViewById<Button>(R.id.type_1_button)
+        val type2 = dialog.findViewById<Button>(R.id.type_2_button)
+        val type3 = dialog.findViewById<Button>(R.id.type_3_button)
+
+        type1.setOnClickListener {
+            dialog.dismiss()
+            atType1()
+            finally()
+            dialog.dismiss()
+        }
+
+        type2.setOnClickListener {
+            dialog.dismiss()
+            atType2()
+            finally()
+            dialog.dismiss()
+        }
+
+        type3.setOnClickListener {
+            dialog.dismiss()
+            atType3()
+            finally()
+            dialog.dismiss()
+        }
+
+        dialog.show()
+
+    }
+
+    private fun comingSoonDialog(){
+        val dialog = Dialog(this)
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialog.window?.setBackgroundDrawable(ColorDrawable(getColor(R.color.D_transparent)))
+        dialog.setContentView(R.layout.dialog_coming_soon)
+
+        val yesBtn = dialog.findViewById<Button>(R.id.ok_btn)
+
+        yesBtn.setOnClickListener {
+            dialog.dismiss()
+        }
+
+        dialog.show()
+    }
+}

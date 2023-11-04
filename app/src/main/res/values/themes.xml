@@ -5,5 +5,14 @@
         <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
     </style>
 
-    <style name="Theme.Quoridor" parent="Base.Theme.Quoridor" />
+    <style name="Theme.Quoridor" parent="Base.Theme.Quoridor">
+<!--        // Attributes from material theme-->
+        <item name="colorPrimary">@color/D_primary</item>
+        <item name="colorPrimaryDark">@color/D_prime</item>
+
+<!--        // Attributes from android framework-->
+        <item name="android:windowActivityTransitions">true</item>
+
+<!--        // Attributes that I've defined-->
+    </style>
 </resources>

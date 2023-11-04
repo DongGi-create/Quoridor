@@ -40,12 +40,13 @@ class HistoryViewModel: ViewModel() {
         )
     }
 
-    fun loadMoreHistories() {
+    fun loadMoreHistories(after: (List<HttpDTO.Response.CompHistory>) -> Unit = {}) {
         httpService.histories(
              if((historyList.value?.size ?: 0) == 0) defaultGameId
              else historyList.value?.last()?.gameId?: defaultGameId,
             SuccessfulHttpResult {
                 historyList.addAll(it)
+                after(it)
             })
     }
 

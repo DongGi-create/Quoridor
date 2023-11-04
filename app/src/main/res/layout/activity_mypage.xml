@@ -229,11 +229,31 @@
                     android:id="@+id/chart_layout"
                     android:layout_width="0dp"
                     android:layout_height="0dp"
+                    android:orientation="vertical"
+                    android:gravity="center"
                     app:layout_constraintHorizontal_weight="3"
-                    app:layout_constraintTop_toTopOf="@id/text_layout"
+                    app:layout_constraintTop_toTopOf="@id/graph_name_layout"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toStartOf="@id/text_layout"
-                    app:layout_constraintBottom_toBottomOf="@id/text_layout">
+                    app:layout_constraintEnd_toStartOf="@id/wining_rate_graph"
+                    app:layout_constraintBottom_toBottomOf="@id/wining_rate_graph">
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="전체 게임 수: "
+                            android:textColor="@color/D_text"/>
+                        <TextView
+                            android:id="@+id/total_game_text_view"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/D_text"
+                            tools:text="12"/>
+                    </LinearLayout>
+
 
                     <org.eazegraph.lib.charts.PieChart
                         android:id="@+id/pc_myPage_winning_rate"
@@ -247,8 +267,26 @@
 
                 </LinearLayout>
 
+                <LinearLayout
+                    android:id="@+id/graph_name_layout"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    app:layout_constraintStart_toStartOf="@id/wining_rate_graph"
+                    app:layout_constraintEnd_toEndOf="@id/wining_rate_graph"
+                    app:layout_constraintBottom_toTopOf="@id/wining_rate_graph">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="5 게임 평균 승률 변화"
+                        android:textColor="@color/D_text"/>
+
+
+                </LinearLayout>
+
                 <org.eazegraph.lib.charts.ValueLineChart
-                    android:id="@+id/text_layout"
+                    android:id="@+id/wining_rate_graph"
                     android:layout_width="0dp"
                     android:layout_height="100dp"
                     app:egUseCubic="true"

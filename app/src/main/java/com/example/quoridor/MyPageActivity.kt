@@ -126,8 +126,12 @@ class MyPageActivity:AppCompatActivity() {
 
             var i = 0
             var winCnt = 0
+            var totalWinCnt = 0
             for (history in it) {
-                if (history.win) winCnt++
+                if (history.win) {
+                    winCnt++
+                    totalWinCnt++
+                }
                 i++
                 if (i == 5) {
                     valueLineSeries.addPoint(ValueLinePoint(winCnt/5f))
@@ -136,10 +140,19 @@ class MyPageActivity:AppCompatActivity() {
                 }
             }
 
+            binding.pcMyPageWinningRate.apply {
+                addPieSlice(PieModel("Win", totalWinCnt.toFloat(), getColor(R.color.D_blue)))
+                addPieSlice(PieModel("Lose", (it.size-totalWinCnt).toFloat(), getColor(R.color.D_red)))
+
+                startAnimation()
+            }
+
+            binding.totalGameTextView.text = it.size.toString()
+
             valueLineSeries.apply {
                 color = getColor(R.color.D_blue)
             }
-            binding.textLayout.apply {
+            binding.winingRateGraph.apply {
                 addSeries(valueLineSeries)
                 startAnimation()
             }

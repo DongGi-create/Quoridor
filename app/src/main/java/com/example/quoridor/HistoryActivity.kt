@@ -2,6 +2,7 @@ package com.example.quoridor
 
 import android.content.Intent
 import android.os.Bundle
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -9,6 +10,8 @@ import com.example.quoridor.adapter.HistoryRecyclerViewAdapter
 import com.example.quoridor.communication.retrofit.HttpDTO
 import com.example.quoridor.databinding.ActivityHistoryBinding
 import com.example.quoridor.history.HistoryViewModel
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 
 class HistoryActivity: AppCompatActivity() {
 
@@ -33,7 +36,11 @@ class HistoryActivity: AppCompatActivity() {
                         startActivity(intent)
                     },
                     {
-                        viewModel.loadMoreHistories()
+                        viewModel.loadMoreHistories {
+                            if (it.isEmpty()) {
+                                Toast.makeText(this@HistoryActivity, "loaded all", Toast.LENGTH_SHORT).show()
+                            }
+                        }
 //                viewModel.historyList.add(HttpDTO.HistoriesResponse(0, false, "didwoahqkqhajdcjddl", 2000))
                     }
                 )

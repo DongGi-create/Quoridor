@@ -11,6 +11,7 @@ import android.webkit.WebView
 import android.webkit.WebViewClient
 import androidx.appcompat.app.AppCompatActivity
 import com.example.quoridor.BuildConfig
+import com.example.quoridor.MainActivity
 import com.example.quoridor.R
 import com.example.quoridor.SignUpActivity
 import com.example.quoridor.communication.Statics
@@ -56,14 +57,18 @@ class KakaoLoginActivity: AppCompatActivity() {
                     if(request?.isRedirect == true && code != null) {
                         HttpSyncService.execute {
                             val data = loginByKakao(code)
+
+                            lateinit var intent: Intent
                             if ((data?.uid ?: -1) < 0) {
-                                val intent = Intent(this@KakaoLoginActivity, SignUpActivity::class.java)
+                                intent = Intent(this@KakaoLoginActivity, SignUpActivity::class.java)
                                 intent.putAny("user", data)
-                                startActivity(intent)
                             }
                             else {
+                                intent = Intent(this@KakaoLoginActivity, MainActivity::class.java)
                                 UserManager.setUser(data!!)
                             }
+                            startActivity(intent)
+
                             this@KakaoLoginActivity.finish()
                         }
                         return true
@@ -75,7 +80,7 @@ class KakaoLoginActivity: AppCompatActivity() {
             webChromeClient = WebChromeClient()
             loadUrl(
                 "https://kauth.kakao.com/oauth/authorize?" +
-                        "client_id=${BuildConfig.KAKAO_CLINET_KEY}&" +
+                        "client_id=${BuildConfig.KAKAO_CLIENT_KEY}&" +
                         "redirect_uri=${Statics.HTTP_BASE_URL}/kakao/callback&" +
                         "response_type=code")
         }
@@ -85,5 +90,11 @@ class KakaoLoginActivity: AppCompatActivity() {
             setSupportMultipleWindows(true)
         }
 
+    }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+        val intent = Intent(this@KakaoLoginActivity, LoginActivity::class.java)
+        startActivity(intent)
     }
 }
