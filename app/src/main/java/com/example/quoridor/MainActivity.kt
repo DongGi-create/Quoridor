@@ -88,7 +88,7 @@ class MainActivity : AppCompatActivity() {
             customDialog("Coming Soon!")
         }
         binding.mainIcPuzzle.setOnClickListener{
-            customDialog("Coming Soon!")
+            goto(EditActivity::class.java)
         }
 
         binding.mainBtnTest.setOnClickListener {

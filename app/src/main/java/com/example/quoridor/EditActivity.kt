@@ -8,8 +8,10 @@ import android.os.Bundle
 import android.provider.MediaStore
 import android.text.method.PasswordTransformationMethod
 import android.util.Log
+import android.util.TypedValue
 import android.view.MotionEvent
 import android.view.View
+import android.view.ViewTreeObserver
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.Toast
@@ -52,14 +54,13 @@ class EditActivity:AppCompatActivity() {
         val intent = intent
 
         profileLink = intent.getStringExtra("profileLinkKey")
-
         Log.d(TAG, "프로필 사진$profileLink")
         resultHandler = ActivityResultHandler(this,binding.editIvProfile)
 
+        binding.editIvProfile.clipToOutline = true
         /*if(profileLink != null) {
             resultHandler.filePath = "이미지 존재"
         }*/
-
         binding.editIconCamera.setOnClickListener{
             Log.d("minseok","CLICKED")
             val dialog = EditProfileImageDialog(this)
@@ -88,12 +89,37 @@ class EditActivity:AppCompatActivity() {
             })
             dialog.show()
         }
+
+        binding.editTvId.viewTreeObserver.addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
+            override fun onGlobalLayout() {
+                // 레이아웃이 그려진 후에 높이를 가져옵니다.
+                val viewHeight = binding.editTvId.height
+                // 필요한 높이를 기반으로 텍스트 크기를 동적으로 설정합니다.
+                binding.editTvId.setTextSize(TypedValue.COMPLEX_UNIT_PX, viewHeight * 0.4f)
+                binding.editEtEmail.setTextSize(TypedValue.COMPLEX_UNIT_PX, viewHeight * 0.4f)
+                binding.editEtPw.setTextSize(TypedValue.COMPLEX_UNIT_PX, viewHeight * 0.4f)
+                binding.editEtPwCheck.setTextSize(TypedValue.COMPLEX_UNIT_PX, viewHeight * 0.4f)
+                binding.editEtName.setTextSize(TypedValue.COMPLEX_UNIT_PX, viewHeight * 0.4f)
+
+                // 리스너를 제거합니다.
+                binding.editTvId.viewTreeObserver.removeOnGlobalLayoutListener(this)
+            }
+        })
+
+
+
         Glide.with(this@EditActivity)
             .load(profileLink).into(binding.editIvProfile)
         binding.editIvProfile
         binding.editEtName.setText(name)
         binding.editTvId.text = id
         binding.editEtEmail.setText(email)
+
+        if(profileLink == null){
+            Glide.with(this@EditActivity)
+                .load(R.drawable.ic_identity).into(binding.editIvProfile)
+        }
+
         /*binding.editEtPw.transformationMethod = PasswordTransformationMethod()
         (binding.editIvSee as View).setOnTouchListener(object: View.OnTouchListener{
             override fun onTouch(v: View?, event: MotionEvent?): Boolean {

@@ -32,9 +32,9 @@
             android:name=".deprecated.test"
             android:exported="false" />
 
-        <activity
+        <!--<activity
             android:name=".communication.retrofit.RetrofitTestActivity"
-            android:exported="false"/>
+            android:exported="false"/>-->
 
         <activity
             android:name=".RankingActivity"
