@@ -45,15 +45,18 @@
                 app:layout_constraintTop_toBottomOf="@id/signup_tv_title"
                 app:layout_constraintBottom_toTopOf="@id/signup_linear_info"
                 android:layout_marginBottom="20dp">
+
                 <ImageView
                     android:id="@+id/signup_icon_camera"
                     android:layout_width="50dp"
                     android:layout_height="50dp"
                     android:src="@drawable/ic_camera"
-                    app:layout_constraintEnd_toEndOf="@id/signup_cv_profile"
-                    app:layout_constraintBottom_toBottomOf="@id/signup_cv_profile"/>
-                <androidx.cardview.widget.CardView
+                    app:layout_constraintBottom_toBottomOf="@+id/signup_cv_profile"
+                    app:layout_constraintEnd_toEndOf="@+id/signup_cv_profile"
+                    app:layout_constraintStart_toEndOf="@+id/signup_cv_profile" />
+                <FrameLayout
                     android:id="@+id/signup_cv_profile"
+                    android:background="@drawable/circle"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -70,7 +73,7 @@
                         android:src="@drawable/ic_identity"
                         android:scaleType="centerCrop"
                         android:padding="15dp"/>
-                </androidx.cardview.widget.CardView>
+                </FrameLayout>
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <LinearLayout
