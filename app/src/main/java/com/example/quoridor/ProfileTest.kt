@@ -11,10 +11,8 @@ import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import com.bumptech.glide.Glide
-import com.example.quoridor.communication.retrofit.HttpDTO
 import com.example.quoridor.communication.retrofit.HttpResult
 import com.example.quoridor.communication.retrofit.HttpService
-import com.example.quoridor.communication.retrofit.util.SuccessfulHttpResult
 import com.example.quoridor.databinding.TestProfileBinding
 import com.example.quoridor.login.UserManager
 import okhttp3.MediaType

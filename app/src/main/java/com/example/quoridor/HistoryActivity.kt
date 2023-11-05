@@ -7,11 +7,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.quoridor.adapter.HistoryRecyclerViewAdapter
-import com.example.quoridor.communication.retrofit.HttpDTO
 import com.example.quoridor.databinding.ActivityHistoryBinding
 import com.example.quoridor.history.HistoryViewModel
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
 
 class HistoryActivity: AppCompatActivity() {
 

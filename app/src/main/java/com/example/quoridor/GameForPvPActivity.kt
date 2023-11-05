@@ -8,7 +8,6 @@ import com.example.quoridor.communication.Statics
 import com.example.quoridor.communication.retrofit.HttpDTO
 import com.example.quoridor.communication.socket.WebSocketDTO
 import com.example.quoridor.communication.socket.WebSocketService
-import com.example.quoridor.communication.socket.WebSocketTest
 import com.example.quoridor.customView.gameBoardView.Board
 import com.example.quoridor.customView.gameBoardView.GameBoardView
 import com.example.quoridor.customView.gameBoardView.GameBoardViewPieceClickListener
@@ -22,7 +21,6 @@ import com.example.quoridor.game.types.ActionType
 import com.example.quoridor.game.util.GameFunc.getMatchData
 import com.example.quoridor.login.UserManager
 import com.example.quoridor.util.Coordinate
-import com.example.quoridor.util.Func
 import com.example.quoridor.util.Func.popToast
 import com.example.quoridor.util.Func.setSize
 import kotlinx.coroutines.CoroutineScope
@@ -203,6 +201,10 @@ class GameForPvPActivity: GameActivity() {
         ivList[0] = createPlayerImageView(imageResourceList[0])
         ivList[1] = createPlayerImageView(imageResourceList[1])
 
+
+    }
+
+    override fun gameStart() {
         binding.gameBoardView.setWallChooseView(
             binding.myWallSelector.verticalWallChooseView,
             binding.myWallSelector.horizontalWallChooseView
@@ -312,6 +314,9 @@ class GameForPvPActivity: GameActivity() {
                         winner = myTurn
                         viewModel.move(Coordinate(action.row, action.col))
 //                        gameEnd(myTurn)
+                    }
+                    10 -> {
+                        gameStart()
                     }
                     -1 -> {
                         CoroutineScope(Dispatchers.Main).launch {

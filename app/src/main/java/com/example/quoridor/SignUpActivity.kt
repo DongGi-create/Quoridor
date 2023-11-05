@@ -10,30 +10,15 @@ import android.view.MotionEvent
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.ViewModelProvider
 import com.example.quoridor.communication.retrofit.HttpDTO
-import com.example.quoridor.communication.retrofit.HttpResult
 import com.example.quoridor.communication.retrofit.HttpService
 import com.example.quoridor.communication.retrofit.HttpSyncService
-import com.example.quoridor.communication.retrofit.util.SuccessfulHttpResult
-import com.example.quoridor.communication.retrofit.util.ToastHttpResult
 import com.example.quoridor.databinding.ActivitySignupBinding
 import com.example.quoridor.dialog.CustomDialogInterface
 import com.example.quoridor.dialog.EditProfileImageDialog
 import com.example.quoridor.login.LoginActivity
 import com.example.quoridor.login.UserManager
 import com.example.quoridor.util.Func.getAny
-import com.example.quoridor.util.Func.getUser
-import com.google.api.Http
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.CoroutineStart
-import kotlinx.coroutines.Deferred
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.async
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
-import okhttp3.MediaType.Companion.toMediaType
 
 class SignUpActivity :AppCompatActivity(){
     private val binding: ActivitySignupBinding by lazy {

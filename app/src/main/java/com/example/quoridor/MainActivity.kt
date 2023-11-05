@@ -7,16 +7,16 @@ import android.os.Bundle
 import android.view.Window
 import android.widget.Button
 import android.widget.TextView
-import androidx.appcompat.app.AppCompatActivity
 import com.example.quoridor.databinding.ActivityMainBinding
 import com.example.quoridor.dialog.MatchingDialog
 import com.example.quoridor.game.types.GameType
 import com.example.quoridor.game.util.GameFunc.putGameType
 import com.example.quoridor.login.LoginActivity
 import com.example.quoridor.login.UserManager
+import com.example.quoridor.util.NonStackActivity
 
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : NonStackActivity() {
     private val binding: ActivityMainBinding by lazy {
         ActivityMainBinding.inflate(layoutInflater)
     }

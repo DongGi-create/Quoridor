@@ -1,14 +1,11 @@
 package com.example.quoridor.ranking
 
-import com.example.quoridor.history.MutableLiveListData
-
 import androidx.lifecycle.ViewModel
 import com.example.quoridor.communication.retrofit.HttpDTO
 import com.example.quoridor.communication.retrofit.HttpService
 import com.example.quoridor.communication.retrofit.util.SuccessfulHttpResult
-import com.example.quoridor.deprecated.domain.User
+import com.example.quoridor.history.MutableLiveListData
 import com.example.quoridor.login.UserManager
-import java.util.Calendar
 
 class RankingViewModel: ViewModel() {
 

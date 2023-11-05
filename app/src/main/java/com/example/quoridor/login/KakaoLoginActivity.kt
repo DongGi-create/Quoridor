@@ -1,12 +1,10 @@
 package com.example.quoridor.login
 
 import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.webkit.WebChromeClient
 import android.webkit.WebResourceRequest
-import android.webkit.WebResourceResponse
 import android.webkit.WebView
 import android.webkit.WebViewClient
 import androidx.appcompat.app.AppCompatActivity
@@ -15,19 +13,9 @@ import com.example.quoridor.MainActivity
 import com.example.quoridor.R
 import com.example.quoridor.SignUpActivity
 import com.example.quoridor.communication.Statics
-import com.example.quoridor.communication.retrofit.HttpDTO
-import com.example.quoridor.communication.retrofit.HttpResult
-import com.example.quoridor.communication.retrofit.HttpService
 import com.example.quoridor.communication.retrofit.HttpSyncService
 import com.example.quoridor.databinding.ActivityKakaoLoginBinding
 import com.example.quoridor.util.Func.putAny
-import com.example.quoridor.util.Func.putUser
-import java.io.BufferedReader
-import java.io.InputStream
-import java.io.InputStreamReader
-import java.net.URI
-import java.net.URL
-import java.nio.charset.Charset
 
 class KakaoLoginActivity: AppCompatActivity() {
 

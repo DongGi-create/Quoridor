@@ -5,7 +5,6 @@ import android.content.Context
 import android.content.Intent
 import android.graphics.drawable.ColorDrawable
 import android.os.CountDownTimer
-import android.util.Log
 import android.view.Window
 import android.widget.ImageView
 import android.widget.ProgressBar
@@ -15,20 +14,17 @@ import com.example.quoridor.R
 import com.example.quoridor.communication.retrofit.HttpDTO
 import com.example.quoridor.communication.retrofit.HttpService
 import com.example.quoridor.communication.retrofit.HttpSyncService
+import com.example.quoridor.communication.retrofit.util.RetrofitFunc.buildRepeatJob
+import com.example.quoridor.game.types.GameType
 import com.example.quoridor.util.Func
+import com.example.quoridor.util.Func.startGameActivity
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.CoroutineStart
 import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
-import java.util.concurrent.TimeUnit
-import com.example.quoridor.communication.retrofit.util.RetrofitFunc
-import com.example.quoridor.communication.retrofit.util.RetrofitFunc.buildRepeatJob
-import com.example.quoridor.communication.retrofit.util.ToastHttpResult
-import com.example.quoridor.game.types.GameType
-import com.example.quoridor.util.Func.startGameActivity
 import kotlinx.coroutines.withContext
+import java.util.concurrent.TimeUnit
 
 class MatchingDialog(context:Context): Dialog(context) {
     private var minuteMills = (5 * 60000).toLong()

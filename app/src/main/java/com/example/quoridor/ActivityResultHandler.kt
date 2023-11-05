@@ -6,14 +6,10 @@ import android.graphics.Bitmap
 import android.net.Uri
 import android.util.Log
 import android.widget.ImageView
-import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
-import androidx.viewbinding.ViewBinding
 import com.bumptech.glide.Glide
-import com.example.quoridor.communication.retrofit.HttpResult
-import com.example.quoridor.communication.retrofit.HttpService
 import com.example.quoridor.communication.retrofit.HttpSyncService
 import okhttp3.MediaType
 import okhttp3.MediaType.Companion.toMediaType

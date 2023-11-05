@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.ImageView
-import android.widget.Toast
 import com.example.quoridor.customView.WallSelectorView
 import com.example.quoridor.customView.gameBoardView.Board
 import com.example.quoridor.customView.gameBoardView.GameBoardView
@@ -16,7 +15,6 @@ import com.example.quoridor.customView.playerView.Player
 import com.example.quoridor.databinding.ActivityGameForLocalBinding
 import com.example.quoridor.game.GameActivity
 import com.example.quoridor.util.Coordinate
-import com.example.quoridor.util.Func
 import com.example.quoridor.util.Func.popToast
 import com.example.quoridor.util.Func.setSize
 
@@ -119,7 +117,9 @@ class GameForLocalActivity: GameActivity() {
 
         ivList[0] = createPlayerImageView(imageResourceList[0])
         ivList[1] = createPlayerImageView(imageResourceList[1])
+    }
 
+    override fun gameStart() {
         setWallChooseView(binding.lowerPlayerWallSelector)
         viewModel.getAvailableMoves(0)
 
@@ -179,6 +179,7 @@ class GameForLocalActivity: GameActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
+        gameStart()
     }
 
     private fun setWallChooseView(selector: WallSelectorView) {

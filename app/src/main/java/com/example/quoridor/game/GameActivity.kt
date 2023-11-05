@@ -5,7 +5,6 @@ import android.content.Intent
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.os.CountDownTimer
-import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import android.view.Window
@@ -213,6 +212,8 @@ abstract class GameActivity: AppCompatActivity() {
     }
 
     abstract fun initGame()
+
+    abstract fun gameStart()
 
     abstract fun setWallSize()
 

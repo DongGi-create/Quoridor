@@ -6,9 +6,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.quoridor.adapter.RankingRecyclerViewAdapter
-import com.example.quoridor.communication.retrofit.HttpDTO
-import com.example.quoridor.communication.retrofit.HttpService
-import com.example.quoridor.communication.retrofit.util.SuccessfulHttpResult
 import com.example.quoridor.databinding.ActivityRankingBinding
 import com.example.quoridor.login.UserManager
 import com.example.quoridor.ranking.RankingViewModel

@@ -4,8 +4,6 @@ import android.app.Dialog
 import android.content.Context
 import android.util.Log
 import android.view.Window
-import androidx.appcompat.app.AppCompatActivity
-import com.example.quoridor.databinding.ActivityMypageBinding
 import com.example.quoridor.databinding.DialogEditProfileBinding
 
 /*activity는 context로 casting가능 */

@@ -5,14 +5,10 @@ import android.content.Intent
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.core.content.ContextCompat
-import com.example.quoridor.R
 import com.example.quoridor.communication.retrofit.HttpDTO
 import com.example.quoridor.game.types.GameType
 import com.example.quoridor.game.util.GameFunc.putGameType
 import com.example.quoridor.game.util.GameFunc.putMatchData
-import com.example.quoridor.util.Func.getUser
-import com.google.android.gms.common.internal.safeparcel.SafeParcelable
 import com.google.gson.Gson
 import kotlin.math.pow
 import kotlin.math.sqrt
