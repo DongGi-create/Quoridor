@@ -26,7 +26,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.util.concurrent.TimeUnit
 
-class MatchingDialog(context:Context): Dialog(context) {
+class MatchingDialog(context:Context, val gameType: Int): Dialog(context) {
     private var minuteMills = (5 * 60000).toLong()
     private var progressBarCircle: ProgressBar? = null
     private var remainTime: TextView? = null
@@ -36,6 +36,7 @@ class MatchingDialog(context:Context): Dialog(context) {
     private lateinit var gameStartJob: Job
     private lateinit var matchingResult:Deferred<HttpDTO.Response.Match?>
     private lateinit var matchingJob: Job
+    private lateinit var enumGameType: GameType
 
     private val TAG: String by lazy {
         context.getString(R.string.Dirtfy_test_tag)//context안에 있다
@@ -47,18 +48,22 @@ class MatchingDialog(context:Context): Dialog(context) {
         progressBarCircle = findViewById(R.id.waiting_progressBarCircle)
         remainTime = findViewById(R.id.waiting_tv_remaintime)
 
-
+        enumGameType = when(gameType){
+            0-> GameType.STANDARD
+            1-> GameType.CLASSIC
+            else -> {GameType.BLITZ} //2
+        }
         val closeBtn = findViewById<ImageView>(R.id.waiting_iv_close)
         closeBtn.setOnClickListener {
             HttpSyncService.execute {
-                val result = exitMatching()
+                val result = exitMatching(gameType)
 
                 dismiss()
 
                 if (result != null) {
                     Func.popToast(context, "매칭성공! GameID: $result")
                     val intent = Intent(context, GameForPvPActivity::class.java)
-                    context.startGameActivity(intent, GameType.BLITZ, result)
+                    context.startGameActivity(intent, enumGameType, result)
                 }
             }
 
@@ -68,7 +73,7 @@ class MatchingDialog(context:Context): Dialog(context) {
     override fun show() {
         setProgressBarValues()
         super.show()
-        startMatching(0)
+        startMatching(gameType)
         startCountDownTimer()
     }
 
@@ -197,7 +202,7 @@ class MatchingDialog(context:Context): Dialog(context) {
                     Func.popToast(context, "매칭성공! GameID: $matchingResult")
                     dismiss()
                     val intent = Intent(context, GameForPvPActivity::class.java)
-                    context.startGameActivity(intent, GameType.BLITZ, matchingResultAwait!!)
+                    context.startGameActivity(intent, enumGameType, matchingResultAwait!!)
                 } else {
                     Func.popToast(context, "매칭 실패")
                 }

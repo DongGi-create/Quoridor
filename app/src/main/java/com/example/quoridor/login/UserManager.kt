@@ -4,6 +4,7 @@ import com.example.quoridor.communication.retrofit.HttpDTO
 
 class UserManager {
     companion object{
+        var kakaoLogin: Boolean? = null
         var umuid: Long? = null
             private set
         var umid: String? = ""//로그인 안할때는 빈문자열
@@ -17,7 +18,7 @@ class UserManager {
         var umscore: Int? = null
         var umtotalGames: Int? = null
         var umwinGames: Int? = null
-        fun setUser(user: HttpDTO.Response.User){
+        fun setUser(user: HttpDTO.Response.User, kakao: Boolean) {
             umuid = user.uid
             umid = user.loginId
             umpw = user.password
@@ -26,6 +27,7 @@ class UserManager {
             umscore = user.score
             umtotalGames = user.totalGames
             umwinGames = user.winGames
+            kakaoLogin = kakao
         }
     }
 

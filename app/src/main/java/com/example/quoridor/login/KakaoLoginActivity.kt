@@ -49,16 +49,16 @@ class KakaoLoginActivity: AppCompatActivity() {
                             Log.d("KakaoLoginActivity", "$data")
 
                             lateinit var intent: Intent
-                            if ((data?.uid ?: -1) < 0) {
+
+                            if ((data?.uid ?: -1) <= 0) {
                                 intent = Intent(this@KakaoLoginActivity, SignUpActivity::class.java)
                                 intent.putAny("user", data)
                             }
                             else {
                                 intent = Intent(this@KakaoLoginActivity, MainActivity::class.java)
-                                UserManager.setUser(data!!)
+                                UserManager.setUser(data!!, true)
                             }
                             startActivity(intent)
-
                             this@KakaoLoginActivity.finish()
                         }
                         return true

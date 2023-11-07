@@ -36,7 +36,7 @@ class LoginActivity : AppCompatActivity() {
                     popToast("success!")
                     /*val user = UserManager.getInstance()*/
                     val user = UserManager
-                    user.setUser(data)
+                    user.setUser(data, false)
                     val intent = Intent(this@LoginActivity,MainActivity::class.java)
                     startActivity(intent)
                     this@LoginActivity.finish()

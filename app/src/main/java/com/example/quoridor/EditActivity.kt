@@ -50,6 +50,7 @@ class EditActivity:AppCompatActivity() {
         pw = UserManager.umpw
         email = UserManager.umemail
         name = UserManager.umname
+        binding.editEtEmail.isEnabled = !UserManager.kakaoLogin!!
         val intent = intent
 
         profileLink = intent.getStringExtra("profileLinkKey")
@@ -162,7 +163,7 @@ class EditActivity:AppCompatActivity() {
                     name = if (binding.editEtName.text.toString() == name) null else binding.editEtName.text.toString()
 
                     HttpSyncService.execute {
-                        UserManager.setUser(userUpdate(newpw, email, name)!!)
+                        UserManager.setUser(userUpdate(newpw, email, name)!!, UserManager.kakaoLogin!!)
                         Log.d(TAG,"changed$newpw")
                         resultHandler.editProfile(profileLink)
                     }
@@ -212,7 +213,7 @@ class EditActivity:AppCompatActivity() {
 
     override fun onBackPressed() {
         super.onBackPressed()
-        val intent = Intent(this, MainActivity::class.java)
+        val intent = Intent(this, MyPageActivity::class.java)
         startActivity(intent)
     }
 }

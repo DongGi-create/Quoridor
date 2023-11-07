@@ -26,6 +26,7 @@ class MainActivity : NonStackActivity() {
 
     private lateinit var loginmypageIntent: Intent
     private lateinit var pvpDialog: MatchingDialog
+
     val user = UserManager
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -71,25 +72,25 @@ class MainActivity : NonStackActivity() {
         binding.mainIcPvp.setOnClickListener{
 //            pvpDialog = MatchingDialog(this)
 //            pvpDialog.show()
-
+            var gameType: Int = -1
             gameTypeSelectDialog(
-                {},
-                {},
-                {},
+                {gameType = 2},
+                {gameType = 0},
+                {gameType = 1},
                 {
-                    pvpDialog = MatchingDialog(this)
+                    pvpDialog = MatchingDialog(this, gameType)
                     pvpDialog.show()
                 }
             )
 
         }
 
-        binding.mainIcAi.setOnClickListener{
+        /*binding.mainIcAi.setOnClickListener{
             customDialog("Coming Soon!")
         }
         binding.mainIcPuzzle.setOnClickListener{
             goto(EditActivity::class.java)
-        }
+        }*/
 
         binding.mainBtnTest.setOnClickListener {
             goto(TestActivity::class.java)

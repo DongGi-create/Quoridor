@@ -65,8 +65,9 @@
                         android:id="@+id/mypage_iv_profile"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:padding="15dp"
-                        android:src="@drawable/hobanwoo_black">
+                        android:scaleType="centerCrop"
+                        android:padding="10dp"
+                        android:src="@drawable/ic_identity">
                     </ImageView>
                 </LinearLayout>
 

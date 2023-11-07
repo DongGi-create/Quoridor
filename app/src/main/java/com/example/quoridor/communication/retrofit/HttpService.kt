@@ -29,10 +29,13 @@ class HttpService {
         password: String,
         email: String,
         name: String,
-        httpResult: HttpResult<HttpDTO.Response.User>
+        httpResult: HttpResult<HttpDTO.Response.User>,
+        appFailWithCode: (Int) -> Unit
     ) {
         val body = HttpDTO.Request.Signup(loginId, password, email, name)
-        service.signUp(body).enqueue(makeCallBack(httpResult))
+        service.signUp(body).enqueue(makeCallBack(httpResult){
+            appFailWithCode(it)
+        })
     }
 
     fun userUpdate(
@@ -128,7 +131,8 @@ class HttpService {
     }
 
     private fun <ResponseType> makeCallBack(
-        httpResult: HttpResult<ResponseType>
+        httpResult: HttpResult<ResponseType>,
+        appFailWithCode: (Int) -> Unit = {}
     ): Callback<ResponseType> {
         return object : Callback<ResponseType> {
             override fun onResponse(
@@ -136,7 +140,6 @@ class HttpService {
                 response: Response<ResponseType>
             ) {//일을 집어넣어주고
                 Log.d(TAG, "${response.code()}\n${response.headers()}\n${response.body()}")
-
                 if (response.isSuccessful) {//성공이되면
                     val result = response.body()//값을 받아옴
 
@@ -150,6 +153,7 @@ class HttpService {
                 } else {
                     Log.d(TAG, "response fail")
                     httpResult.appFail()
+                    appFailWithCode(response.code())
                 }
                 httpResult.finally()
             }
@@ -161,5 +165,4 @@ class HttpService {
             }
         }
     }
-
 }

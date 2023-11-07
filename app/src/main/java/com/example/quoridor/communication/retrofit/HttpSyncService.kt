@@ -2,6 +2,7 @@ package com.example.quoridor.communication.retrofit
 
 import android.util.Log
 import com.example.quoridor.communication.Statics.retrofit
+import com.example.quoridor.communication.retrofit.util.SuccessfulHttpResult
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -58,8 +59,10 @@ object HttpSyncService {
     }
 
     suspend fun exitMatching(
+        gameType: Int
     ): HttpDTO.Response.Match? {
-        return extractBody(service.exitMatching().execute())
+        val body = HttpDTO.Request.Match(gameType)
+        return extractBody(service.exitMatching(body).execute())
     }
 
     suspend fun histories(
@@ -118,8 +121,6 @@ object HttpSyncService {
         val code = response.code()
         val message = response.message()
         val body = response.body()
-
-
 
         Log.d(TAG, "code : $code" +
                 "\nheader : $header" +

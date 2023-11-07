@@ -44,7 +44,7 @@ interface ServiceInterface {
 
     @Headers(DEFAULT_HEADER)
     @DELETE("matched_users")
-    fun exitMatching(): Call<HttpDTO.Response.Match?>
+    fun exitMatching(@Body data: HttpDTO.Request.Match): Call<HttpDTO.Response.Match?>
 
     @Headers(DEFAULT_HEADER)
     @POST("users/update")

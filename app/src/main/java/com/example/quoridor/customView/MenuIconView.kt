@@ -37,6 +37,7 @@ class MenuIconView : LinearLayout {
         val text = typedArray.getString(R.styleable.MenuIconView_icon_text)
         binding.icIv.setImageResource(sourceId)
         binding.icTv.text = text
+        binding.icTv.textSize = 35f
         typedArray.recycle()
     }
 }

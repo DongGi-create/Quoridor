@@ -10,9 +10,12 @@ import android.view.MotionEvent
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.bumptech.glide.load.HttpException
 import com.example.quoridor.communication.retrofit.HttpDTO
+import com.example.quoridor.communication.retrofit.HttpResult
 import com.example.quoridor.communication.retrofit.HttpService
 import com.example.quoridor.communication.retrofit.HttpSyncService
+import com.example.quoridor.communication.retrofit.util.SuccessfulHttpResult
 import com.example.quoridor.databinding.ActivitySignupBinding
 import com.example.quoridor.dialog.CustomDialogInterface
 import com.example.quoridor.dialog.EditProfileImageDialog
@@ -25,20 +28,21 @@ class SignUpActivity :AppCompatActivity(){
         ActivitySignupBinding.inflate(layoutInflater)
     }
     private val httpService = HttpService()
-
     private val TAG: String by lazy {
-        getString(R.string.Minseok_test_tag)
+        "oz"
     }
-
     private lateinit var resultHandler: ActivityResultHandler
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
+        var kakaoLogin = false
         val preSet = intent.getAny("user", HttpDTO.Response.User::class.java)
         if (preSet != null) {
+            Log.d("oz",preSet.toString())
             binding.signupEtEmail.apply {
                 setText(preSet.email)
                 isEnabled = false
+                kakaoLogin = true
             }
         }
         resultHandler = ActivityResultHandler(this,binding.signupIvProfile)
@@ -90,14 +94,42 @@ class SignUpActivity :AppCompatActivity(){
             val email = binding.signupEtEmail.text.toString()
             val name = binding.signupEtName.text.toString()
 
-            HttpSyncService.execute {
-                signUp(id,pw,email,name)
-                Log.d("minseok","a")
-                UserManager.setUser(login(id, pw)!!)
-                resultHandler.editProfile(null)
-                val intent = Intent(this@SignUpActivity,MainActivity::class.java)
-                startActivity(intent)
+            if(id == "" || pw == "" || email == "" || name == ""){
+                Toast.makeText(this@SignUpActivity, "값을 모두 입력해주세요!", Toast.LENGTH_LONG).show()
             }
+            else{
+                httpService.signUp(id,pw,email,name,object:HttpResult<HttpDTO.Response.User>{
+                    override fun success(data: HttpDTO.Response.User) {
+                        Log.d("oz","success")
+                        HttpSyncService.execute {
+                            UserManager.setUser(login(id, pw)!!, kakaoLogin)
+                            resultHandler.editProfile(null)
+                            val intent = Intent(this@SignUpActivity,MainActivity::class.java)
+                            startActivity(intent)
+                        }
+                    }
+
+                    override fun appFail() {
+                        Log.d("oz","appfail")
+                    }
+
+                    override fun fail(throwable: Throwable) {
+                        Log.d("oz","fail")
+                    }
+
+                    override fun finally() {
+                        Log.d("oz","finally")
+                    }
+                }){
+                    Log.d("oz","fail $it")
+                    when(it){
+                        460->{ Toast.makeText(this@SignUpActivity,"아이디 중복입니다.",Toast.LENGTH_LONG).show() }
+                        461->{ Toast.makeText(this@SignUpActivity,"이름 중복입니다.",Toast.LENGTH_LONG).show() }
+                        462->{ Toast.makeText(this@SignUpActivity,"이메일 중복입니다.",Toast.LENGTH_LONG).show() }
+                    }
+                }
+            }
+
             /*httpService.signUp(id,pw,email,name, object: HttpResult<HttpDTO.Response.User> {
                 override fun success(data: HttpDTO.Response.User) {
                     Log.d(TAG,"SignUp success!")
