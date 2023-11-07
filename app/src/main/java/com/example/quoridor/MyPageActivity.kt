@@ -13,10 +13,15 @@ import com.example.quoridor.communication.retrofit.util.SuccessfulHttpResult
 import com.example.quoridor.customView.RankingItemView
 import com.example.quoridor.databinding.ActivityMypageBinding
 import com.example.quoridor.login.UserManager
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import org.eazegraph.lib.charts.PieChart
 import org.eazegraph.lib.models.PieModel
 import org.eazegraph.lib.models.ValueLinePoint
 import org.eazegraph.lib.models.ValueLineSeries
+import java.lang.Math.round
+import java.util.Calendar
+import kotlin.math.roundToInt
 
 class MyPageActivity:AppCompatActivity() {
     val binding:ActivityMypageBinding by lazy{
@@ -120,42 +125,7 @@ class MyPageActivity:AppCompatActivity() {
         binding.mypageCustomrankingDown.nameTv.text="d"
         binding.mypageCustomrankingDown.ratingTv.text = "2000"*/
 
-        service.recentHistories(SuccessfulHttpResult {
-            val valueLineSeries = ValueLineSeries()
-
-            var i = 0
-            var winCnt = 0
-            var totalWinCnt = 0
-            for (history in it) {
-                if (history.win) {
-                    winCnt++
-                    totalWinCnt++
-                }
-                i++
-                if (i == 5) {
-                    valueLineSeries.addPoint(ValueLinePoint(winCnt/5f))
-                    winCnt = 0
-                    i = 0
-                }
-            }
-
-            binding.pcMyPageWinningRate.apply {
-                addPieSlice(PieModel("Win", totalWinCnt.toFloat(), getColor(R.color.D_blue)))
-                addPieSlice(PieModel("Lose", (it.size-totalWinCnt).toFloat(), getColor(R.color.D_red)))
-
-                startAnimation()
-            }
-
-            binding.totalGameTextView.text = it.size.toString()
-
-            valueLineSeries.apply {
-                color = getColor(R.color.D_blue)
-            }
-            binding.winingRateGraph.apply {
-                addSeries(valueLineSeries)
-                startAnimation()
-            }
-        })
+        setHistoryPart()
     }
 
     @Deprecated("Deprecated in Java")
@@ -198,4 +168,72 @@ class MyPageActivity:AppCompatActivity() {
         chart!!.addPieSlice(PieModel("Lose", 100-winningRate, getColor(R.color.D_red)))
         chart!!.startAnimation()
     }
+
+    private fun setHistoryPart() {
+        val cal = Calendar.getInstance()
+        cal.add(Calendar.DATE, 1)
+        val year = cal.get(Calendar.YEAR)
+        val month = cal.get(Calendar.MONTH)+1
+        val day = cal.get(Calendar.DATE)
+        val recentGameId = ((year*10000 + month*100 + day)*(10e+11)).toLong()
+
+        HttpSyncService.execute {
+            val histories = histories(recentGameId)!!
+            val ratingList = mutableListOf<Int>()
+
+            for (history in histories) {
+                val historyDetail = historyDetail(history.gameId)!!
+
+                if (historyDetail.uid0 == UserManager.umuid)
+                    ratingList.add(historyDetail.score0)
+                else
+                    ratingList.add(historyDetail.score1)
+            }
+
+            val valueLineSeries = ValueLineSeries()
+
+            val minRating = ratingList.min()
+            val maxRating = ratingList.max()
+            for (rating in ratingList.reversed()) {
+                valueLineSeries.addPoint(ValueLinePoint(
+                    "$rating",
+                    (rating-minRating)*0.8f/(maxRating-minRating)+0.1f)
+                )
+                Log.d("MyPageActivity setHistoryPart",
+                    "rating: $rating - ${(rating-minRating)*0.8f/(maxRating-minRating)+0.1f}")
+            }
+
+            withContext(Dispatchers.Main) {
+                valueLineSeries.color = getColor(R.color.D_blue)
+                binding.winingRateGraph.apply {
+                    addSeries(valueLineSeries)
+                    startAnimation()
+                }
+            }
+        }
+
+        val winGames = UserManager.umwinGames!!
+        val totalGames = UserManager.umtotalGames!!
+
+        val winRatio = if (totalGames == 0) 1f else winGames.toFloat()/totalGames
+        val loseRatio = 1-winRatio
+
+        binding.pcMyPageWinningRate.apply {
+            addPieSlice(PieModel(
+                "Win",
+                winRatio,
+                getColor(R.color.D_blue)))
+            addPieSlice(PieModel(
+                "Lose",
+                loseRatio,
+                getColor(R.color.D_red)))
+
+            startAnimation()
+        }
+
+        binding.pcMyPageWinningRate.innerValueString = "${((winRatio*10000).roundToInt()/100f)}%"
+
+        binding.totalGameTextView.text = totalGames.toString()
+    }
+
 }

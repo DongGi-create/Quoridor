@@ -3,6 +3,7 @@ package com.example.quoridor.adapter
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.example.quoridor.R
 import com.example.quoridor.communication.retrofit.HttpDTO
 import com.example.quoridor.databinding.ItemHistoryRecyclerViewBinding
@@ -25,6 +26,14 @@ class HistoryRecyclerViewAdapter(
                     false -> R.drawable.baseline_lens_24_red
                 }
             )
+            if (data.opponentProfileImage == "null") {
+                binding.opponentProfileImageView.setImageResource(R.drawable.ic_identity)
+            }
+            else {
+                Glide.with(binding.root.context)
+                    .load(data.opponentProfileImage)
+                    .into(binding.opponentProfileImageView)
+            }
         }
     }
 

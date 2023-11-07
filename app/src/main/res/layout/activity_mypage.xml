@@ -241,7 +241,8 @@
                     <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal">
+                        android:orientation="horizontal"
+                        android:layout_weight="1">
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -255,16 +256,39 @@
                             tools:text="12"/>
                     </LinearLayout>
 
-
                     <org.eazegraph.lib.charts.PieChart
                         android:id="@+id/pc_myPage_winning_rate"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
+                        android:layout_weight="6"
                         app:egBarWidth="20dp"
                         app:egEnableScroll="true"
                         app:egFixedBarWidth="true"
-                        app:egLegendHeight="0sp"
-                        app:egShowDecimal="true"/>
+                        app:egLegendHeight="0dp"
+                        app:egUseCustomInnerValue="true"/>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:layout_weight="1">
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:text="승리"
+                            android:gravity="center"
+                            android:layout_weight="1"
+                            android:textColor="@color/D_text"
+                            android:background="@color/D_blue"/>
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:text="패배"
+                            android:gravity="center"
+                            android:layout_weight="1"
+                            android:textColor="@color/D_text"
+                            android:background="@color/D_red"/>
+                    </LinearLayout>
 
                 </LinearLayout>
 
@@ -280,7 +304,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="5 게임 평균 승률 변화"
+                        android:text="레이팅 변화"
                         android:textColor="@color/D_text"/>
 
 
@@ -292,106 +316,17 @@
                     android:layout_height="100dp"
                     app:egUseCubic="true"
                     app:egIndicatorTopPadding="5dp"
-                    app:egIndicatorTextUnit="%"
                     app:egCurveSmoothness="0.3"
                     app:egLineStroke="4dp"
-                    app:egIndicatorLineColor="@color/D_red"
-                    app:egIndicatorTextColor="@color/D_text"
                     app:egLegendColor="@color/D_text"
-                    app:egLegendHeight="0sp"
+                    app:egLegendHeight="25dp"
+                    app:egShowValueIndicator="false"
                     app:layout_constraintStart_toEndOf="@id/chart_layout"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintHorizontal_weight="5"/>
 
-<!--                <GridLayout-->
-<!--                    android:id="@+id/text_layout"-->
-<!--                    android:layout_width="0dp"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:orientation="horizontal"-->
-<!--                    android:rowCount="3"-->
-<!--                    android:columnCount="3"-->
-<!--                    android:useDefaultMargins="true"-->
-<!--                    app:layout_constraintHorizontal_weight="3"-->
-<!--                    app:layout_constraintTop_toTopOf="parent"-->
-<!--                    app:layout_constraintBottom_toBottomOf="parent"-->
-<!--                    app:layout_constraintEnd_toEndOf="parent"-->
-<!--                    app:layout_constraintStart_toEndOf="@id/chart_layout">-->
-
-<!--                    <View-->
-<!--                        android:layout_width="0dp"-->
-<!--                        android:layout_height="50dp"-->
-<!--                        android:layout_columnWeight="1"-->
-<!--                        android:layout_rowWeight="1"/>-->
-<!--                    <TextView-->
-<!--                        android:layout_width="0dp"-->
-<!--                        android:layout_height="0dp"-->
-<!--                        android:text="Win"-->
-<!--                        android:textColor="@color/D_text"-->
-<!--                        android:gravity="center"-->
-<!--                        android:textSize="25sp"-->
-<!--                        android:layout_rowWeight="1"-->
-<!--                        android:layout_columnWeight="1"/>-->
-<!--                    <TextView-->
-<!--                        android:layout_width="0dp"-->
-<!--                        android:layout_height="0dp"-->
-<!--                        android:text="Lose"-->
-<!--                        android:textColor="@color/D_text"-->
-<!--                        android:gravity="center"-->
-<!--                        android:textSize="25sp"-->
-<!--                        android:layout_rowWeight="1"-->
-<!--                        android:layout_columnWeight="1"/>-->
-<!--                    <ImageView-->
-<!--                        android:layout_width="0dp"-->
-<!--                        android:layout_height="50dp"-->
-<!--                        android:src="@drawable/hobanwoo_red"-->
-<!--                        android:layout_rowWeight="1"-->
-<!--                        android:layout_columnWeight="1"/>-->
-<!--                    <TextView-->
-<!--                        android:layout_width="0dp"-->
-<!--                        android:layout_height="0dp"-->
-<!--                        android:text="10"-->
-<!--                        android:textColor="@color/D_text"-->
-<!--                        android:gravity="center"-->
-<!--                        android:textSize="25sp"-->
-<!--                        android:layout_rowWeight="1"-->
-<!--                        android:layout_columnWeight="1"/>-->
-<!--                    <TextView-->
-<!--                        android:layout_width="0dp"-->
-<!--                        android:layout_height="0dp"-->
-<!--                        android:text="1000"-->
-<!--                        android:textColor="@color/D_text"-->
-<!--                        android:gravity="center"-->
-<!--                        android:textSize="25sp"-->
-<!--                        android:layout_rowWeight="1"-->
-<!--                        android:layout_columnWeight="1"/>-->
-<!--                    <ImageView-->
-<!--                        android:layout_width="0dp"-->
-<!--                        android:layout_height="50dp"-->
-<!--                        android:src="@drawable/hobanwoo_blue"-->
-<!--                        android:layout_rowWeight="1"-->
-<!--                        android:layout_columnWeight="1"/>-->
-<!--                    <TextView-->
-<!--                        android:layout_width="0dp"-->
-<!--                        android:layout_height="0dp"-->
-<!--                        android:text="100"-->
-<!--                        android:textColor="@color/D_text"-->
-<!--                        android:gravity="center"-->
-<!--                        android:textSize="25sp"-->
-<!--                        android:layout_rowWeight="1"-->
-<!--                        android:layout_columnWeight="1"/>-->
-<!--                    <TextView-->
-<!--                        android:layout_width="0dp"-->
-<!--                        android:layout_height="0dp"-->
-<!--                        android:text="1"-->
-<!--                        android:textColor="@color/D_text"-->
-<!--                        android:gravity="center"-->
-<!--                        android:textSize="25sp"-->
-<!--                        android:layout_rowWeight="1"-->
-<!--                        android:layout_columnWeight="1"/>-->
-
-<!--                </GridLayout>-->
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>
 

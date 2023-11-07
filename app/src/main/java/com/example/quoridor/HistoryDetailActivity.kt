@@ -75,7 +75,11 @@ class HistoryDetailActivity: AppCompatActivity() {
                                         .into(player0Image)
                             }
                         }
-                        player0NameTextView.text = it.uid0.toString()
+                        player0NameTextView.text = if (it.uid0 == UserManager.umuid) {
+                            UserManager.umname
+                        } else {
+                            intent.getStringExtra("opName")
+                        }
                         player0RatingTextView.text = it.score0.toString()
 
                         withContext(Dispatchers.IO) {
@@ -90,7 +94,11 @@ class HistoryDetailActivity: AppCompatActivity() {
                                         .into(player1Image)
                             }
                         }
-                        player1NameTextView.text = it.uid1.toString()
+                        player1NameTextView.text = if (it.uid1 == UserManager.umuid) {
+                            UserManager.umname
+                        } else {
+                            intent.getStringExtra("opName")
+                        }
                         player1RatingTextView.text = it.score1.toString()
 
                         if (isMe(it.uid1)) {

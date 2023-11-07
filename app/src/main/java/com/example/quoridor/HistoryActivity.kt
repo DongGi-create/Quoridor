@@ -30,6 +30,7 @@ class HistoryActivity: AppCompatActivity() {
                     {
                         val intent = Intent(this@HistoryActivity, HistoryDetailActivity::class.java)
                         intent.putExtra("gameId", it.gameId)
+                        intent.putExtra("opName", it.opponentName)
                         startActivity(intent)
                     },
                     {

@@ -77,7 +77,9 @@ object HttpDTO {
             @SerializedName("opponentName")
             val opponentName: String,
             @SerializedName("opponentScore")
-            val opponentScore: Int
+            val opponentScore: Int,
+            @SerializedName("opponentProfileImage")
+            val opponentProfileImage: String
         )
 
         data class DetailHistory(
