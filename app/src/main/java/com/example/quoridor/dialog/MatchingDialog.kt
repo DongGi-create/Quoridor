@@ -128,10 +128,10 @@ class MatchingDialog(context:Context): Dialog(context) {
 
     override fun dismiss() {
         countDownTimer.cancel()
-        if (this@MatchingDialog::matchingJob.isInitialized && matchingJob.isActive) {
+        if (this@MatchingDialog::matchingJob.isInitialized && matchingJob.isActive)
             matchingJob.cancel()
+        if (this@MatchingDialog::matchingResult.isInitialized && matchingResult.isActive)
             matchingResult.cancel()
-        }
         super.dismiss()
     }
 

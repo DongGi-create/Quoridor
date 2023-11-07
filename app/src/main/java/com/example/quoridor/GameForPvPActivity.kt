@@ -26,6 +26,7 @@ import com.example.quoridor.util.Func.setSize
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import okhttp3.Response
 import okhttp3.WebSocket
 import okhttp3.WebSocketListener
@@ -152,6 +153,8 @@ class GameForPvPActivity: GameActivity() {
                 rotation = 180F
             }
         }
+
+        Log.d("GameForPvPActivity", "${gameType.timeLimit}")
 
         val player0 = Player(
             if (myTurn == 0) UserManager.umname!! else matchData.opponentName!!,
@@ -291,32 +294,38 @@ class GameForPvPActivity: GameActivity() {
 
                 val action = webSocketService.fromJsonString(text, WebSocketDTO.Action::class.java)
 
-                viewModel.setTime(action.remainTime)
                 when (action.type) {
                     ActionType.VERTICAL.ordinal -> {
+                        viewModel.setTime(action.remainTime)
                         viewModel.addVerticalWall(Coordinate(action.row, action.col))
                         viewModel.turnPass()
                     }
                     ActionType.HORIZONTAL.ordinal -> {
+                        viewModel.setTime(action.remainTime)
                         viewModel.addHorizontalWall(Coordinate(action.row, action.col))
                         viewModel.turnPass()
                     }
                     ActionType.MOVE.ordinal -> {
+                        viewModel.setTime(action.remainTime)
                         viewModel.move(Coordinate(action.row, action.col))
                         viewModel.turnPass()
                     }
                     ActionType.WIN.ordinal -> {
+                        viewModel.setTime(action.remainTime)
                         winner = opTurn
                         viewModel.move(Coordinate(action.row, action.col))
 //                        gameEnd(opTurn)
                     }
                     ActionType.LOSE.ordinal -> {
+                        viewModel.setTime(action.remainTime)
                         winner = myTurn
                         viewModel.move(Coordinate(action.row, action.col))
 //                        gameEnd(myTurn)
                     }
                     10 -> {
-                        gameStart()
+                        CoroutineScope(Dispatchers.Main).launch {
+                            gameStart()
+                        }
                     }
                     -1 -> {
                         CoroutineScope(Dispatchers.Main).launch {

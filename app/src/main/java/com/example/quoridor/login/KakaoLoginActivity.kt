@@ -46,6 +46,8 @@ class KakaoLoginActivity: AppCompatActivity() {
                         HttpSyncService.execute {
                             val data = loginByKakao(code)
 
+                            Log.d("KakaoLoginActivity", "$data")
+
                             lateinit var intent: Intent
                             if ((data?.uid ?: -1) < 0) {
                                 intent = Intent(this@KakaoLoginActivity, SignUpActivity::class.java)

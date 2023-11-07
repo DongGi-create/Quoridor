@@ -5,6 +5,7 @@ import android.content.Intent
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.os.CountDownTimer
+import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import android.view.Window
@@ -196,8 +197,9 @@ abstract class GameActivity: AppCompatActivity() {
         return image
     }
 
-    fun buildTimer(playerNum: Int, timeOver: () -> Unit = {}): CountDownTimer? {
+    fun buildTimer(playerNum: Int, timeOver: () -> Unit = {}): CountDownTimer {
         val playerValue = viewModel.players[playerNum].value!!
+        Log.d("buildTimer", "${playerValue.leftTime}")
         return object : CountDownTimer(playerValue.leftTime, 100L) {
             override fun onTick(p0: Long) {
                 playerValue.leftTime -= 100L

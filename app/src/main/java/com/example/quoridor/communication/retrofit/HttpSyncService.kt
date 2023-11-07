@@ -119,7 +119,15 @@ object HttpSyncService {
         val message = response.message()
         val body = response.body()
 
-        Log.d(TAG, "code : ${code}\nheader : ${header}\nbody : ${body}\nmessage : $message")
+
+
+        Log.d(TAG, "code : $code" +
+                "\nheader : $header" +
+                "\nbody : $body" +
+                "\nmessage : $message" +
+                "\nerror body: ${response.errorBody().toString()}" +
+                "\nraw: ${response.raw()}"
+        )
 
         return body
     }
