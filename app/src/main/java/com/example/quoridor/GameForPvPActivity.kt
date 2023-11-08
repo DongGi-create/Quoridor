@@ -142,8 +142,8 @@ class GameForPvPActivity: GameActivity() {
 
     override fun onStop() {
         super.onStop()
-        webSocketService.send(makeMessage())
-//        webSocketService.close()
+//        webSocketService.send(makeMessage())
+        webSocketService.close()
     }
 
     override fun initGame() {
