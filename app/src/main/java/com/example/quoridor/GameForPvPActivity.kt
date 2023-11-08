@@ -147,7 +147,6 @@ class GameForPvPActivity: GameActivity() {
     }
 
     override fun initGame() {
-
         if (myTurn != 0) {
             gameBoardView.apply {
                 rotation = 180F
@@ -168,7 +167,6 @@ class GameForPvPActivity: GameActivity() {
             if (myTurn != 0) UserManager.umscore!! else matchData.opponentScore!!,
             false)
 //        binding.opPlayerInfoView.data.postValue(player1)
-
         if (myTurn == 0) {
             binding.myInfoView.profileImageView.setImageResource(R.drawable.hobanwoo_red)
             binding.myInfoView.data.value = player0
@@ -355,7 +353,6 @@ class GameForPvPActivity: GameActivity() {
                 super.onFailure(webSocket, t, response)
                 Log.d(TAG, "web socket fail\n${t.message}")
             }
-
         }
         webSocketService = WebSocketService(url, listener)
         webSocketService.send(WebSocketDTO.Action(9, 9, 9, 9))
@@ -378,5 +375,4 @@ class GameForPvPActivity: GameActivity() {
             cor.r,
             cor.c)
     }
-
 }

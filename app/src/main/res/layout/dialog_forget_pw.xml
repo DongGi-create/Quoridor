@@ -3,7 +3,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -15,39 +14,38 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
-
         <TextView
-            android:id="@+id/quit_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Quit?"
-            android:textSize="35sp"
+            android:text="temporary password"
+            android:textSize="25sp"
             android:textColor="@color/D_text"/>
-
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_margin="10dp">
-
+            android:orientation="vertical"
+            android:layout_marginHorizontal="10dp">
+            <EditText
+                android:id="@+id/forget_pw_get_id"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:backgroundTint="@color/D_third"
+                android:drawableStart="@drawable/ic_identity"
+                android:drawablePadding="10dp"
+                android:hint="로그인 ID"
+                android:paddingStart="10dp"
+                android:textColor="@color/D_text"
+                android:textColorHint="@color/D_text"/>
             <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/yes_btn"
+                android:id="@+id/forget_pw_ok_btn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Yes"
+                android:text="Ok"
+                android:layout_marginTop="10dp"
                 android:textSize="20sp"
                 android:textColor="@color/D_text"
-                android:layout_margin="15dp"
-                android:background="@drawable/dirtfy_item_bg"/>
-
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/no_btn"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="No"
-                android:textSize="20sp"
-                android:textColor="@color/D_text"
-                android:layout_margin="15dp"
+                android:layout_gravity="center"
                 android:background="@drawable/dirtfy_item_bg"/>
 
         </LinearLayout>

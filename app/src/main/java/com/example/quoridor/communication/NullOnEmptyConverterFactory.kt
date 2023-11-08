@@ -9,9 +9,8 @@ class NullOnEmptyConverterFactory : Converter.Factory() {
     override fun responseBodyConverter(type: Type?, annotations: Array<Annotation>?, retrofit: Retrofit?): Converter<ResponseBody, *>? {
         val delegate = retrofit!!.nextResponseBodyConverter<Any>(this, type!!, annotations!!)
         return Converter<ResponseBody, Any> {
-            if (it.contentLength() == 0L) return@Converter EmptyResponse()
+            if (it.contentLength() == 0L) return@Converter null
             delegate.convert(it)
         }
     }
-
 }

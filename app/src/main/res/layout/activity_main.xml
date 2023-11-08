@@ -20,16 +20,6 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
-        android:id="@+id/main_iv_ranking"
-        android:layout_width="75dp"
-        android:layout_height="75dp"
-        android:src="@drawable/ic_identity"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="10dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <ImageView
         android:id="@+id/main_iv_login_myPage"
         android:layout_width="75dp"
         android:layout_height="75dp"

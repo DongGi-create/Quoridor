@@ -1,18 +1,32 @@
 package com.example.quoridor.login
 
+import android.annotation.SuppressLint
+import android.app.Dialog
+import android.content.ClipData
+import android.content.ClipboardManager
+import android.content.Context
 import android.content.Intent
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.text.method.PasswordTransformationMethod
+import android.util.Log
+import android.view.Gravity
 import android.view.MotionEvent
 import android.view.View
+import android.view.Window
+import android.widget.Button
+import android.widget.EditText
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContentProviderCompat.requireContext
 import com.example.quoridor.MainActivity
 import com.example.quoridor.R
 import com.example.quoridor.SignUpActivity
 import com.example.quoridor.communication.retrofit.HttpDTO
 import com.example.quoridor.communication.retrofit.HttpResult
 import com.example.quoridor.communication.retrofit.HttpService
+import com.example.quoridor.communication.retrofit.HttpSyncService
 import com.example.quoridor.databinding.ActivityLoginBinding
 
 class LoginActivity : AppCompatActivity() {
@@ -24,6 +38,7 @@ class LoginActivity : AppCompatActivity() {
     private val TAG: String by lazy {
         getString(R.string.Minseok_test_tag)
     }
+    @SuppressLint("SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
@@ -53,7 +68,15 @@ class LoginActivity : AppCompatActivity() {
                 override fun finally() {
 
                 }
-            })
+            }){
+                Log.d("oz","Login Fail status Code ${404}")
+                if(it == 404){
+                    popToast("로그인 정보가 달라요..")
+                }
+                else{
+                    popToast("app fail")
+                }
+            }
         }
 
         binding.loginEtPw.transformationMethod = PasswordTransformationMethod()
@@ -69,6 +92,62 @@ class LoginActivity : AppCompatActivity() {
             }
         })
 
+
+        binding.loginTvForgetPw.setOnClickListener{
+            val dialog = needDialog(R.layout.dialog_forget_pw)
+            val temporyPwDialog = needDialog(R.layout.dialog_game_quit)
+            val yesBtn = dialog.findViewById<Button>(R.id.forget_pw_ok_btn)
+            yesBtn.setOnClickListener {
+                val text = dialog.findViewById<EditText>(R.id.forget_pw_get_id).text.toString()
+                if(text.isBlank()){
+                    Toast.makeText(this@LoginActivity, "아이디를 입력해주세요", Toast.LENGTH_SHORT).show()
+                }
+                else{
+                    httpService.getNewPw(text, object:HttpResult<HttpDTO.Response.NewPw>{
+                        override fun success(data: HttpDTO.Response.NewPw) {
+                            Log.d("oz","new password : $data.newPassword")
+                            dialog.dismiss()
+                            temporyPwDialog.findViewById<TextView>(R.id.quit_text).text = data.newPassword
+                            temporyPwDialog.findViewById<Button>(R.id.yes_btn).setOnClickListener {
+                                temporyPwDialog.dismiss()
+                            }
+                            val paste:Button = temporyPwDialog.findViewById<Button>(R.id.no_btn)
+                            paste.text = "Paste"
+                            paste.setOnClickListener{
+                                val clipboard: ClipboardManager = this@LoginActivity.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+                                val clip = ClipData.newPlainText("Password", data.newPassword)
+                                clipboard.setPrimaryClip(clip)
+                                Toast.makeText(this@LoginActivity, "클립보드에 복사되었습니다.", Toast.LENGTH_SHORT).show()
+                            }
+                            temporyPwDialog.show()
+                        }
+
+                        override fun appFail() {
+                            Log.d("oz","forget pw dialog appFail")
+                        }
+
+                        override fun fail(throwable: Throwable) {
+                            Log.d("oz","forget pw dialog Fail")
+                        }
+
+                        override fun finally() {
+                            Log.d("oz","forget pw dialog finally")
+                        }
+                    }){
+                        Log.d("oz","status code $it")
+                        if(it == 404){
+                            Toast.makeText(this@LoginActivity, "없는 아이디입니다.",Toast.LENGTH_SHORT).show()
+                        }
+                        else{
+                            Toast.makeText(this@LoginActivity, "app fail",Toast.LENGTH_SHORT).show()
+                        }
+                    }
+
+                }
+            }
+            dialog.show()
+        }
+
         //통신(로그인 통신하는동안 아무 액션도 안먹히게 해야 할듯)
         binding.loginTvRegister.setOnClickListener{
             val intent = Intent(this,SignUpActivity::class.java)
@@ -77,13 +156,35 @@ class LoginActivity : AppCompatActivity() {
         }
 
         binding.kakaoLoginImageView.setOnClickListener {
-            val intent = Intent(this, KakaoLoginActivity::class.java)
-            startActivity(intent)
-            finish()
+            val dialog = Dialog(this)
+            dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+            dialog.window?.setBackgroundDrawable(ColorDrawable(getColor(R.color.D_transparent)))
+            dialog.setContentView(R.layout.dialog_coming_soon)
+            val text = dialog.findViewById<TextView>(R.id.dcs_dialog_text)
+            text.text = "(선택)이메일 동의를\n반드시 체크해주셔야 합니다.!"
+            text.gravity = Gravity.CENTER
+            text.textSize = 20f
+            val yesBtn = dialog.findViewById<Button>(R.id.ok_btn)
+            yesBtn.setOnClickListener {
+                dialog.dismiss()
+                val intent = Intent(this, KakaoLoginActivity::class.java)
+                startActivity(intent)
+                finish()
+            }
+            dialog.show()
         }
     }
+
     private fun popToast(content: String) {
         Toast.makeText(applicationContext, content, Toast.LENGTH_SHORT).show()
+    }
+
+    private fun needDialog(layout: Int):Dialog{
+        val tempdialog = Dialog(this)
+        tempdialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        tempdialog.window?.setBackgroundDrawable(ColorDrawable(getColor(R.color.D_transparent)))
+        tempdialog.setContentView(layout)
+        return tempdialog
     }
 
     @Deprecated("Deprecated in Java")

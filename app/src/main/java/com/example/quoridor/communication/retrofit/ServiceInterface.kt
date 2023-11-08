@@ -31,6 +31,10 @@ interface ServiceInterface {
     fun login(@Body data: HttpDTO.Request.Login): Call<HttpDTO.Response.User>
 
     @Headers(DEFAULT_HEADER)
+    @POST("users/help/pw")
+    fun getNewPw(@Body data: HttpDTO.Request.NewPw): Call<HttpDTO.Response.NewPw>
+
+    @Headers(DEFAULT_HEADER)
     @POST("users")
     fun signUp(@Body data: HttpDTO.Request.Signup): Call<HttpDTO.Response.User>
 
@@ -44,8 +48,8 @@ interface ServiceInterface {
 
     @Headers(DEFAULT_HEADER)
     @DELETE("matched_users")
-    fun exitMatching(@Body data: HttpDTO.Request.Match): Call<HttpDTO.Response.Match?>
-
+    fun exitMatching(@Query("gameType") gameType: Int): Call<HttpDTO.Response.Match?>
+    //get이나 delete는 dto가 아니고 그냥 Query로 해서 주소뒤에 붙여서 준다
     @Headers(DEFAULT_HEADER)
     @POST("users/update")
     fun userUpdate(@Body data: HttpDTO.Request.UserUpdate): Call<HttpDTO.Response.User>

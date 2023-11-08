@@ -1,5 +1,6 @@
 package com.example.quoridor
 
+import android.annotation.SuppressLint
 import android.app.Dialog
 import android.content.Intent
 import android.graphics.drawable.ColorDrawable
@@ -38,15 +39,6 @@ class MainActivity : NonStackActivity() {
             this.finish()
         }
 
-        binding.mainIvRanking.setOnClickListener{
-            if (user.umid!="") {
-                goto(RankingActivity::class.java)
-            }
-            else{
-                customDialog("Need Login!")
-            }
-        }
-
         binding.mainIcLocal.setOnClickListener {
             gameTypeSelectDialog(
                 {
@@ -69,29 +61,32 @@ class MainActivity : NonStackActivity() {
                 }
             )
         }
+
         binding.mainIcPvp.setOnClickListener{
 //            pvpDialog = MatchingDialog(this)
 //            pvpDialog.show()
-            var gameType: Int = -1
-            gameTypeSelectDialog(
-                {gameType = 2},
-                {gameType = 0},
-                {gameType = 1},
-                {
-                    pvpDialog = MatchingDialog(this, gameType)
-                    pvpDialog.show()
-                }
-            )
-
+            if (user.umid!="") {
+                var gameType: Int = -1
+                gameTypeSelectDialog(
+                    {gameType = 2},
+                    {gameType = 0},
+                    {gameType = 1},
+                    {
+                        pvpDialog = MatchingDialog(this, gameType)
+                        pvpDialog.show()
+                    }
+                )
+            }
+            else{
+                customDialog("Need Login!")
+            }
         }
-
         /*binding.mainIcAi.setOnClickListener{
             customDialog("Coming Soon!")
         }
         binding.mainIcPuzzle.setOnClickListener{
             goto(EditActivity::class.java)
         }*/
-
         binding.mainBtnTest.setOnClickListener {
             goto(TestActivity::class.java)
         }
@@ -114,7 +109,31 @@ class MainActivity : NonStackActivity() {
             binding.mainIvLoginMyPage.setImageResource(R.drawable.ic_login)
         }
     }
+    @Deprecated("Deprecated in Java")
+    override fun onBackPressed() {
+        sureExit() {
+            super.onBackPressed()
+        }
+    }
 
+    @SuppressLint("SetTextI18n")
+    private fun sureExit(yesTask: () -> Unit = {} ){
+        val dialog = Dialog(this)
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialog.window?.setBackgroundDrawable(ColorDrawable(getColor(R.color.D_transparent)))
+        dialog.setContentView(R.layout.dialog_game_quit)
+        val text = dialog.findViewById<TextView>(R.id.quit_text)
+        text.text = "Are you sure EXIT?"
+        val yesBtn = dialog.findViewById<Button>(R.id.yes_btn)
+        yesBtn.setOnClickListener {
+            dialog.dismiss()
+            yesTask()
+        }
+        dialog.findViewById<Button>(R.id.no_btn).setOnClickListener{
+            dialog.dismiss()
+        }
+        dialog.show()
+    }
 
     private fun customDialog(texts: String){
         val dialog = Dialog(this)

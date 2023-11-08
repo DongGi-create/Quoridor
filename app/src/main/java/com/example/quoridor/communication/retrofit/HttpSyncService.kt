@@ -8,7 +8,11 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import okhttp3.MultipartBody
+import retrofit2.Call
 import retrofit2.Response
+import retrofit2.http.Body
+import retrofit2.http.Headers
+import retrofit2.http.POST
 
 object HttpSyncService {
     private val service: ServiceInterface = retrofit.create(ServiceInterface::class.java)
@@ -61,8 +65,7 @@ object HttpSyncService {
     suspend fun exitMatching(
         gameType: Int
     ): HttpDTO.Response.Match? {
-        val body = HttpDTO.Request.Match(gameType)
-        return extractBody(service.exitMatching(body).execute())
+        return extractBody(service.exitMatching(gameType).execute())
     }
 
     suspend fun histories(

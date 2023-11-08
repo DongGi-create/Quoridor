@@ -49,8 +49,6 @@ class MyPageActivity:AppCompatActivity() {
             val intent = Intent(this@MyPageActivity,MainActivity::class.java)
             startActivity(intent)
             this@MyPageActivity.finish()
-            //세션 끊기 넣기
-
             HttpSyncService.execute {
                 logout()
             }

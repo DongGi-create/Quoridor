@@ -123,9 +123,10 @@ class SignUpActivity :AppCompatActivity(){
                 }){
                     Log.d("oz","fail $it")
                     when(it){
-                        460->{ Toast.makeText(this@SignUpActivity,"아이디 중복입니다.",Toast.LENGTH_LONG).show() }
-                        461->{ Toast.makeText(this@SignUpActivity,"이름 중복입니다.",Toast.LENGTH_LONG).show() }
-                        462->{ Toast.makeText(this@SignUpActivity,"이메일 중복입니다.",Toast.LENGTH_LONG).show() }
+                        460->{ Toast.makeText(this@SignUpActivity,"아이디 중복입니다.",Toast.LENGTH_SHORT).show() }
+                        461->{ Toast.makeText(this@SignUpActivity,"이름 중복입니다.",Toast.LENGTH_SHORT).show() }
+                        462->{ Toast.makeText(this@SignUpActivity,"이메일 중복입니다.",Toast.LENGTH_SHORT).show() }
+                        else->{Toast.makeText(this@SignUpActivity, "app fail", Toast.LENGTH_SHORT).show() }
                     }
                 }
             }

@@ -12,16 +12,18 @@ class HttpService {
     companion object {
         private val service: ServiceInterface = retrofit.create(ServiceInterface::class.java)
         private val TAG = "Dirtfy Test - HttpService"
-
     }
 
     fun login(
         id: String,
         pw: String,
-        httpResult: HttpResult<HttpDTO.Response.User>
+        httpResult: HttpResult<HttpDTO.Response.User>,
+        appFailWithCode: (Int) -> Unit
     ) {
         val body = HttpDTO.Request.Login(id, pw)
-        service.login(body).enqueue(makeCallBack(httpResult))
+        service.login(body).enqueue(makeCallBack(httpResult){
+            appFailWithCode(it)
+        })
     }
 
     fun signUp(
@@ -34,6 +36,17 @@ class HttpService {
     ) {
         val body = HttpDTO.Request.Signup(loginId, password, email, name)
         service.signUp(body).enqueue(makeCallBack(httpResult){
+            appFailWithCode(it)
+        })
+    }
+
+    fun getNewPw(
+        id: String,
+        httpResult: HttpResult<HttpDTO.Response.NewPw>,
+        appFailWithCode: (Int) -> Unit
+    ){
+        val body = HttpDTO.Request.NewPw(id)
+        service.getNewPw(body).enqueue(makeCallBack(httpResult){
             appFailWithCode(it)
         })
     }
@@ -132,7 +145,7 @@ class HttpService {
 
     private fun <ResponseType> makeCallBack(
         httpResult: HttpResult<ResponseType>,
-        appFailWithCode: (Int) -> Unit = {}
+        appFailWithCode: ((Int) -> Unit)? = null
     ): Callback<ResponseType> {
         return object : Callback<ResponseType> {
             override fun onResponse(
@@ -152,8 +165,11 @@ class HttpService {
                     }
                 } else {
                     Log.d(TAG, "response fail")
-                    httpResult.appFail()
-                    appFailWithCode(response.code())
+                    if (appFailWithCode != null) {
+                        appFailWithCode(response.code())
+                    } else {
+                        httpResult.appFail()
+                    }
                 }
                 httpResult.finally()
             }

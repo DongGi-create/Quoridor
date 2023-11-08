@@ -185,7 +185,6 @@ abstract class GameActivity: AppCompatActivity() {
             dialog.dismiss()
             this.finish()
         }
-
         dialog.show()
     }
 

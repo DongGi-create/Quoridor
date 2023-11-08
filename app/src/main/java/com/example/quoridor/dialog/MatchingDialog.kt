@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.Intent
 import android.graphics.drawable.ColorDrawable
 import android.os.CountDownTimer
+import android.util.Log
 import android.view.Window
 import android.widget.ImageView
 import android.widget.ProgressBar
@@ -55,9 +56,11 @@ class MatchingDialog(context:Context, val gameType: Int): Dialog(context) {
         }
         val closeBtn = findViewById<ImageView>(R.id.waiting_iv_close)
         closeBtn.setOnClickListener {
+            Log.d("oz","matching dialog closeBtn clicked")
             HttpSyncService.execute {
+                Log.d("oz","$gameType send")
                 val result = exitMatching(gameType)
-
+                Log.d("oz",result.toString())
                 dismiss()
 
                 if (result != null) {
@@ -209,5 +212,4 @@ class MatchingDialog(context:Context, val gameType: Int): Dialog(context) {
             }
         }
     }
-
 }

@@ -30,6 +30,7 @@ object Statics {
     val retrofit: Retrofit = Retrofit.Builder()
         .client(client)
         .baseUrl(HTTP_BASE_URL)
+        .addConverterFactory(NullOnEmptyConverterFactory())
         .addConverterFactory(ScalarsConverterFactory.create())
         .addConverterFactory(GsonConverterFactory.create())
         .build()

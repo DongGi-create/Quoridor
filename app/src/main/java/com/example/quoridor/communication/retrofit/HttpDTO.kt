@@ -36,6 +36,11 @@ object HttpDTO {
             @SerializedName("gameType")
             val gameType: Int
         )
+
+        data class NewPw(
+            @SerializedName("loginId")
+            val loginId: String
+        )
     }
 
     object Response {
@@ -115,6 +120,11 @@ object HttpDTO {
             val firstElementRank: String,
             @SerializedName("rankingUserList")
             val rankingUserList: List<RankingUser>
+        )
+
+        data class NewPw(
+            @SerializedName("newPassword")
+            val newPassword: String
         )
     }
 }
