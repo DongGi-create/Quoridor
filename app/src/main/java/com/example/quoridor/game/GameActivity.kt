@@ -123,6 +123,7 @@ abstract class GameActivity: AppCompatActivity() {
 
         yesBtn.setOnClickListener {
             dialog.dismiss()
+            startActivity(Intent(this@GameActivity, MainActivity::class.java))
             this.finish()
         }
         noBtn.setOnClickListener {
