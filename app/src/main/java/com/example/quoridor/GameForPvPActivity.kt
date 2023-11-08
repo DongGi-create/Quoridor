@@ -18,6 +18,9 @@ import com.example.quoridor.customView.playerView.Player
 import com.example.quoridor.databinding.ActivityGameForPvpBinding
 import com.example.quoridor.game.GameActivity
 import com.example.quoridor.game.types.ActionType
+import com.example.quoridor.game.types.GameResultType
+import com.example.quoridor.game.types.GameType
+import com.example.quoridor.game.util.GameFunc
 import com.example.quoridor.game.util.GameFunc.getMatchData
 import com.example.quoridor.login.UserManager
 import com.example.quoridor.util.Coordinate
@@ -144,6 +147,9 @@ class GameForPvPActivity: GameActivity() {
         super.onStop()
 //        webSocketService.send(makeMessage())
         webSocketService.close()
+        UserManager.umtotalGames = UserManager.umtotalGames?.plus(1)
+        UserManager.umscore = GameFunc.calcRating(
+            UserManager.umscore!!, matchData.opponentScore!!, GameResultType.LOSE)
     }
 
     override fun initGame() {
@@ -190,7 +196,6 @@ class GameForPvPActivity: GameActivity() {
         viewModel.players[0].value = player0
         viewModel.players[1].value = player1
         viewModel.availableMoves.value = arrayOf()
-        viewModel.turn.value = 0
         viewModel.isEnd.value = false
 //        viewModel.board.postValue(board)
 //        viewModel.players[0].postValue(player0)
@@ -206,17 +211,12 @@ class GameForPvPActivity: GameActivity() {
     }
 
     override fun gameStart() {
+        viewModel.turn.value = 0
+
         binding.gameBoardView.setWallChooseView(
             binding.myWallSelector.verticalWallChooseView,
             binding.myWallSelector.horizontalWallChooseView
         )
-
-        timer = buildTimer(0) {
-//            gameEnd(1)
-            winner = 1
-            if (viewModel.isMyTurn(myTurn))
-                webSocketService.send(makeMessage())
-        }
     }
 
     override fun setWallSize() {
@@ -251,8 +251,9 @@ class GameForPvPActivity: GameActivity() {
     override fun turnObserve(turn: Int) {
         timer?.cancel()
 
-        if (turn == myTurn)
+        if (turn == myTurn) {
             viewModel.getAvailableMoves()
+        }
         else
             viewModel.setAvailableMove(arrayOf())
 
@@ -326,15 +327,24 @@ class GameForPvPActivity: GameActivity() {
                         }
                     }
                     -1 -> {
-                        CoroutineScope(Dispatchers.Main).launch {
-                            gameEnd(winner)
-                        }
                         val rating = action.remainTime
                         val totalGames = action.row
                         val totalWinGames = action.col
+
+                        winner = if (UserManager.umwinGames!! < action.col) {
+                            myTurn
+                        }
+                        else {
+                            (myTurn+1)%2
+                        }
+
                         UserManager.umscore = rating.toInt()
                         UserManager.umtotalGames = totalGames
                         UserManager.umwinGames = totalWinGames
+
+                        CoroutineScope(Dispatchers.Main).launch {
+                            gameEnd(winner)
+                        }
                     }
                 }
             }
