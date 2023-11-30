@@ -44,6 +44,7 @@
         android:text="TEST"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:visibility="gone"
         app:layout_constraintEnd_toStartOf="@+id/main_iv_login_myPage"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -69,6 +70,15 @@
             app:resourceId="@drawable/ic_game"
             android:layout_marginStart="20dp"/>
 
+        <com.example.quoridor.customView.MenuIconView
+            android:id="@+id/main_ic_tutorial"
+            android:layout_width="0dp"
+            android:layout_height="80dp"
+            app:layout_constraintDimensionRatio="1:1"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@id/main_ic_local"
+            app:layout_constraintEnd_toStartOf="@id/main_ic_pvp"
+            app:resourceId="@drawable/baseline_question_mark_24"/>
 
         <com.example.quoridor.customView.MenuIconView
             android:id="@+id/main_ic_pvp"

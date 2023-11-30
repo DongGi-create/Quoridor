@@ -141,6 +141,7 @@ abstract class GameActivity: AppCompatActivity() {
         val looser = (winner+1)%2
 
         timer?.cancel()
+        timer = null
 
         val dialog = Dialog(this)
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)

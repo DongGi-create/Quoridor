@@ -4,9 +4,6 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
 
-
-
-
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -19,6 +16,9 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
+            android:name=".TutorialActivity"
+            android:exported="false" />
+        <activity
             android:name=".MainActivity"
             android:exported="true">
             <intent-filter>
@@ -27,62 +27,53 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".deprecated.test"
             android:exported="false" />
-
-        <!--<activity
+        <!--
+<activity
             android:name=".communication.retrofit.RetrofitTestActivity"
-            android:exported="false"/>-->
-
+            android:exported="false"/>
+        -->
         <activity
             android:name=".RankingActivity"
-            android:exported="false"/>
-
+            android:exported="false" />
         <activity
             android:name=".login.LoginActivity"
-            android:exported="false"/>
-
+            android:exported="false" />
         <activity
             android:name=".MyPageActivity"
-            android:exported="false"/>
-
+            android:exported="false" />
         <activity
             android:name=".GameForLocalActivity"
-            android:exported="false"/>
+            android:exported="false" />
         <activity
             android:name=".GameForPvPActivity"
-            android:exported="false"/>
-
-        <activity android:name=".SignUpActivity"
-            android:exported="false"/>
-
-        <activity android:name=".TestActivity"
-            android:exported="false"/>
-
+            android:exported="false" />
+        <activity
+            android:name=".SignUpActivity"
+            android:exported="false" />
+        <activity
+            android:name=".TestActivity"
+            android:exported="false" />
         <activity
             android:name=".communication.socket.SocketTestActivity"
-            android:exported="false"/>
-
+            android:exported="false" />
         <activity
             android:name=".HistoryActivity"
-            android:exported="false"/>
+            android:exported="false" />
         <activity
             android:name=".HistoryDetailActivity"
-            android:exported="false"/>
-
+            android:exported="false" />
         <activity
             android:name=".login.KakaoLoginActivity"
-            android:exported="false"/>
-
+            android:exported="false" />
         <activity
             android:name=".EditActivity"
-            android:exported="false"/>
-
+            android:exported="false" />
         <activity
             android:name=".ProfileTest"
-            android:exported="false"/>
+            android:exported="false" />
     </application>
 
 </manifest>

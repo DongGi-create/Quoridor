@@ -64,7 +64,7 @@ class MatchingDialog(context:Context, val gameType: Int): Dialog(context) {
                 dismiss()
 
                 if (result != null) {
-                    Func.popToast(context, "매칭성공! GameID: $result")
+                    //Func.popToast(context, "매칭성공! GameID: $result")
                     val intent = Intent(context, GameForPvPActivity::class.java)
                     context.startGameActivity(intent, enumGameType, result)
                 }
@@ -202,7 +202,7 @@ class MatchingDialog(context:Context, val gameType: Int): Dialog(context) {
 
             withContext(Dispatchers.Main) {
                 if (isMatched(matchingResultAwait)) {
-                    Func.popToast(context, "매칭성공! GameID: $matchingResult")
+                    //Func.popToast(context, "매칭성공! GameID: $matchingResult")
                     dismiss()
                     val intent = Intent(context, GameForPvPActivity::class.java)
                     context.startGameActivity(intent, enumGameType, matchingResultAwait!!)

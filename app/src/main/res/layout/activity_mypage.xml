@@ -232,6 +232,7 @@
                     android:layout_height="0dp"
                     android:orientation="vertical"
                     android:gravity="center"
+                    android:layout_marginEnd="10dp"
                     app:layout_constraintHorizontal_weight="3"
                     app:layout_constraintTop_toTopOf="@id/graph_name_layout"
                     app:layout_constraintStart_toStartOf="parent"
@@ -241,8 +242,7 @@
                     <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:layout_weight="1">
+                        android:orientation="horizontal">
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -259,8 +259,9 @@
                     <org.eazegraph.lib.charts.PieChart
                         android:id="@+id/pc_myPage_winning_rate"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
+                        android:layout_height="0dp"
                         android:layout_weight="6"
+                        android:layout_margin="10dp"
                         app:egBarWidth="20dp"
                         app:egEnableScroll="true"
                         app:egFixedBarWidth="true"
@@ -270,8 +271,7 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:layout_weight="1">
+                        android:orientation="horizontal">
                         <TextView
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
@@ -313,13 +313,13 @@
                 <org.eazegraph.lib.charts.ValueLineChart
                     android:id="@+id/wining_rate_graph"
                     android:layout_width="0dp"
-                    android:layout_height="100dp"
+                    android:layout_height="150dp"
                     app:egUseCubic="true"
                     app:egIndicatorTopPadding="5dp"
                     app:egCurveSmoothness="0.3"
                     app:egLineStroke="4dp"
                     app:egLegendColor="@color/D_text"
-                    app:egLegendHeight="25dp"
+                    app:egLegendHeight="0dp"
                     app:egShowValueIndicator="false"
                     app:layout_constraintStart_toEndOf="@id/chart_layout"
                     app:layout_constraintEnd_toEndOf="parent"

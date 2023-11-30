@@ -19,7 +19,6 @@ import com.example.quoridor.databinding.ActivityGameForPvpBinding
 import com.example.quoridor.game.GameActivity
 import com.example.quoridor.game.types.ActionType
 import com.example.quoridor.game.types.GameResultType
-import com.example.quoridor.game.types.GameType
 import com.example.quoridor.game.util.GameFunc
 import com.example.quoridor.game.util.GameFunc.getMatchData
 import com.example.quoridor.login.UserManager
@@ -29,7 +28,6 @@ import com.example.quoridor.util.Func.setSize
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import okhttp3.Response
 import okhttp3.WebSocket
 import okhttp3.WebSocketListener
@@ -147,9 +145,11 @@ class GameForPvPActivity: GameActivity() {
         super.onStop()
 //        webSocketService.send(makeMessage())
         webSocketService.close()
-        UserManager.umtotalGames = UserManager.umtotalGames?.plus(1)
-        UserManager.umscore = GameFunc.calcRating(
-            UserManager.umscore!!, matchData.opponentScore!!, GameResultType.LOSE)
+        if (timer != null) {
+            UserManager.umtotalGames = UserManager.umtotalGames?.plus(1)
+            UserManager.umscore = GameFunc.calcRating(
+                UserManager.umscore!!, matchData.opponentScore!!, GameResultType.LOSE)
+        }
     }
 
     override fun initGame() {
@@ -331,7 +331,7 @@ class GameForPvPActivity: GameActivity() {
                         val totalGames = action.row
                         val totalWinGames = action.col
 
-                        winner = if (UserManager.umwinGames!! < action.col) {
+                        winner = if (UserManager.umwinGames!! < totalWinGames) {
                             myTurn
                         }
                         else {

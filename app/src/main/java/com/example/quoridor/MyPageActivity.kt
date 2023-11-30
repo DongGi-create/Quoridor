@@ -19,7 +19,6 @@ import org.eazegraph.lib.charts.PieChart
 import org.eazegraph.lib.models.PieModel
 import org.eazegraph.lib.models.ValueLinePoint
 import org.eazegraph.lib.models.ValueLineSeries
-import java.lang.Math.round
 import java.util.Calendar
 import kotlin.math.roundToInt
 
@@ -195,10 +194,10 @@ class MyPageActivity:AppCompatActivity() {
             for (rating in ratingList.reversed()) {
                 valueLineSeries.addPoint(ValueLinePoint(
                     "$rating",
-                    (rating-minRating)*0.8f/(maxRating-minRating)+0.1f)
+                    (rating-minRating)*0.8f/(maxRating-minRating + 0.00001f)+0.1f)
                 )
                 Log.d("MyPageActivity setHistoryPart",
-                    "rating: $rating - ${(rating-minRating)*0.8f/(maxRating-minRating)+0.1f}")
+                    "rating: $rating - ${(rating-minRating)*0.8f/(maxRating-minRating + 0.00001f)+0.1f}")
             }
 
             withContext(Dispatchers.Main) {

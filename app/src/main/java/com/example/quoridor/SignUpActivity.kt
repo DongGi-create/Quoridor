@@ -10,12 +10,10 @@ import android.view.MotionEvent
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.bumptech.glide.load.HttpException
 import com.example.quoridor.communication.retrofit.HttpDTO
 import com.example.quoridor.communication.retrofit.HttpResult
 import com.example.quoridor.communication.retrofit.HttpService
 import com.example.quoridor.communication.retrofit.HttpSyncService
-import com.example.quoridor.communication.retrofit.util.SuccessfulHttpResult
 import com.example.quoridor.databinding.ActivitySignupBinding
 import com.example.quoridor.dialog.CustomDialogInterface
 import com.example.quoridor.dialog.EditProfileImageDialog

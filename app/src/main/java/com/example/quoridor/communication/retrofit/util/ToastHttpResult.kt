@@ -16,24 +16,24 @@ class ToastHttpResult<T>(
         lateinit var data1: HttpDTO.Response.Match
     }
     override fun success(data: T) {
-        Func.popToast(context, "$str success")
+        //Func.popToast(context, "$str success")
         data1 = data as HttpDTO.Response.Match
         Log.d(tag, "$str success, data: $data")
     }
 
     override fun appFail() {
-        Func.popToast(context, "app fail")
+        //Func.popToast(context, "app fail")
 
         Log.d(tag, "$str app fail")
     }
 
     override fun fail(throwable: Throwable) {
-        Func.popToast(context, "fail")
+        //Func.popToast(context, "fail")
 
         Log.d(tag, "$str fail, error: ${throwable.message}")
     }
 
     override fun finally() {
-        Log.d(tag, "$str end")
+        //Log.d(tag, "$str end")
     }
 }

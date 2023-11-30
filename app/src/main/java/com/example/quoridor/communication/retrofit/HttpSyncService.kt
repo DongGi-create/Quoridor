@@ -2,17 +2,12 @@ package com.example.quoridor.communication.retrofit
 
 import android.util.Log
 import com.example.quoridor.communication.Statics.retrofit
-import com.example.quoridor.communication.retrofit.util.SuccessfulHttpResult
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import okhttp3.MultipartBody
-import retrofit2.Call
 import retrofit2.Response
-import retrofit2.http.Body
-import retrofit2.http.Headers
-import retrofit2.http.POST
 
 object HttpSyncService {
     private val service: ServiceInterface = retrofit.create(ServiceInterface::class.java)
